@@ -46,7 +46,7 @@ See [training/README.md](training/README.md) for validation details.
 
 ## Current validation run
 
-A 300-iteration CatBoost run used a chronological holdout of July–October 2026 (2,472 test records). Stage 1 distribution: MAE 170.7559 kg, RMSE 214.7875 kg, R² 0.94216. Stage 2 wastage: MAE 25.3439 kg, RMSE 36.3381 kg, R² 0.86554. Metrics are stored in `models/metrics.json`. These results are specific to this run and should be regenerated after changing features or training settings.
+A 600-iteration CatBoost run used a chronological holdout of July–October 2026 (2,472 test records). Stage 1 distribution: MAE 169.7501 kg, RMSE 214.3280 kg, R² 0.94240. Stage 2 wastage: MAE 25.3549 kg, RMSE 36.3662 kg, R² 0.86533. Metrics are stored in `models/metrics.json`. These results are specific to this run and should be regenerated after changing features or training settings.
 
 ## Deploy on Streamlit Community Cloud
 
