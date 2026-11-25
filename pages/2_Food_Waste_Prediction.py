@@ -1,44 +1,97 @@
 import streamlit as st
 
-st.title("🔮 Food Waste Prediction")
-st.caption("Future prediction using the planned two-stage ML pipeline.")
+from prediction.pipeline import load_metrics, models_ready, predict_food_waste
 
-st.info(
-    "This form is a UI scaffold only. The prediction models have not been trained "
-    "or connected yet. We will finalize the exact fields after auditing the CSV "
-    "and confirming which values are known before the prediction month."
-)
+st.title("🔮 Food Waste Prediction")
+st.caption("Two-stage prediction: distribution first, then food wastage.")
+
+if not models_ready():
+    st.warning(
+        "Models are not trained yet. Add your CSV at "
+        "`data/raw/Datasetfood.csv`, install requirements, then run "
+        "`python -m training.train_models` from the project root."
+    )
 
 with st.form("prediction_inputs"):
     st.subheader("Shop and period information")
-    col1, col2 = st.columns(2)
-    with col1:
-        state = st.text_input("State")
-        district = st.text_input("District")
-        block = st.text_input("Block")
+    c1, c2 = st.columns(2)
+    with c1:
+        shop_id = st.text_input("Shop ID", placeholder="e.g. FPS7073")
+        state = st.text_input("State", placeholder="e.g. West Bengal")
+        district = st.text_input("District", placeholder="e.g. Murshidabad")
+        block = st.text_input("Block", placeholder="e.g. Lalgola")
+    with c2:
         commodity = st.selectbox("Commodity", ["Rice", "Wheat"])
-    with col2:
-        shop_id = st.text_input("Shop ID")
-        prediction_month = st.text_input("Prediction month (e.g. 2026-12)")
-        beneficiaries = st.number_input("Number of beneficiaries", min_value=0, step=1)
-        transactions = st.number_input("Expected transactions", min_value=0, step=1)
+        prediction_month = st.text_input("Prediction month (YYYY-MM)", value="2026-11")
+        beneficiaries = st.number_input("Expected beneficiaries", min_value=1, value=500, step=1)
+        transactions = st.number_input("Expected transactions", min_value=1, value=400, step=1)
 
-    st.subheader("Stock and storage information")
-    col3, col4 = st.columns(2)
-    with col3:
-        opening_stock = st.number_input("Opening stock (kg)", min_value=0.0, step=10.0)
-        received_stock = st.number_input("Received stock (kg)", min_value=0.0, step=10.0)
-        storage_capacity = st.number_input("Storage capacity (kg)", min_value=0.0, step=10.0)
-        damaged_stock = st.number_input("Damaged stock (kg)", min_value=0.0, step=1.0)
-    with col4:
-        storage_days = st.number_input("Expected storage duration (days)", min_value=0, step=1)
-        delivery_delay = st.number_input("Expected delivery delay (days)", min_value=0, step=1)
-        previous_wastage = st.number_input("Previous wastage (kg)", min_value=0.0, step=1.0)
+    st.subheader("Stock and storage estimates")
+    c3, c4 = st.columns(2)
+    with c3:
+        opening_stock = st.number_input("Opening stock (kg)", min_value=0.0, value=600.0, step=10.0)
+        received_stock = st.number_input("Expected received stock (kg)", min_value=0.0, value=2500.0, step=10.0)
+        storage_capacity = st.number_input("Storage capacity (kg)", min_value=1.0, value=1500.0, step=10.0)
+        previous_wastage = st.number_input("Previous month's wastage (kg)", min_value=0.0, value=25.0, step=1.0)
+    with c4:
+        storage_days = st.number_input("Expected storage duration (days)", min_value=1, max_value=90, value=25, step=1)
+        delivery_delay = st.number_input("Expected delivery delay (days)", min_value=0, max_value=60, value=7, step=1)
 
-    submitted = st.form_submit_button("Run prediction", type="primary", use_container_width=True)
+    submitted = st.form_submit_button(
+        "Predict distribution and wastage",
+        type="primary",
+        use_container_width=True,
+        disabled=not models_ready(),
+    )
 
 if submitted:
-    st.warning(
-        "Inputs captured in the interface, but prediction is not available until "
-        "the two trained models are added. No estimated values are being fabricated."
+    try:
+        result = predict_food_waste(
+            {
+                "shop_id": shop_id.strip() or "UNKNOWN",
+                "state": state.strip(),
+                "district": district.strip(),
+                "block": block.strip(),
+                "commodity": commodity,
+                "prediction_month": prediction_month.strip(),
+                "opening_stock_kg": opening_stock,
+                "received_stock_kg": received_stock,
+                "beneficiaries": beneficiaries,
+                "transactions": transactions,
+                "storage_capacity_kg": storage_capacity,
+                "storage_days": storage_days,
+                "delivery_delay_days": delivery_delay,
+                "previous_wastage_kg": previous_wastage,
+            }
+        )
+        st.subheader("Prediction results")
+        m1, m2 = st.columns(2)
+        m1.metric("Predicted distributed quantity", f"{result['predicted_distributed_stock_kg']:,.2f} kg")
+        m2.metric("Predicted food wastage", f"{result['predicted_wastage_kg']:,.2f} kg")
+        st.caption(
+            "These are model estimates, not measured values. Accuracy depends on "
+            "the quality of the inputs and the model's validation performance."
+        )
+    except Exception as exc:
+        st.error(f"Could not generate prediction: {exc}")
+
+metrics = load_metrics()
+if metrics:
+    st.divider()
+    st.subheader("Latest chronological test results")
+    st.caption(
+        f"Training period: {metrics['train_period'][0]} to {metrics['train_period'][1]} · "
+        f"Test period: {metrics['test_period'][0]} to {metrics['test_period'][1]}"
     )
+    a, b = st.columns(2)
+    a.metric("Distribution MAE", f"{metrics['stage1_distribution']['mae']:,.2f} kg")
+    b.metric("Wastage MAE", f"{metrics['stage2_wastage']['mae']:,.2f} kg")
+    with st.expander("View full evaluation metrics"):
+        st.json(
+            {
+                "Stage 1 — Distribution": metrics["stage1_distribution"],
+                "Stage 2 — Wastage": metrics["stage2_wastage"],
+                "Test rows": metrics["test_rows"],
+                "Stage 2 OOF training rows": metrics["stage2_oof_train_rows"],
+            }
+        )
