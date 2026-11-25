@@ -7341,3 +7341,22 @@ FPS02883,West Bengal,Uttar Dinajpur,Itahar,2026-10,Wheat,1498.18,1359.28,1725.32
 FPS02884,West Bengal,Uttar Dinajpur,Kaliaganj,2026-10,Wheat,1490.9,1392.91,1846.36,1272,178,2605.23,37,9,71.26,26.8,992.78,44.67,1.549,Medium
 FPS02885,West Bengal,Uttar Dinajpur,Karandighi,2026-10,Wheat,2409.96,5757.79,5143.08,1793,690,7016.19,15,0,27.55,161.87,2754.88,269.79,3.3031,High
 FPS02886,West Bengal,Uttar Dinajpur,Raiganj,2026-10,Rice,326.47,1808.83,1835.52,1282,1795,1773.53,35,10,28.41,24.71,258.6,41.18,1.9285,Medium
+FPS-URBAN-787,Arunachal Pradesh,Bichom,Not applicable - no development block listed,2026-10,Rice,854.91,4193.5,4376.18,1414,491,4543.57,27,6,8.47,34.88,602.46,69.77,1.382,Low
+FPS-URBAN-786,Arunachal Pradesh,Keyi Panyor,Not applicable - no development block listed,2026-10,Rice,1197.43,4095.3,3785.73,2036,1323,4763.46,19,6,14.04,30.84,1445.33,61.67,1.1652,Low
+FPS-URBAN-77,Delhi,Central,Not applicable - no development block listed,2026-10,Rice,1367.1,2689.99,2683.74,378,607,3651.38,17,2,47.02,14.78,1343.79,29.56,0.7286,Low
+FPS-URBAN-796,Delhi,Central North,Not applicable - no development block listed,2026-10,Rice,641.55,3925.88,2881.15,1770,423,4110.69,31,8,48.13,56.2,1573.89,112.39,2.4607,Medium
+FPS-URBAN-78,Delhi,East,Not applicable - no development block listed,2026-10,Wheat,817.43,3247.68,3489.46,1667,960,3658.6,18,8,41.06,46.86,481.93,93.72,2.3055,Medium
+FPS-URBAN-79,Delhi,New Delhi,Not applicable - no development block listed,2026-10,Rice,1126.11,1526.06,2323.33,390,966,2386.95,10,8,32.31,8.17,312.5,16.34,0.6161,Low
+FPS-URBAN-80,Delhi,North,Not applicable - no development block listed,2026-10,Wheat,742.5,4025.26,3967.87,1835,1123,4290.98,4,5,13.67,50.51,698.87,101.02,2.1188,Medium
+FPS-URBAN-81,Delhi,North East,Not applicable - no development block listed,2026-10,Rice,1736.41,2359.21,2726.14,1191,1165,3686.06,30,4,20.82,26.14,1317.19,52.29,1.2767,Low
+FPS-URBAN-82,Delhi,North West,Not applicable - no development block listed,2026-10,Rice,1759.88,4065.06,4586.77,1415,1123,5242.45,20,1,20.76,62.98,1112.22,125.95,2.1623,Medium
+FPS-URBAN-795,Delhi,Old Delhi,Not applicable - no development block listed,2026-10,Wheat,2046.78,1370.33,2119.94,306,1439,3075.4,23,8,28.08,14.94,1267.3,29.87,0.8741,Low
+FPS-URBAN-794,Delhi,Outer North,Not applicable - no development block listed,2026-10,Wheat,2035.8,2853.93,3242.08,346,1512,4400.76,19,5,51.2,30.02,1587.61,60.04,1.2279,Low
+FPS-URBAN-83,Delhi,South,Not applicable - no development block listed,2026-10,Rice,1626.26,1656.5,2096.04,1269,1390,2954.48,15,4,24.96,38.23,1110.25,76.47,2.3294,Medium
+FPS-URBAN-670,Delhi,South East,Not applicable - no development block listed,2026-10,Rice,1351.58,4089.55,3492.98,1066,311,4897.02,24,5,9.69,63.74,1820.66,127.49,2.3431,Medium
+FPS-URBAN-84,Delhi,South West,Not applicable - no development block listed,2026-10,Wheat,2119.56,2081.16,2720.29,864,1528,3780.65,18,7,36.47,56.88,1366.66,113.77,2.7083,Medium
+FPS-URBAN-85,Delhi,West,Not applicable - no development block listed,2026-10,Wheat,1234.17,1785.26,2329.39,1990,448,2717.49,27,2,36.31,21.14,647.77,42.27,1.3999,Low
+FPS-URBAN-482,Maharashtra,Mumbai,Not applicable - no development block listed,2026-10,Rice,1693.77,4527.59,4341.11,1197,315,5599.22,9,9,15.43,45.64,1788.97,91.28,1.4672,Low
+FPS-URBAN-483,Maharashtra,Mumbai Suburban,Not applicable - no development block listed,2026-10,Rice,1066.75,4471,4314.09,507,1175,4983.98,30,7,32.92,60.23,1103.2,120.46,2.1753,Medium
+FPS-URBAN-568,Tamil Nadu,Chennai,Not applicable - no development block listed,2026-10,Wheat,891.57,2611.78,2466.09,765,1459,3153.02,11,8,32.68,18.32,1000.62,36.64,1.0459,Low
+FPS-URBAN-315,West Bengal,Kolkata,Not applicable - no development block listed,2026-10,Wheat,1344.69,1373.26,1889.69,1722,1330,2446.15,28,5,22.44,14.38,799.51,28.75,1.0578,Low
