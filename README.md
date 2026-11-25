@@ -1,52 +1,44 @@
 # Food Waste Analysis
 
-An ML-based food waste analysis and prediction system built with Python and Streamlit.
+A two-stage machine-learning project for estimating monthly food distribution and food wastage at fair-price shops.
 
-The project is designed around a **two-stage regression pipeline**:
+## Workflow
 
-1. **Distribution model:** predicts the quantity of food distributed from information available before the prediction period.
-2. **Wastage model:** uses the original inputs plus the Stage 1 predicted distribution to predict food wastage.
+1. Stage 1 predicts distributed quantity (`distributed_stock_kg`).
+2. Stage 2 predicts wastage (`wastage_kg`) using the original prediction-time inputs plus Stage 1's predicted distribution.
 
-> The models are not trained yet. This commit establishes the application scaffold; prediction pages will be connected after the dataset audit and leakage-safe model training.
+Stage 2 is trained with expanding-window out-of-fold Stage-1 predictions to reduce the training/serving mismatch.
 
-## Project structure
+## Dataset
 
-    FoodWasteAnalysis/
-    ├── app.py
-    ├── requirements.txt
-    ├── data/
-    │   ├── raw/                 # Put Datasetfood.csv here (kept out of Git)
-    │   └── processed/           # Generated cleaned data (kept out of Git)
-    ├── models/                  # Trained model artifacts (kept out of Git)
-    ├── training/                # Preprocessing, training and evaluation
-    ├── prediction/              # Two-stage inference pipeline
-    ├── pages/                   # Streamlit pages
-    ├── utils/                   # Shared data and UI helpers
-    └── assets/                  # Images and styles
+Place the original file at `data/raw/Datasetfood.csv`. The dataset is not committed to GitHub; raw CSVs and trained model artifacts are ignored by Git.
 
-## Local setup (Windows PowerShell)
+Audited dataset: 57,639 rows, 20 columns, 34 monthly periods (2024-01 to 2026-10), 7,494 shop IDs, 12 states, 51 districts, 209 blocks, Rice and Wheat. No missing values or duplicate rows were found.
 
-    git clone https://github.com/marchbd/FoodWasteAnalysis.git
-    cd FoodWasteAnalysis
-    python -m venv .venv
-    .venv\Scripts\Activate.ps1
-    pip install -r requirements.txt
+## Run locally
 
-Place the source dataset at data/raw/Datasetfood.csv, then run:
+```powershell
+git clone https://github.com/marchbd/FoodWasteAnalysis.git
+cd FoodWasteAnalysis
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-    streamlit run app.py
+Copy `Datasetfood.csv` into `data/raw/`, then train:
 
-## Current status
+```powershell
+python -m training.train_models
+```
 
-- [x] Initial Streamlit application scaffold
-- [x] Multipage navigation
-- [x] Dataset loading helper
-- [ ] Dataset audit and feature/target verification
-- [ ] Stage 1 distribution model
-- [ ] Stage 2 wastage model with out-of-fold Stage 1 predictions
-- [ ] Model evaluation and prediction integration
-- [ ] Analysis charts, risk insights and downloadable reports
+Launch the website:
 
-## Important modelling rule
+```powershell
+streamlit run app.py
+```
 
-Only features genuinely available at the time of a future prediction may be used as inputs. The second-stage model must be trained on out-of-fold Stage 1 predictions (rather than only actual distribution values) to reduce training-serving mismatch. Target-derived fields such as actual wastage percentage or risk labels must not leak into model inputs.
+## Important modelling note
+
+Do not use actual closing stock, actual wastage, wastage percentage, risk level, or damaged stock as future prediction inputs. These are observed outcomes or potentially unavailable at forecast time. Input estimates must represent information available before the month being predicted.
+
+See [training/README.md](training/README.md) for validation details.
