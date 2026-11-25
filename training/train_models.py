@@ -104,9 +104,9 @@ def chronological_oof_predictions(
         )
         oof.loc[predict_rows.index] = model.predict(predict_rows[BASE_FEATURES])
         print(
-            f"OOF fold {fold}: trained through {fit_months[-1]:%Y-%m}; "
-            f"predicted {len(predict_rows):,} rows from {predict_months[0]:%Y-%m} "
-            f"to {predict_months[-1]:%Y-%m}"
+            f"OOF fold {fold}: trained through {pd.Timestamp(fit_months[-1]).strftime('%Y-%m')}; "
+            f"predicted {len(predict_rows):,} rows from {pd.Timestamp(predict_months[0]).strftime('%Y-%m')} "
+            f"to {pd.Timestamp(predict_months[-1]).strftime('%Y-%m')}"
         )
 
     return oof
@@ -124,8 +124,8 @@ def train(data_path: Path, holdout_months: int = 4, iterations: int = 600) -> di
 
     print(f"Dataset: {len(data):,} rows, {len(months)} months")
     print(
-        f"Train: {len(train_data):,} rows through {train_data['month'].max():%Y-%m}; "
-        f"test: {len(test_data):,} rows from {test_data['month'].min():%Y-%m}"
+        f"Train: {len(train_data):,} rows through {train_data['month'].max().strftime('%Y-%m')}; "
+        f"test: {len(test_data):,} rows from {test_data['month'].min().strftime('%Y-%m')}"
     )
 
     # Stage 1 final model: all pre-holdout rows.
