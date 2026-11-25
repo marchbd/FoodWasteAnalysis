@@ -3,6 +3,7 @@ from pathlib import Path
 import streamlit as st
 
 from utils.data_loader import load_dataset
+from prediction.pipeline import load_metrics, models_ready
 
 ROOT_DIR = Path(__file__).resolve().parent
 
@@ -33,7 +34,7 @@ st.caption("An ML-powered system for food distribution and wastage prediction.")
 
 st.markdown(
     """
-    Welcome to the Food Waste Analysis platform. The planned prediction workflow
+    Welcome to the Food Waste Analysis platform. The prediction workflow
     uses two connected machine-learning stages:
 
     **Stage 1 — Distribution prediction** → **Stage 2 — Wastage prediction**
@@ -62,10 +63,24 @@ with col1:
     st.page_link("pages/1_Dashboard.py", label="Open Dashboard", icon="📊")
 with col2:
     st.markdown("### 🔮 Food Waste Prediction")
-    st.write("Enter shop and stock information for the planned two-stage prediction.")
+    st.write("Enter shop and stock information for the two-stage prediction.")
     st.page_link("pages/2_Food_Waste_Prediction.py", label="Open Prediction", icon="🔮")
 
-st.warning(
-    "Predictions are not enabled yet. We will activate them only after training "
-    "and validating both models against the project dataset."
-)
+if models_ready():
+    st.success("Both trained prediction models are available.")
+else:
+    st.warning(
+        "Prediction models are not installed yet. Add the trained files from "
+        "the models folder to enable predictions."
+    )
+
+metrics = load_metrics()
+if metrics:
+    st.subheader("Model validation snapshot")
+    c1, c2 = st.columns(2)
+    c1.metric("Distribution MAE", f"{metrics['stage1_distribution']['mae']:,.2f} kg")
+    c2.metric("Wastage MAE", f"{metrics['stage2_wastage']['mae']:,.2f} kg")
+    st.caption(
+        f"Chronological test period: {metrics['test_period'][0]} to "
+        f"{metrics['test_period'][1]} · {metrics['test_rows']:,} test records"
+    )
