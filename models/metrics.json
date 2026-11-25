@@ -1,0 +1,67 @@
+{
+  "dataset_rows": 57639,
+  "train_rows": 55167,
+  "stage2_oof_train_rows": 50010,
+  "test_rows": 2472,
+  "train_period": [
+    "2024-01",
+    "2026-06"
+  ],
+  "test_period": [
+    "2026-07",
+    "2026-10"
+  ],
+  "stage1_distribution": {
+    "mae": 170.7559,
+    "rmse": 214.7875,
+    "r2": 0.94216
+  },
+  "stage2_wastage": {
+    "mae": 25.3439,
+    "rmse": 36.3381,
+    "r2": 0.86554
+  },
+  "base_features": [
+    "shop_id",
+    "state",
+    "district",
+    "block",
+    "commodity",
+    "year",
+    "month_number",
+    "opening_stock_kg",
+    "received_stock_kg",
+    "beneficiaries",
+    "transactions",
+    "storage_capacity_kg",
+    "storage_days",
+    "delivery_delay_days",
+    "previous_wastage_kg"
+  ],
+  "categorical_features": [
+    "shop_id",
+    "state",
+    "district",
+    "block",
+    "commodity"
+  ],
+  "stage2_features": [
+    "shop_id",
+    "state",
+    "district",
+    "block",
+    "commodity",
+    "year",
+    "month_number",
+    "opening_stock_kg",
+    "received_stock_kg",
+    "beneficiaries",
+    "transactions",
+    "storage_capacity_kg",
+    "storage_days",
+    "delivery_delay_days",
+    "previous_wastage_kg",
+    "stage1_predicted_distribution_kg"
+  ],
+  "note": "300 CatBoost iterations; chronological four-month holdout. Stage 2 trained on expanding-window OOF Stage-1 predictions. Metrics are from this run and should be regenerated after any model or feature changes."
+}
