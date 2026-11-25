@@ -221,3 +221,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project data and trained model artifacts
+data/raw/*.csv
+data/processed/*
+!data/processed/.gitkeep
+models/*.cbm
+models/*.joblib
+models/*.pkl
+models/*.json
