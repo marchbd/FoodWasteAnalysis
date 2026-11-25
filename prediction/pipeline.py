@@ -1,7 +1,9 @@
-"""Load trained models from local storage or a public Hugging Face model repository."""
+"""Load the trained CatBoost models committed in the repository."""
 from __future__ import annotations
-import json, os
+
+import json
 from pathlib import Path
+
 import pandas as pd
 from catboost import CatBoostRegressor
 
@@ -15,42 +17,30 @@ BASE_FEATURES = [
 ]
 STAGE2_FEATURES = BASE_FEATURES + ["stage1_predicted_distribution_kg"]
 
-def _model_repo_id() -> str | None:
-    repo_id = os.getenv("HF_MODEL_REPO_ID")
-    if repo_id:
-        return repo_id.strip() or None
-    try:
-        import streamlit as st
-        return str(st.secrets.get("HF_MODEL_REPO_ID", "")).strip() or None
-    except Exception:
-        return None
 
-def _resolve_model_file(filename: str) -> Path:
-    local_path = MODEL_DIR / filename
-    if local_path.exists():
-        return local_path
-    repo_id = _model_repo_id()
-    if not repo_id:
+def _model_path(filename: str) -> Path:
+    path = MODEL_DIR / filename
+    if not path.is_file():
         raise FileNotFoundError(
-            "Models are not available. Configure HF_MODEL_REPO_ID with your "
-            "public Hugging Face model repository, e.g. 'username/foodwaste-models'."
+            f"Required model file not found: {path}. "
+            "Check that the trained model files are committed under models/."
         )
-    from huggingface_hub import hf_hub_download
-    return Path(hf_hub_download(repo_id=repo_id, filename=filename, repo_type="model"))
+    return path
+
 
 def models_ready() -> bool:
-    try:
-        _resolve_model_file("stage1_distribution.cbm")
-        _resolve_model_file("stage2_wastage.cbm")
-        return True
-    except Exception:
-        return False
+    return all(
+        (MODEL_DIR / name).is_file()
+        for name in ("stage1_distribution.cbm", "stage2_wastage.cbm")
+    )
+
 
 def load_models() -> tuple[CatBoostRegressor, CatBoostRegressor]:
     distribution, wastage = CatBoostRegressor(), CatBoostRegressor()
-    distribution.load_model(str(_resolve_model_file("stage1_distribution.cbm")))
-    wastage.load_model(str(_resolve_model_file("stage2_wastage.cbm")))
+    distribution.load_model(str(_model_path("stage1_distribution.cbm")))
+    wastage.load_model(str(_model_path("stage2_wastage.cbm")))
     return distribution, wastage
+
 
 def predict_food_waste(inputs: dict) -> dict[str, float]:
     required = set(BASE_FEATURES) - {"year", "month_number"}
@@ -71,8 +61,9 @@ def predict_food_waste(inputs: dict) -> dict[str, float]:
         "predicted_wastage_kg": round(predicted_wastage, 2),
     }
 
+
 def load_metrics() -> dict | None:
     try:
-        return json.loads(_resolve_model_file("metrics.json").read_text(encoding="utf-8"))
-    except Exception:
+        return json.loads(_model_path("metrics.json").read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
         return None
