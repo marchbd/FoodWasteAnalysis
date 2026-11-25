@@ -12,14 +12,14 @@
     "2026-10"
   ],
   "stage1_distribution": {
-    "mae": 170.7559,
-    "rmse": 214.7875,
-    "r2": 0.94216
+    "mae": 169.7501,
+    "rmse": 214.328,
+    "r2": 0.9424
   },
   "stage2_wastage": {
-    "mae": 25.3439,
-    "rmse": 36.3381,
-    "r2": 0.86554
+    "mae": 25.3549,
+    "rmse": 36.3662,
+    "r2": 0.86533
   },
   "base_features": [
     "shop_id",
@@ -63,5 +63,5 @@
     "previous_wastage_kg",
     "stage1_predicted_distribution_kg"
   ],
-  "note": "300 CatBoost iterations; chronological four-month holdout. Stage 2 trained on expanding-window OOF Stage-1 predictions. Metrics are from this run and should be regenerated after any model or feature changes."
+  "note": "600 CatBoost iterations; chronological four-month holdout. Stage 2 trained on expanding-window OOF Stage-1 predictions. Metrics are from this run and should be regenerated after any model or feature changes."
 }
