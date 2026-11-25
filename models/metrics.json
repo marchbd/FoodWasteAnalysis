@@ -12,17 +12,16 @@
     "2026-10"
   ],
   "stage1_distribution": {
-    "mae": 169.7501,
-    "rmse": 214.328,
-    "r2": 0.9424
+    "mae": 175.1992,
+    "rmse": 219.0597,
+    "r2": 0.93983
   },
   "stage2_wastage": {
-    "mae": 25.3549,
-    "rmse": 36.3662,
-    "r2": 0.86533
+    "mae": 25.8153,
+    "rmse": 36.9779,
+    "r2": 0.86076
   },
   "base_features": [
-    "shop_id",
     "state",
     "district",
     "block",
@@ -39,14 +38,12 @@
     "previous_wastage_kg"
   ],
   "categorical_features": [
-    "shop_id",
     "state",
     "district",
     "block",
     "commodity"
   ],
   "stage2_features": [
-    "shop_id",
     "state",
     "district",
     "block",
@@ -63,5 +60,33 @@
     "previous_wastage_kg",
     "stage1_predicted_distribution_kg"
   ],
-  "note": "600 CatBoost iterations; chronological four-month holdout. Stage 2 trained on expanding-window OOF Stage-1 predictions. Metrics are from this run and should be regenerated after any model or feature changes."
+  "comparison": {
+    "same_holdout_and_600_iterations": true,
+    "with_shop_id": {
+      "stage1_distribution": {
+        "mae": 169.7501,
+        "rmse": 214.328,
+        "r2": 0.9424
+      },
+      "stage2_wastage": {
+        "mae": 25.3549,
+        "rmse": 36.3662,
+        "r2": 0.86533
+      }
+    },
+    "without_shop_id": {
+      "stage1_distribution": {
+        "mae": 175.1992,
+        "rmse": 219.0597,
+        "r2": 0.93983
+      },
+      "stage2_wastage": {
+        "mae": 25.8153,
+        "rmse": 36.9779,
+        "r2": 0.86076
+      }
+    },
+    "decision": "Exclude shop_id to avoid dependence on a shop-specific identifier and improve usability for previously unseen shops; this causes a small reduction in holdout accuracy."
+  },
+  "note": "Chronological holdout; Stage 2 uses expanding-window OOF Stage-1 predictions. shop_id excluded. block is optional at prediction time and defaults to UNKNOWN when absent. Leakage fields (actual closing stock, wastage, wastage percentage, risk level, damaged stock) excluded."
 }
