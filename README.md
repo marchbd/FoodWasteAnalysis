@@ -16,20 +16,13 @@ Audited dataset: 57,639 rows, 20 columns, 34 monthly periods (2024-01 to 2026-10
 
 ## Model artifacts
 
-The trained model files and `metrics.json` are hosted in a public Hugging Face model repository.
+The trained CatBoost model files and evaluation metrics are stored directly in this repository under `models/`:
 
-Expected files:
-- `stage1_distribution.cbm`
-- `stage2_wastage.cbm`
-- `metrics.json`
+- `models/stage1_distribution.cbm`
+- `models/stage2_wastage.cbm`
+- `models/metrics.json`
 
-Set this secret in Streamlit Community Cloud → App settings → Secrets:
-
-```toml
-HF_MODEL_REPO_ID = "your-huggingface-username/foodwaste-models"
-```
-
-The app downloads the files automatically and caches them.
+The prediction pipeline loads these files from the repository's local checkout. No Hugging Face account, model repository, or secret is required.
 
 ## Run locally
 
@@ -46,9 +39,9 @@ To retrain, place `Datasetfood.csv` at `data/raw/Datasetfood.csv`, then run `pyt
 
 ## Deploy
 
-1. Create a public model repository on Hugging Face and upload the three files listed above.
-2. Deploy `marchbd/FoodWasteAnalysis` from [Streamlit Community Cloud](https://share.streamlit.io/).
-3. Add the `HF_MODEL_REPO_ID` secret shown above.
+1. Open [Streamlit Community Cloud](https://share.streamlit.io/).
+2. Create a new app from `marchbd/FoodWasteAnalysis`, branch `main`, with `app.py` as the entry point.
+3. Deploy. No model-hosting secret is needed because the model files are committed in `models/`.
 
 ## Important modelling note
 
