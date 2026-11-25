@@ -1,19 +1,35 @@
 # Food Waste Analysis
 
-A two-stage machine-learning project for estimating monthly food distribution and food wastage at fair-price shops.
+A two-stage machine-learning application for estimating monthly food distribution and food wastage at fair-price shops.
 
 ## Workflow
 
 1. Stage 1 predicts distributed quantity (`distributed_stock_kg`).
 2. Stage 2 predicts wastage (`wastage_kg`) using the original prediction-time inputs plus Stage 1's predicted distribution.
-
-Stage 2 is trained with expanding-window out-of-fold Stage-1 predictions to reduce the training/serving mismatch.
+3. Stage 2 is trained with expanding-window out-of-fold Stage-1 predictions to reduce training/serving mismatch.
 
 ## Dataset
 
-Place the original file at `data/raw/Datasetfood.csv`. The dataset is not committed to GitHub; raw CSVs and trained model artifacts are ignored by Git.
+Place the source CSV at `data/raw/Datasetfood.csv` to retrain locally. The CSV is not committed to GitHub.
 
-Audited dataset: 57,639 rows, 20 columns, 34 monthly periods (2024-01 to 2026-10), 7,494 shop IDs, 12 states, 51 districts, 209 blocks, Rice and Wheat. No missing values or duplicate rows were found.
+Audited dataset: 57,639 rows, 20 columns, 34 monthly periods (2024-01 to 2026-10), with no missing values or duplicate rows.
+
+## Model artifacts
+
+The trained model files and `metrics.json` are hosted in a public Hugging Face model repository.
+
+Expected files:
+- `stage1_distribution.cbm`
+- `stage2_wastage.cbm`
+- `metrics.json`
+
+Set this secret in Streamlit Community Cloud → App settings → Secrets:
+
+```toml
+HF_MODEL_REPO_ID = "your-huggingface-username/foodwaste-models"
+```
+
+The app downloads the files automatically and caches them.
 
 ## Run locally
 
@@ -21,36 +37,19 @@ Audited dataset: 57,639 rows, 20 columns, 34 monthly periods (2024-01 to 2026-10
 git clone https://github.com/marchbd/FoodWasteAnalysis.git
 cd FoodWasteAnalysis
 python -m venv .venv
-.venv\Scripts\activate
+.venv\\Scripts\\activate
 pip install -r requirements.txt
-```
-
-Copy `Datasetfood.csv` into `data/raw/`, then train:
-
-```powershell
-python -m training.train_models
-```
-
-Launch the website:
-
-```powershell
 streamlit run app.py
 ```
 
+To retrain, place `Datasetfood.csv` at `data/raw/Datasetfood.csv`, then run `python -m training.train_models`.
+
+## Deploy
+
+1. Create a public model repository on Hugging Face and upload the three files listed above.
+2. Deploy `marchbd/FoodWasteAnalysis` from [Streamlit Community Cloud](https://share.streamlit.io/).
+3. Add the `HF_MODEL_REPO_ID` secret shown above.
+
 ## Important modelling note
 
-Do not use actual closing stock, actual wastage, wastage percentage, risk level, or damaged stock as future prediction inputs. These are observed outcomes or potentially unavailable at forecast time. Input estimates must represent information available before the month being predicted.
-
-See [training/README.md](training/README.md) for validation details.
-
-
-## Current validation run
-
-A 600-iteration CatBoost run used a chronological holdout of July–October 2026 (2,472 test records). Stage 1 distribution: MAE 169.7501 kg, RMSE 214.3280 kg, R² 0.94240. Stage 2 wastage: MAE 25.3549 kg, RMSE 36.3662 kg, R² 0.86533. Metrics are stored in `models/metrics.json`. These results are specific to this run and should be regenerated after changing features or training settings.
-
-## Deploy on Streamlit Community Cloud
-
-1. Ensure `models/stage1_distribution.cbm` and `models/stage2_wastage.cbm` are present in the repository's `models/` folder, alongside `models/metrics.json`.
-2. Open https://share.streamlit.io/ and sign in with GitHub.
-3. Choose **Create app**, select this repository, branch `main`, and main file `app.py`.
-4. Deploy the app. The raw CSV is not required for prediction once the trained model files are present; it is only used for the optional dataset preview on the dashboard.
+Do not use actual closing stock, actual wastage, wastage percentage, risk level, or damaged stock as future prediction inputs. Input estimates must represent information available before the month being predicted.
