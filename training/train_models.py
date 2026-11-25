@@ -33,7 +33,7 @@ BASE_FEATURES = [
 ]
 STAGE1_TARGET = "distributed_stock_kg"
 STAGE2_TARGET = "wastage_kg"
-REQUIRED_COLUMNS = set(BASE_FEATURES + [STAGE1_TARGET, STAGE2_TARGET, "month"])
+REQUIRED_COLUMNS = set([c for c in BASE_FEATURES if c not in {"year", "month_number"}] + [STAGE1_TARGET, STAGE2_TARGET, "month"])
 
 
 def prepare_data(path: Path) -> pd.DataFrame:
