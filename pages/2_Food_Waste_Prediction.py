@@ -17,6 +17,7 @@ st.markdown("""<style>
 }
 </style>""", unsafe_allow_html=True)
 
+st.markdown("""<style>
 .st-key-location_period_card {
  background: linear-gradient(135deg, rgba(8,145,178,.22), rgba(37,99,235,.13), rgba(15,23,42,.68));
  border: 1px solid rgba(103,232,249,.35);
