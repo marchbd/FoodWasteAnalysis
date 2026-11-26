@@ -2,8 +2,10 @@ import streamlit as st
 
 from utils.data_loader import load_dataset
 from prediction.pipeline import models_ready
+from utils.theme import apply_theme
 
 st.set_page_config(page_title="Food Waste Analysis", page_icon="🍚", layout="wide")
+apply_theme()
 
 st.markdown("""
 <style>
