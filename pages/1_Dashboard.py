@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from utils.data_loader import load_dataset
 from utils.theme import apply_theme
 
@@ -12,11 +13,78 @@ if data is None:
     st.error("Dataset missing. Add data/raw/Datasetfood.csv.")
     st.stop()
 
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Records", f"{len(data):,}")
-c2.metric("States", data["state"].nunique())
-c3.metric("Districts", data["district"].nunique())
-c4.metric("Blocks", data.loc[data["block"].astype(str).str.upper() != "UNKNOWN", "block"].nunique())
+records_count = int(len(data))
+states_count = int(data["state"].nunique())
+districts_count = int(data["district"].nunique())
+blocks_count = int(data.loc[data["block"].astype(str).str.upper() != "UNKNOWN", "block"].nunique())
+
+metric_html = f"""
+<div class="metrics-grid">
+  <div class="metric-card card-cyan">
+    <div class="metric-label">Records</div>
+    <div class="metric-value" data-target="{records_count}">0</div>
+  </div>
+  <div class="metric-card card-blue">
+    <div class="metric-label">States</div>
+    <div class="metric-value" data-target="{states_count}">0</div>
+  </div>
+  <div class="metric-card card-pink">
+    <div class="metric-label">Districts</div>
+    <div class="metric-value" data-target="{districts_count}">0</div>
+  </div>
+  <div class="metric-card card-violet">
+    <div class="metric-label">Blocks</div>
+    <div class="metric-value" data-target="{blocks_count}">0</div>
+  </div>
+</div>
+<style>
+  * {{ box-sizing: border-box; }}
+  body {{ margin: 0; font-family: sans-serif; background: transparent; }}
+  .metrics-grid {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }}
+  .metric-card {{
+    min-height: 140px; padding: 25px 24px;
+    border: 1px solid rgba(148, 163, 184, .28);
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(24, 42, 67, .88), rgba(15, 23, 42, .92));
+    display: flex; flex-direction: column; justify-content: center;
+  }}
+  .card-cyan {{ border-color: rgba(103,232,249,.38); }}
+  .card-blue {{ border-color: rgba(96,165,250,.34); }}
+  .card-pink {{ border-color: rgba(240,171,252,.34); }}
+  .card-violet {{ border-color: rgba(196,181,253,.36); }}
+  .metric-label {{ color: #c1cde1; font-size: 16px; margin-bottom: 12px; }}
+  .metric-value {{ color: #dce6f7; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  @media (max-width: 700px) {{
+    .metrics-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }}
+    .metric-card {{ min-height: 112px; padding: 18px; border-radius: 18px; }}
+    .metric-label {{ font-size: 14px; margin-bottom: 8px; }}
+  }}
+  @media (prefers-reduced-motion: reduce) {{
+    .metric-value {{ transition: none; }}
+  }}
+</style>
+<script>
+  const values = document.querySelectorAll(".metric-value");
+  const duration = 1500;
+  values.forEach((element) => {{
+    const target = Number(element.dataset.target);
+    const start = performance.now();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {{
+      element.textContent = target.toLocaleString("en-IN");
+      return;
+    }}
+    function tick(now) {{
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = Math.round(target * eased).toLocaleString("en-IN");
+      if (progress < 1) requestAnimationFrame(tick);
+    }}
+    requestAnimationFrame(tick);
+  }});
+</script>
+"""
+components.html(metric_html, height=155, scrolling=False)
 
 
 st.subheader("Geographic coverage")
