@@ -8,23 +8,23 @@ apply_theme()
 
 st.markdown("""<style>
 .st-key-location_period_card {
- background: linear-gradient(135deg, rgba(8,145,178,.22), rgba(37,99,235,.13), rgba(15,23,42,.68));
- border: 1px solid rgba(103,232,249,.42); border-top: 3px solid rgba(103,232,249,.82);
- border-radius: 22px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: 0 2px 8px rgba(0,0,0,.12);
- backdrop-filter: blur(24px) saturate(155%);
+ background: #102535;
+ border: 1px solid #285064;
+ border-radius: 12px; padding: 1.1rem 1.2rem .65rem;
+ box-shadow: none;
+ backdrop-filter: none;
 }
 .st-key-location_period_card h3 { color: #a5f3fc !important; }
 .st-key-demand_stock_card {
- background: linear-gradient(145deg, rgba(109,40,217,.22), rgba(190,24,93,.13), rgba(30,20,48,.70));
- border: 1px solid rgba(216,180,254,.38); border-left: 4px solid rgba(216,180,254,.82);
- border-radius: 22px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: 0 2px 8px rgba(0,0,0,.12);
- backdrop-filter: blur(24px) saturate(155%);
+ background: #211d35;
+ border: 1px solid #493b61;
+ border-radius: 12px; padding: 1.1rem 1.2rem .65rem;
+ box-shadow: none;
+ backdrop-filter: none;
 }
 .st-key-demand_stock_card h3 { color: #e9d5ff !important; }
-.st-key-location_period_card div[data-baseweb='select'] > div, .st-key-location_period_card div[data-baseweb='input'] > div { border-color: rgba(103,232,249,.35) !important; background: rgba(7,35,52,.56) !important; }
-.st-key-demand_stock_card div[data-baseweb='input'] > div { border-color: rgba(216,180,254,.32) !important; background: rgba(42,22,61,.52) !important; }
+.st-key-location_period_card div[data-baseweb='select'] > div, .st-key-location_period_card div[data-baseweb='input'] > div { border-color: #285064 !important; background: #0c1d2b !important; }
+.st-key-demand_stock_card div[data-baseweb='input'] > div { border-color: #493b61 !important; background: #191528 !important; }
 </style>""", unsafe_allow_html=True)
 
 st.title("🔮 Food Waste Prediction")
