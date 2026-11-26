@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
-from prediction.pipeline import load_metrics, models_ready, predict_food_waste
+from prediction.pipeline import models_ready, predict_food_waste
 from utils.data_loader import load_dataset
 
 st.title("🔮 Food Waste Prediction")
@@ -8,18 +8,18 @@ st.caption("Two-stage prediction: distribution first, then food wastage.")
 
 data = load_dataset()
 if data is None:
-    st.error("Demo dataset is missing. Add data/raw/Datasetfood.csv to the GitHub repository.")
+    st.error("Dataset is missing. Add data/raw/Datasetfood.csv to the GitHub repository.")
     st.stop()
 
-# Dropdown choices are derived only from records present in the committed demo CSV.
+# Dropdown choices are derived only from records present in the dataset.
 for col in ("state", "district", "block", "commodity"):
     if col not in data.columns:
-        st.error(f"The demo dataset is missing the required column: {col}")
+        st.error(f"The dataset is missing the required column: {col}")
         st.stop()
 
 states = sorted(data["state"].dropna().astype(str).unique().tolist())
 if not states:
-    st.error("No states are available in the demo dataset.")
+    st.error("No states are available in the dataset.")
     st.stop()
 
 if not models_ready():
@@ -136,26 +136,7 @@ if submitted:
             usable_col, wastage_col = st.columns(2)
             usable_col.metric("Usable quantity", f"{usable:,.2f} kg")
             wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
-        st.caption("These are estimates from models trained on synthetic demonstration data, not measured government statistics.")
+        st.caption("These are estimates from models trained on synthetic data, not measured government statistics.")
     except Exception as exc:
         st.error(f"Could not generate prediction: {exc}")
 
-metrics = load_metrics()
-if metrics:
-    st.divider()
-    st.subheader("Demo-model evaluation")
-    st.caption(
-        f"Training: {metrics['train_period'][0]} to {metrics['train_period'][1]} · "
-        f"Test: {metrics['test_period'][0]} to {metrics['test_period'][1]}"
-    )
-    st.warning("These metrics evaluate synthetic demo data only; they do not measure real-world accuracy.")
-    a, b = st.columns(2)
-    a.metric("Distribution MAE", f"{metrics['stage1_distribution']['mae']:,.2f} kg")
-    b.metric("Wastage MAE", f"{metrics['stage2_wastage']['mae']:,.2f} kg")
-    with st.expander("View full metrics"):
-        st.json({
-            "Stage 1 — Distribution": metrics["stage1_distribution"],
-            "Stage 2 — Wastage": metrics["stage2_wastage"],
-            "Test rows": metrics["test_rows"],
-            "Stage 2 OOF training rows": metrics["stage2_oof_train_rows"],
-        })
