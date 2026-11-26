@@ -8,17 +8,17 @@ apply_theme()
 
 st.markdown("""<style>
 .st-key-location_period_card {
- background: #102535;
- border: 1px solid #285064;
- border-radius: 12px; padding: 1.1rem 1.2rem .65rem;
+ background: linear-gradient(135deg, rgba(8,145,178,.22), rgba(37,99,235,.13), rgba(15,23,42,.68));
+ border: 1px solid rgba(103,232,249,.35);
+ border-radius: 18px; padding: 1.1rem 1.2rem .65rem;
  box-shadow: none;
  backdrop-filter: none;
 }
 .st-key-location_period_card h3 { color: #a5f3fc !important; }
 .st-key-demand_stock_card {
- background: #211d35;
- border: 1px solid #493b61;
- border-radius: 12px; padding: 1.1rem 1.2rem .65rem;
+ background: linear-gradient(145deg, rgba(109,40,217,.22), rgba(190,24,93,.13), rgba(30,20,48,.70));
+ border: 1px solid rgba(216,180,254,.32);
+ border-radius: 18px; padding: 1.1rem 1.2rem .65rem;
  box-shadow: none;
  backdrop-filter: none;
 }
