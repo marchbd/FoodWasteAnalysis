@@ -60,5 +60,5 @@
     "previous_wastage_kg",
     "stage1_predicted_distribution_kg"
   ],
-  "note": "Synthetic demo dataset; chronological four-month holdout. shop_id excluded. block is optional and blank block is represented by UNKNOWN. Metrics evaluate synthetic generated data only and are not real-world performance."
+  "note": "Generated demonstration dataset; chronological four-month holdout. shop_id excluded. block is optional and blank block is represented by UNKNOWN. Metrics evaluate generated demonstration data only and are not real-world performance."
 }
