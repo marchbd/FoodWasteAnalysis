@@ -1,7 +1,6 @@
 import streamlit as st
 
 from utils.data_loader import load_dataset
-from prediction.pipeline import models_ready
 from utils.theme import apply_theme
 
 st.set_page_config(page_title="Food Waste Analysis", page_icon="🍚", layout="wide")
@@ -120,9 +119,4 @@ with right:
     st.subheader("🔮 Food Waste Prediction")
     st.write("Choose a state and district with available data. Block selection is optional.")
     st.page_link("pages/2_Food_Waste_Prediction.py", label="Open Prediction", icon="🔮")
-
-if models_ready():
-    st.success("Both prediction models are available.")
-else:
-    st.warning("Prediction models are missing. Add both .cbm files under models/.")
 
