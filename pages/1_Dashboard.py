@@ -1,5 +1,8 @@
 import streamlit as st
 from utils.data_loader import load_dataset
+from utils.theme import apply_theme
+
+apply_theme()
 
 st.title("📊 Food Waste Dashboard")
 st.caption("Geographic coverage and records in the synthetic dataset.")
