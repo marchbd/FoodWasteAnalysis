@@ -143,7 +143,7 @@ if submitted:
             usable_col, wastage_col = st.columns(2)
             usable_col.metric("Usable quantity", f"{usable:,.2f} kg")
             wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
-        st.caption("These are estimates from models trained on synthetic data, not measured government statistics.")
+
     except Exception as exc:
         st.error(f"Could not generate prediction: {exc}")
 
