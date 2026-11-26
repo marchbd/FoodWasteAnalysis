@@ -2,8 +2,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 from utils.data_loader import load_dataset
 from utils.theme import apply_theme
+from utils.navigation import render_top_nav
 
 apply_theme()
+render_top_nav("dashboard")
 
 st.title("📊 Food Waste Dashboard")
 st.caption("Geographic coverage and records across the dataset.")
