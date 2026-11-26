@@ -15,7 +15,7 @@ st.markdown(
 
 data = load_dataset()
 if data is None:
-    st.warning("Demo dataset missing. Add data/raw/Datasetfood.csv to the repository.")
+    st.warning("Dataset missing. Add data/raw/Datasetfood.csv to the repository.")
 else:
     def animated_count(label, value):
         st.markdown(f"**{label}**")
