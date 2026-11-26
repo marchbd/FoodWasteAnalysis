@@ -2,11 +2,9 @@ import streamlit as st
 
 from utils.data_loader import load_dataset
 from utils.theme import apply_theme
-from utils.navigation import render_top_nav
 
 st.set_page_config(page_title="Food Waste Analysis", page_icon="🍚", layout="wide")
 apply_theme()
-render_top_nav("home")
 
 st.markdown("""
 <style>
