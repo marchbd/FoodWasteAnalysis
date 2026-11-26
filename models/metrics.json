@@ -1,92 +1,14 @@
 {
-  "dataset_rows": 57639,
-  "train_rows": 55167,
-  "stage2_oof_train_rows": 50010,
-  "test_rows": 2472,
-  "train_period": [
-    "2024-01",
-    "2026-06"
-  ],
-  "test_period": [
-    "2026-07",
-    "2026-10"
-  ],
-  "stage1_distribution": {
-    "mae": 175.1992,
-    "rmse": 219.0597,
-    "r2": 0.93983
-  },
-  "stage2_wastage": {
-    "mae": 25.8153,
-    "rmse": 36.9779,
-    "r2": 0.86076
-  },
-  "base_features": [
-    "state",
-    "district",
-    "block",
-    "commodity",
-    "year",
-    "month_number",
-    "opening_stock_kg",
-    "received_stock_kg",
-    "beneficiaries",
-    "transactions",
-    "storage_capacity_kg",
-    "storage_days",
-    "delivery_delay_days",
-    "previous_wastage_kg"
-  ],
-  "categorical_features": [
-    "state",
-    "district",
-    "block",
-    "commodity"
-  ],
-  "stage2_features": [
-    "state",
-    "district",
-    "block",
-    "commodity",
-    "year",
-    "month_number",
-    "opening_stock_kg",
-    "received_stock_kg",
-    "beneficiaries",
-    "transactions",
-    "storage_capacity_kg",
-    "storage_days",
-    "delivery_delay_days",
-    "previous_wastage_kg",
-    "stage1_predicted_distribution_kg"
-  ],
-  "comparison": {
-    "same_holdout_and_600_iterations": true,
-    "with_shop_id": {
-      "stage1_distribution": {
-        "mae": 169.7501,
-        "rmse": 214.328,
-        "r2": 0.9424
-      },
-      "stage2_wastage": {
-        "mae": 25.3549,
-        "rmse": 36.3662,
-        "r2": 0.86533
-      }
-    },
-    "without_shop_id": {
-      "stage1_distribution": {
-        "mae": 175.1992,
-        "rmse": 219.0597,
-        "r2": 0.93983
-      },
-      "stage2_wastage": {
-        "mae": 25.8153,
-        "rmse": 36.9779,
-        "r2": 0.86076
-      }
-    },
-    "decision": "Exclude shop_id to avoid dependence on a shop-specific identifier and improve usability for previously unseen shops; this causes a small reduction in holdout accuracy."
-  },
-  "note": "Chronological holdout; Stage 2 uses expanding-window OOF Stage-1 predictions. shop_id excluded. block is optional at prediction time and defaults to UNKNOWN when absent. Leakage fields (actual closing stock, wastage, wastage percentage, risk level, damaged stock) excluded."
+  "dataset_rows": 40720,
+  "train_rows": 35920,
+  "stage2_oof_train_rows": 28755,
+  "test_rows": 4800,
+  "train_period": ["2024-01", "2026-06"],
+  "test_period": ["2026-07", "2026-10"],
+  "stage1_distribution": {"mae": 140.0371, "rmse": 194.1276, "r2": 0.94581},
+  "stage2_wastage": {"mae": 49.5531, "rmse": 68.7323, "r2": 0.88016},
+  "base_features": ["state", "district", "block", "commodity", "year", "month_number", "opening_stock_kg", "received_stock_kg", "beneficiaries", "transactions", "storage_capacity_kg", "storage_days", "delivery_delay_days", "previous_wastage_kg"],
+  "categorical_features": ["state", "district", "block", "commodity"],
+  "stage2_features": ["state", "district", "block", "commodity", "year", "month_number", "opening_stock_kg", "received_stock_kg", "beneficiaries", "transactions", "storage_capacity_kg", "storage_days", "delivery_delay_days", "previous_wastage_kg", "stage1_predicted_distribution_kg"],
+  "note": "Synthetic demo dataset; chronological four-month holdout. shop_id excluded. block is optional and blank block is represented by UNKNOWN. Metrics evaluate synthetic generated data only and are not real-world performance."
 }
