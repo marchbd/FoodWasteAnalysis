@@ -6,6 +6,27 @@ from utils.theme import apply_theme
 
 apply_theme()
 
+st.markdown("""<style>
+.st-key-location_period_card {
+ background: linear-gradient(135deg, rgba(8,145,178,.22), rgba(37,99,235,.13), rgba(15,23,42,.68));
+ border: 1px solid rgba(103,232,249,.42); border-top: 3px solid rgba(103,232,249,.82);
+ border-radius: 22px; padding: 1.1rem 1.2rem .65rem;
+ box-shadow: 0 14px 38px rgba(8,145,178,.12), inset 0 1px 0 rgba(255,255,255,.12);
+ backdrop-filter: blur(24px) saturate(155%);
+}
+.st-key-location_period_card h3 { color: #a5f3fc !important; }
+.st-key-demand_stock_card {
+ background: linear-gradient(145deg, rgba(109,40,217,.22), rgba(190,24,93,.13), rgba(30,20,48,.70));
+ border: 1px solid rgba(216,180,254,.38); border-left: 4px solid rgba(216,180,254,.82);
+ border-radius: 22px; padding: 1.1rem 1.2rem .65rem;
+ box-shadow: 0 14px 38px rgba(124,58,237,.13), inset 0 1px 0 rgba(255,255,255,.12);
+ backdrop-filter: blur(24px) saturate(155%);
+}
+.st-key-demand_stock_card h3 { color: #e9d5ff !important; }
+.st-key-location_period_card div[data-baseweb='select'] > div, .st-key-location_period_card div[data-baseweb='input'] > div { border-color: rgba(103,232,249,.35) !important; background: rgba(7,35,52,.56) !important; }
+.st-key-demand_stock_card div[data-baseweb='input'] > div { border-color: rgba(216,180,254,.32) !important; background: rgba(42,22,61,.52) !important; }
+</style>""", unsafe_allow_html=True)
+
 st.title("🔮 Food Waste Prediction")
 st.caption("Two-stage prediction: distribution first, then food wastage.")
 
@@ -29,7 +50,7 @@ if not models_ready():
     st.warning("Trained models are not available. Ensure both .cbm files are committed under models/.")
 
 with st.form("prediction_inputs"):
-    with st.container(border=True):
+    with st.container(border=True, key="location_period_card"):
         st.subheader("📍 Location and period")
         location_col, period_col = st.columns([1.4, 1])
         with location_col:
@@ -56,7 +77,7 @@ with st.form("prediction_inputs"):
             prediction_month = st.text_input("Prediction month (YYYY-MM)", value="2026-11")
 
     st.write("")
-    with st.container(border=True):
+    with st.container(border=True, key="demand_stock_card"):
         st.subheader("📦 Demand and stock")
         demand_col, stock_col = st.columns(2)
         with demand_col:
