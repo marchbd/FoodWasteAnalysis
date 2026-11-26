@@ -11,7 +11,7 @@ st.markdown("""<style>
  background: linear-gradient(135deg, rgba(8,145,178,.22), rgba(37,99,235,.13), rgba(15,23,42,.68));
  border: 1px solid rgba(103,232,249,.42); border-top: 3px solid rgba(103,232,249,.82);
  border-radius: 22px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: 0 14px 38px rgba(8,145,178,.12), inset 0 1px 0 rgba(255,255,255,.12);
+ box-shadow: 0 2px 8px rgba(0,0,0,.12);
  backdrop-filter: blur(24px) saturate(155%);
 }
 .st-key-location_period_card h3 { color: #a5f3fc !important; }
@@ -19,7 +19,7 @@ st.markdown("""<style>
  background: linear-gradient(145deg, rgba(109,40,217,.22), rgba(190,24,93,.13), rgba(30,20,48,.70));
  border: 1px solid rgba(216,180,254,.38); border-left: 4px solid rgba(216,180,254,.82);
  border-radius: 22px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: 0 14px 38px rgba(124,58,237,.13), inset 0 1px 0 rgba(255,255,255,.12);
+ box-shadow: 0 2px 8px rgba(0,0,0,.12);
  backdrop-filter: blur(24px) saturate(155%);
 }
 .st-key-demand_stock_card h3 { color: #e9d5ff !important; }
