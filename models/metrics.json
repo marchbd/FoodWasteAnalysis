@@ -3,12 +3,62 @@
   "train_rows": 35920,
   "stage2_oof_train_rows": 28755,
   "test_rows": 4800,
-  "train_period": ["2024-01", "2026-06"],
-  "test_period": ["2026-07", "2026-10"],
-  "stage1_distribution": {"mae": 140.0371, "rmse": 194.1276, "r2": 0.94581},
-  "stage2_wastage": {"mae": 49.5531, "rmse": 68.7323, "r2": 0.88016},
-  "base_features": ["state", "district", "block", "commodity", "year", "month_number", "opening_stock_kg", "received_stock_kg", "beneficiaries", "transactions", "storage_capacity_kg", "storage_days", "delivery_delay_days", "previous_wastage_kg"],
-  "categorical_features": ["state", "district", "block", "commodity"],
-  "stage2_features": ["state", "district", "block", "commodity", "year", "month_number", "opening_stock_kg", "received_stock_kg", "beneficiaries", "transactions", "storage_capacity_kg", "storage_days", "delivery_delay_days", "previous_wastage_kg", "stage1_predicted_distribution_kg"],
+  "train_period": [
+    "2024-01",
+    "2026-06"
+  ],
+  "test_period": [
+    "2026-07",
+    "2026-10"
+  ],
+  "stage1_distribution": {
+    "mae": 140.0371,
+    "rmse": 194.1276,
+    "r2": 0.94581
+  },
+  "stage2_wastage": {
+    "mae": 49.5531,
+    "rmse": 68.7323,
+    "r2": 0.88016
+  },
+  "base_features": [
+    "state",
+    "district",
+    "block",
+    "commodity",
+    "year",
+    "month_number",
+    "opening_stock_kg",
+    "received_stock_kg",
+    "beneficiaries",
+    "transactions",
+    "storage_capacity_kg",
+    "storage_days",
+    "delivery_delay_days",
+    "previous_wastage_kg"
+  ],
+  "categorical_features": [
+    "state",
+    "district",
+    "block",
+    "commodity"
+  ],
+  "stage2_features": [
+    "state",
+    "district",
+    "block",
+    "commodity",
+    "year",
+    "month_number",
+    "opening_stock_kg",
+    "received_stock_kg",
+    "beneficiaries",
+    "transactions",
+    "storage_capacity_kg",
+    "storage_days",
+    "delivery_delay_days",
+    "previous_wastage_kg",
+    "stage1_predicted_distribution_kg"
+  ],
   "note": "Synthetic demo dataset; chronological four-month holdout. shop_id excluded. block is optional and blank block is represented by UNKNOWN. Metrics evaluate synthetic generated data only and are not real-world performance."
 }
