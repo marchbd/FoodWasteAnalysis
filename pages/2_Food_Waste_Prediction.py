@@ -2,6 +2,9 @@ import streamlit as st
 import plotly.graph_objects as go
 from prediction.pipeline import models_ready, predict_food_waste
 from utils.data_loader import load_dataset
+from utils.theme import apply_theme
+
+apply_theme()
 
 st.title("🔮 Food Waste Prediction")
 st.caption("Two-stage prediction: distribution first, then food wastage.")
@@ -119,6 +122,10 @@ if submitted:
             )
             fig.update_layout(
                 height=330,
+                template='plotly_dark',
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color='#eaf2ff'),
                 margin=dict(t=20, b=20, l=10, r=10),
                 showlegend=True,
                 legend=dict(orientation="h", yanchor="bottom", y=-0.12, xanchor="center", x=0.5),
