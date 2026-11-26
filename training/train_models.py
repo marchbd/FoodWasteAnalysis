@@ -32,7 +32,7 @@ def prepare_data(path: Path) -> pd.DataFrame:
     if data[list(REQUIRED_COLUMNS)].isna().any().any(): raise ValueError("Required model columns contain missing values.")
     return data.sort_values("month").reset_index(drop=True)
 
-def make_model(iterations: int = 600) -> CatBoostRegressor:
+def make_model(iterations: int = 450) -> CatBoostRegressor:
     return CatBoostRegressor(loss_function="RMSE", eval_metric="RMSE", iterations=iterations,
         depth=8, learning_rate=0.05, random_seed=42, verbose=False,
         allow_writing_files=False, thread_count=-1)
@@ -98,6 +98,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, default=ROOT / "data/raw/Datasetfood.csv")
     parser.add_argument("--holdout-months", type=int, default=4)
-    parser.add_argument("--iterations", type=int, default=600)
+    parser.add_argument("--iterations", type=int, default=450)
     args = parser.parse_args()
     train(args.data, args.holdout_months, args.iterations)
