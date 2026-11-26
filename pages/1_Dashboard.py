@@ -18,8 +18,6 @@ c2.metric("States", data["state"].nunique())
 c3.metric("Districts", data["district"].nunique())
 c4.metric("Blocks", data.loc[data["block"].astype(str).str.upper() != "UNKNOWN", "block"].nunique())
 
-st.info("Dropdown options are derived from this dataset. A missing district or block means this dataset has no record for that location; it does not mean the place does not exist.")
-st.warning("All stock, distribution and wastage values in this dataset are synthetic values, not official government records.")
 
 st.subheader("Geographic coverage")
 coverage = (
@@ -29,9 +27,6 @@ coverage = (
     .sort_values("state")
 )
 st.dataframe(coverage, use_container_width=True, hide_index=True)
-
-st.subheader("Dataset preview")
-st.dataframe(data.head(30), use_container_width=True)
 
 st.subheader("Records by state")
 state_counts = data.groupby("state").size().sort_values(ascending=False)
