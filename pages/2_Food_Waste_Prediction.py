@@ -3,8 +3,10 @@ import plotly.graph_objects as go
 from prediction.pipeline import models_ready, predict_food_waste
 from utils.data_loader import load_dataset
 from utils.theme import apply_theme
+from utils.navigation import render_top_nav
 
 apply_theme()
+render_top_nav("prediction")
 
 st.markdown("""<style>
 /* Prediction page background only — input card styles remain untouched. */
