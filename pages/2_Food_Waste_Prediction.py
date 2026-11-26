@@ -1,4 +1,5 @@
 import streamlit as st
+import plotly.graph_objects as go
 from prediction.pipeline import load_metrics, models_ready, predict_food_waste
 from utils.data_loader import load_dataset
 
@@ -89,6 +90,52 @@ if submitted:
         m1, m2 = st.columns(2)
         m1.metric("Predicted distributed quantity", f"{result['predicted_distributed_stock_kg']:,.2f} kg")
         m2.metric("Predicted food wastage", f"{result['predicted_wastage_kg']:,.2f} kg")
+
+        distributed = max(0.0, float(result["predicted_distributed_stock_kg"]))
+        wastage = max(0.0, float(result["predicted_wastage_kg"]))
+        st.subheader("Predicted distribution breakdown")
+        if distributed <= 0:
+            st.info("A doughnut breakdown is unavailable because the predicted distributed quantity is zero.")
+        elif wastage > distributed:
+            st.warning(
+                "Predicted wastage is higher than predicted distributed quantity, "
+                "so a distribution breakdown would be misleading. Please review the inputs."
+            )
+        else:
+            usable = distributed - wastage
+            wastage_pct = (wastage / distributed) * 100
+            fig = go.Figure(
+                data=[
+                    go.Pie(
+                        labels=["Usable quantity", "Predicted wastage"],
+                        values=[usable, wastage],
+                        hole=0.68,
+                        sort=False,
+                        direction="clockwise",
+                        textinfo="none",
+                        hovertemplate="%{label}<br>%{value:,.2f} kg (%{percent})<extra></extra>",
+                    )
+                ]
+            )
+            fig.update_layout(
+                height=330,
+                margin=dict(t=20, b=20, l=10, r=10),
+                showlegend=True,
+                legend=dict(orientation="h", yanchor="bottom", y=-0.12, xanchor="center", x=0.5),
+                annotations=[
+                    dict(
+                        text=f"{wastage_pct:.1f}%<br><sup>wasted</sup>",
+                        x=0.5,
+                        y=0.5,
+                        font=dict(size=22),
+                        showarrow=False,
+                    )
+                ],
+            )
+            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            usable_col, wastage_col = st.columns(2)
+            usable_col.metric("Usable quantity", f"{usable:,.2f} kg")
+            wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
         st.caption("These are estimates from models trained on synthetic demonstration data, not measured government statistics.")
     except Exception as exc:
         st.error(f"Could not generate prediction: {exc}")
