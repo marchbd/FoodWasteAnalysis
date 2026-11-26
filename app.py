@@ -13,9 +13,11 @@ st.markdown("""
     overflow: hidden;
     padding: 30px 34px;
     border-radius: 22px;
-    background: linear-gradient(115deg, #102b3f 0%, #172554 48%, #312052 100%);
-    border: 1px solid rgba(125, 211, 252, .25);
-    box-shadow: 0 12px 40px rgba(2, 8, 23, .28);
+    background: linear-gradient(120deg, rgba(14,165,233,.20), rgba(124,58,237,.22), rgba(236,72,153,.13));
+    border: 1px solid rgba(190, 210, 255, .28);
+    box-shadow: 0 16px 44px rgba(2, 8, 23, .30), inset 0 1px 0 rgba(255,255,255,.12);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
     margin: 4px 0 22px 0;
 }
 .hero-panel:after {
@@ -73,8 +75,8 @@ else:
         <style>
           body { margin: 0; background: transparent; }
           .stat-card { min-height: 105px; box-sizing: border-box; padding: 16px 18px;
-            border-radius: 16px; background: linear-gradient(145deg, #1e293b, #111827);
-            border: 1px solid rgba(148,163,184,.22); }
+            border-radius: 16px; background: linear-gradient(135deg, rgba(14,165,233,.19), rgba(124,58,237,.20), rgba(236,72,153,.12));
+            border: 1px solid rgba(190,210,255,.27); backdrop-filter: blur(22px) saturate(155%); }
           .stat-label { color: #cbd5e1; font: 650 .92rem sans-serif; margin-bottom: 8px; }
           .stat-number { color: #f8fafc; font: 750 2.15rem/1.1 sans-serif; }
         </style>
