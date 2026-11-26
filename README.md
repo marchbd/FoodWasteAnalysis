@@ -1,54 +1,37 @@
-# Food Waste Analysis
+# Food Waste Analysis — Synthetic Demo
 
-A two-stage machine-learning application for estimating monthly food distribution and food wastage at fair-price shops. The trained models do not use shop IDs. State and District are required prediction inputs; Block is optional.
-
-## Workflow
-
-1. Stage 1 predicts distributed quantity (`distributed_stock_kg`).
-2. Stage 2 predicts wastage (`wastage_kg`) using the original prediction-time inputs plus Stage 1's predicted distribution.
-3. Stage 2 is trained with expanding-window out-of-fold Stage 1 predictions to reduce training/serving mismatch.
+A two-stage CatBoost demonstration application:
+1. Stage 1 predicts distributed quantity.
+2. Stage 2 predicts wastage using Stage 1's predicted distribution.
 
 ## Dataset
 
-Place the original source CSV at `data/raw/Datasetfood.csv` to retrain locally. The committed all-India sample dataset is synthetic and intended only for dashboard demonstration; do not use it for model training or as real government statistics.
+The demo dataset is `data/raw/Datasetfood.csv` (40,720 rows, 19 columns), covering 12 states, 51 districts, and 209 named blocks from 2024-01 through 2026-10. It contains five commodities. A subset of rows uses `block=UNKNOWN` to train and test the optional-block prediction path.
 
-## Model artifacts
+**All numeric stock, demand, distribution and wastage values are synthetic.** Administrative names are taken from the geographic combinations present in the supplied source dataset. Missing dropdown entries mean no record exists in this demo dataset; they do not indicate that a real place does not exist.
 
-The trained CatBoost model files and evaluation metrics are stored under `models/`:
+## Location selectors
 
-- `models/stage1_distribution.cbm`
-- `models/stage2_wastage.cbm`
-- `models/metrics.json`
+The State dropdown is populated from distinct `state` values in the CSV. District options are filtered by the selected state. Block options are filtered by selected state and district, and only named blocks with records are shown. Block can be skipped; the pipeline then supplies `UNKNOWN`.
 
-The prediction pipeline loads these files from the repository's local checkout. No Hugging Face account, model repository, or secret is required.
+## Features and targets
 
-## Prediction inputs
+No `shop_id` column is used. Model features include state, district, block, commodity, month components, opening/received stock, beneficiaries, transactions, capacity, storage duration, delivery delay, and previous wastage. Leakage columns such as actual closing stock, wastage, wastage percentage, risk level, and damaged stock are not model inputs.
 
-- State and District are required.
-- Block is optional. If omitted, the pipeline supplies `UNKNOWN`.
-- Shop ID is not used by either model.
-
-## Run locally
+## Train locally
 
 ```powershell
-git clone https://github.com/marchbd/FoodWasteAnalysis.git
-cd FoodWasteAnalysis
 python -m venv .venv
 .venv\\Scripts\\activate
 pip install -r requirements.txt
+python -m training.train_models --data data/raw/Datasetfood.csv --holdout-months 4 --iterations 450
 streamlit run app.py
 ```
 
-To retrain, use the original dataset at `data/raw/Datasetfood.csv`, then run `python -m training.train_models`. The committed synthetic dashboard CSV is not suitable for retraining.
+## Deployment
 
-## Deploy
+Deploy `app.py` from branch `main` on Streamlit Community Cloud. No Hugging Face account or secrets are required. Commit the demo CSV to `data/raw/Datasetfood.csv` and the two trained model files to `models/`.
 
-1. Open [Streamlit Community Cloud](https://share.streamlit.io/).
-2. Create or manage the app from `marchbd/FoodWasteAnalysis`, branch `main`, with `app.py` as the entry point.
-3. Deploy. No model-hosting secret is needed because the model files are committed in `models/`.
+## Evaluation warning
 
-## Validation
-
-The reported metrics use a chronological four-month holdout. See `models/metrics.json` for the results and the same-iteration comparison with the previous shop-ID feature set. These are offline evaluation results, not a guarantee of production accuracy.
-
-Do not use actual closing stock, actual wastage, wastage percentage, risk level, or damaged stock as future prediction inputs. Inputs must represent information available before the month being predicted.
+The chronological holdout scores in `models/metrics.json` are calculated on synthetic data. They demonstrate the pipeline and are not evidence of real-world predictive accuracy.
