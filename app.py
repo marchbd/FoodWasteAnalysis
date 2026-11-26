@@ -20,7 +20,7 @@ else:
     def animated_count(label, value):
         st.markdown(f"**{label}**")
         html = """
-        <div style="font-family: sans-serif; font-size: 2.25rem; line-height: 1.25; color: inherit;">
+        <div style="font-family: sans-serif; font-size: 2.25rem; line-height: 1.25; color: #FAFAFA; font-weight: 400;">
           <span id="count">0</span>
         </div>
         <script>
