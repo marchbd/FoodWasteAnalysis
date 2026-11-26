@@ -39,13 +39,19 @@ else:
         """.replace("__VALUE__", str(int(value)))
         st.components.v1.html(html, height=58, scrolling=False)
 
-    c1, c2, c3 = st.columns(3)
+    block_count = data.loc[
+        data["block"].astype(str).str.upper() != "UNKNOWN", "block"
+    ].nunique()
+
+    c1, c2, c3, c4 = st.columns(4)
     with c1:
         animated_count("Records", len(data))
     with c2:
-        animated_count("States represented", data["state"].nunique())
+        animated_count("States", data["state"].nunique())
     with c3:
-        animated_count("Districts represented", data["district"].nunique())
+        animated_count("Districts", data["district"].nunique())
+    with c4:
+        animated_count("Blocks", block_count)
     st.caption("Location dropdowns show only states, districts and blocks represented in this dataset.")
 
 st.divider()
