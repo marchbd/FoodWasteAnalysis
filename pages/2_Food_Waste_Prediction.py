@@ -181,8 +181,8 @@ if submitted:
             wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
 
             with st.expander("See How?"):
-                st.latex(r"\\text{Usable quantity} = \\text{Predicted distribution} - \\text{Predicted wastage}")
-                st.latex(r"\\text{Wastage share} = \\frac{\\text{Predicted wastage}}{\\text{Predicted distribution}} \\times 100")
+                st.latex(r"\text{Usable quantity (kg)} = \text{Predicted distribution (kg)} - \text{Predicted wastage (kg)}")
+                st.latex(r"\text{Wastage share (\%)} = \frac{\text{Predicted wastage (kg)}}{\text{Predicted distribution (kg)}} \times 100")
 
     except Exception as exc:
         st.error(f"Could not generate prediction: {exc}")
