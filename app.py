@@ -1,33 +1,58 @@
 import streamlit as st
 
 from utils.data_loader import load_dataset
-from prediction.pipeline import load_metrics, models_ready
+from prediction.pipeline import models_ready
 
 st.set_page_config(page_title="Food Waste Analysis", page_icon="🍚", layout="wide")
 
 st.title("🍚 Food Waste Analysis")
-st.caption("A two-stage ML demo for food distribution and wastage prediction.")
+st.caption("A two-stage machine learning system for food distribution and wastage prediction.")
 st.markdown(
     "**Stage 1 — Distribution prediction** → **Stage 2 — Wastage prediction**\n\n"
-    "This project currently uses a synthetic demonstration dataset. Its generated "
-    "values are for software demonstration and model experimentation, not official statistics."
+    "This project uses a synthetic dataset for model experimentation. Its generated "
+    "values are illustrative and are not official statistics."
 )
 
 data = load_dataset()
 if data is None:
     st.warning("Demo dataset missing. Add data/raw/Datasetfood.csv to the repository.")
 else:
+    def animated_count(label, value):
+        st.markdown(f"**{label}**")
+        html = """
+        <div style="font-family: sans-serif; font-size: 2.25rem; line-height: 1.25; color: inherit;">
+          <span id="count">0</span>
+        </div>
+        <script>
+          const target = __VALUE__;
+          const duration = 1500;
+          const start = performance.now();
+          const number = document.getElementById("count");
+          function animate(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            number.textContent = Math.floor(target * eased).toLocaleString("en-IN");
+            if (progress < 1) requestAnimationFrame(animate);
+          }
+          requestAnimationFrame(animate);
+        </script>
+        """.replace("__VALUE__", str(int(value)))
+        st.components.v1.html(html, height=58, scrolling=False)
+
     c1, c2, c3 = st.columns(3)
-    c1.metric("Demo records", f"{len(data):,}")
-    c2.metric("States represented", data["state"].nunique())
-    c3.metric("Districts represented", data["district"].nunique())
+    with c1:
+        animated_count("Records", len(data))
+    with c2:
+        animated_count("States represented", data["state"].nunique())
+    with c3:
+        animated_count("Districts represented", data["district"].nunique())
     st.caption("Location dropdowns show only states, districts and blocks represented in this dataset.")
 
 st.divider()
 left, right = st.columns(2)
 with left:
     st.subheader("📊 Dashboard")
-    st.write("Explore the synthetic demo dataset and its geographic coverage.")
+    st.write("Explore the dataset and its geographic coverage.")
     st.page_link("pages/1_Dashboard.py", label="Open Dashboard", icon="📊")
 with right:
     st.subheader("🔮 Food Waste Prediction")
@@ -35,17 +60,7 @@ with right:
     st.page_link("pages/2_Food_Waste_Prediction.py", label="Open Prediction", icon="🔮")
 
 if models_ready():
-    st.success("Both demo-trained prediction models are available.")
+    st.success("Both prediction models are available.")
 else:
     st.warning("Prediction models are missing. Add both .cbm files under models/.")
 
-metrics = load_metrics()
-if metrics:
-    st.subheader("Demo-model validation snapshot")
-    c1, c2 = st.columns(2)
-    c1.metric("Distribution MAE", f"{metrics['stage1_distribution']['mae']:,.2f} kg")
-    c2.metric("Wastage MAE", f"{metrics['stage2_wastage']['mae']:,.2f} kg")
-    st.caption(
-        f"Synthetic chronological holdout: {metrics['test_period'][0]} to "
-        f"{metrics['test_period'][1]} · {metrics['test_rows']:,} records"
-    )
