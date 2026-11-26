@@ -5,7 +5,7 @@ from utils.theme import apply_theme
 apply_theme()
 
 st.title("📊 Food Waste Dashboard")
-st.caption("Geographic coverage and records in the synthetic dataset.")
+st.caption("Geographic coverage and records across the dataset.")
 
 data = load_dataset()
 if data is None:
