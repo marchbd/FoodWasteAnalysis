@@ -144,6 +144,32 @@ if submitted:
             usable_col.metric("Usable quantity", f"{usable:,.2f} kg")
             wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
 
+            with st.expander("See How?"):
+                st.markdown("### How these values are calculated")
+                st.markdown(
+                    "The two models make separate predictions. Stage 1 predicts the "
+                    "distributed quantity, then Stage 2 predicts the wastage using the "
+                    "input features and Stage 1's predicted distribution."
+                )
+
+                st.markdown("**1. Usable quantity**")
+                st.latex(r"\\text{Usable quantity} = \\text{Predicted distribution} - \\text{Predicted wastage}")
+                st.code(
+                    f"{distributed:,.2f} kg - {wastage:,.2f} kg = {usable:,.2f} kg",
+                    language="text",
+                )
+
+                st.markdown("**2. Wastage share**")
+                st.latex(r"\\text{Wastage share} = \\left(\\frac{\\text{Predicted wastage}}{\\text{Predicted distribution}}\\right) \\times 100")
+                st.code(
+                    f"({wastage:,.2f} kg / {distributed:,.2f} kg) × 100 = {wastage_pct:.2f}%",
+                    language="text",
+                )
+                st.caption(
+                    "Usable quantity means predicted distribution remaining after predicted wastage; "
+                    "it is not a direct measurement of food consumed by beneficiaries."
+                )
+
     except Exception as exc:
         st.error(f"Could not generate prediction: {exc}")
 
