@@ -316,7 +316,7 @@ if submitted:
                 bar_colors = ["#B85F4C", "#204F3E", "#6F9B83"]
                 for index, point in enumerate(forecast_points):
                     risk = point["risk"]
-                    bar_height = max(2.0, (risk / chart_top) * 220) if risk is not None else 2.0
+                    bar_height = max(2.0, (risk / chart_top) * 244) if risk is not None else 2.0
                     value_label = f"{risk:.1f}%" if risk is not None else "N/A"
                     bars.append(
                         f'<div class="risk-bar-column">'
@@ -353,8 +353,8 @@ if submitted:
                   .risk-chart-title {{ color:#203A30; font:700 1.45rem Georgia,serif; }}
                   .risk-chart-subtitle {{ color:#46584E; font:1rem sans-serif; margin-top:6px; }}
                   .risk-chart {{ display:flex; gap:10px; margin-top:17px; }}
-                  .risk-y-axis {{ width:58px; flex:0 0 58px; height:320px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; padding:0 4px 76px 0; position:relative; box-sizing:border-box; }}
-                  .risk-y-title {{ position:absolute; top:42%; left:50%; transform:translate(-50%,-50%) rotate(-90deg); transform-origin:center center; color:#263A32; font:700 .85rem sans-serif; white-space:nowrap; }}
+                  .risk-y-axis {{ width:78px; flex:0 0 78px; height:320px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; padding:0 4px 76px 0; position:relative; box-sizing:border-box; }}
+                  .risk-y-title {{ position:absolute; top:42%; left:10px; transform:translate(-50%,-50%) rotate(-90deg); transform-origin:center center; color:#263A32; font:700 .85rem sans-serif; white-space:nowrap; }}
                   .risk-y-tick {{ color:#263A32; font:600 .88rem sans-serif; line-height:1; transform:translateY(50%); }}
                   .risk-plot {{ position:relative; flex:1; min-width:0; height:320px; border-left:2px solid #526258; box-sizing:border-box; }}
                   .risk-grid-lines {{ position:absolute; inset:0 0 76px 0; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }}
@@ -374,7 +374,7 @@ if submitted:
                     .risk-chart-title {{ font-size:1.25rem; }}
                     .risk-chart-subtitle {{ font-size:.9rem; }}
                     .risk-chart {{ gap:5px; }}
-                    .risk-y-axis {{ width:49px; flex-basis:49px; }}
+                    .risk-y-axis {{ width:68px; flex-basis:68px; }}
                     .risk-y-tick {{ font-size:.78rem; }}
                     .risk-value-label {{ font-size:.9rem; }}
                     .risk-month {{ font-size:.83rem; }}
