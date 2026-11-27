@@ -152,10 +152,11 @@ else:
         display: none;
         margin-top: 17px;
         color: #cbd5e1;
-        font-size: 15px;
+        font-size: 20px;
         line-height: 1.55;
-        min-height: 24px;
-        letter-spacing: .1px;
+        min-height: 64px;
+        letter-spacing: .12px;
+        max-width: 1120px;
       }}
       .metric-description::after {{
         content: "";
@@ -185,7 +186,7 @@ else:
       const cards = Array.from(document.querySelectorAll(".stat-card"));
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const description = document.querySelector(".metric-description");
-      const descriptionText = "Explore food distribution patterns across locations and use a two-stage machine-learning model to estimate potential food wastage.";
+      const descriptionText = "Explore food records across states, districts and blocks, examine how distribution varies by location, and discover where food wastage may occur. The Prediction section uses a two-stage machine-learning approach: it first estimates food distribution, then predicts wastage to help you understand the estimated usable quantity and wastage share.";
       if (description && window.matchMedia("(min-width: 701px)").matches) {{
         if (reduced) {{
           description.textContent = descriptionText;
@@ -194,7 +195,7 @@ else:
           const typeNext = () => {{
             if (charIndex < descriptionText.length) {{
               description.textContent += descriptionText.charAt(charIndex++);
-              window.setTimeout(typeNext, 24);
+              window.setTimeout(typeNext, 18);
             }}
           }};
           window.setTimeout(typeNext, 450);
