@@ -361,9 +361,9 @@ if submitted:
                   .risk-grid-lines i {{ display:block; border-top:1px solid #D5D7CC; width:100%; }}
                   .risk-grid-lines i:last-child {{ border-top:2px solid #526258; }}
                   .risk-bars {{ position:absolute; inset:0 0 76px 0; display:flex; justify-content:space-around; gap:9px; }}
-                  .risk-bar-column {{ flex:1; min-width:0; height:100%; display:flex; justify-content:flex-end; align-items:center; position:relative; }}
+                  .risk-bar-column {{ flex:1; min-width:0; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; position:relative; }}
                   .risk-value-label {{ position:absolute; bottom:calc(var(--bar-height) + 7px); width:100%; text-align:center; color:#203A30; font:700 1.05rem Georgia,serif; white-space:nowrap; }}
-                  .risk-bar {{ flex:0 0 var(--bar-height); width:min(72%,66px); background:var(--bar-color); border-radius:7px 7px 0 0; transform:scaleY(0); transform-origin:bottom; animation:riskBarRise .9s cubic-bezier(.2,.75,.25,1) var(--bar-delay) forwards; box-shadow:0 3px 8px rgba(32,58,48,.12); z-index:1; }}
+                  .risk-bar {{ display:block; flex:none; height:var(--bar-height); width:min(72%,66px); background:var(--bar-color); border-radius:7px 7px 0 0; transform:scaleY(0); transform-origin:bottom; animation:riskBarRise .9s cubic-bezier(.2,.75,.25,1) var(--bar-delay) forwards; box-shadow:0 3px 8px rgba(32,58,48,.12); z-index:1; }}
                   @keyframes riskBarRise {{ from {{ transform:scaleY(0); }} to {{ transform:scaleY(1); }} }}
                   .risk-months {{ position:absolute; left:0; right:0; bottom:29px; height:42px; display:flex; gap:9px; }}
                   .risk-month {{ flex:1; min-width:0; color:#203A30; font:700 .98rem sans-serif; text-align:center; white-space:nowrap; }}
