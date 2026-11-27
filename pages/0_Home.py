@@ -90,7 +90,7 @@ st.markdown("""
 }
 </style>
 <div class="hero-panel">
-  <div class="hero-title">🍚 Food Waste Analysis</div>
+  <div class="hero-title">Food Waste Analysis</div>
   <p class="hero-subtitle">A smarter look at food distribution and wastage prediction.</p>
   <div class="stage-row">
     <span class="stage-pill">Stage 1 · Distribution prediction</span>
