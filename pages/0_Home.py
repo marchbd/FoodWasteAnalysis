@@ -91,7 +91,7 @@ st.markdown("""
 </style>
 <div class="hero-panel">
   <div class="hero-title">Food Waste Analysis</div>
-  <p class="hero-subtitle">A smarter look at food distribution and wastage prediction.</p>
+  <p class="hero-subtitle">A clear view of food distribution, demand patterns and wastage prediction.</p>
   <div class="stage-row">
     <span class="stage-pill">Stage 1 · Distribution prediction</span>
     <span class="stage-arrow">→</span>
@@ -133,8 +133,8 @@ else:
       .stat-card {{
         min-width: 0; min-height: 105px; padding: 16px 18px;
         border-radius: 16px;
-        background: linear-gradient(135deg, rgba(14,165,233,.19), rgba(124,58,237,.20), rgba(236,72,153,.12));
-        border: 1px solid rgba(190,210,255,.27);
+        background: linear-gradient(145deg, #fbfdf9, #e5efe2);
+        border: 1px solid #d6e3d2;
         backdrop-filter: blur(22px) saturate(155%);
         opacity: 0;
         transform: translateX(-28px) scale(.97);
@@ -151,7 +151,7 @@ else:
       .metric-description {{
         display: none;
         margin-top: 17px;
-        color: #cbd5e1;
+        color: #627568;
         font-size: 20px;
         line-height: 1.55;
         min-height: 64px;
@@ -165,7 +165,7 @@ else:
         height: 1em;
         margin-left: 4px;
         vertical-align: -2px;
-        background: #7dd3fc;
+        background: #21834a;
         animation: typingCaret .8s steps(1) infinite;
       }}
       @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
