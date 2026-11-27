@@ -50,17 +50,17 @@ metric_html = f"""
     opacity: 0;
     transform: translateX(-34px) scale(.97);
     position: relative;
-    border: 1px solid #BDAE96;
+    border: 1px solid #8FB29A;
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(65,53,36,.08), inset 0 1px 0 rgba(255,255,255,.9);
     transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-    background: linear-gradient(145deg, #FFFCF6, #F0E5D4);
+    background: linear-gradient(145deg, #FFFFFF, #E5F3E6);
     display: flex; flex-direction: column; justify-content: center;
   }}
   .metric-card:hover {{
     transform: translateY(-5px) scale(1.012) !important;
-    border-color: #78947B;
-    box-shadow: 0 14px 26px rgba(36,107,69,.14), inset 0 1px 0 rgba(255,255,255,.9);
+    border-color: #B4D92E;
+    box-shadow: 0 14px 26px rgba(8,127,91,.22), inset 0 1px 0 rgba(255,255,255,.9);
   }}
   .metric-card.is-visible {{
     animation: cardSlideIn .58s cubic-bezier(.2,.75,.25,1) forwards;
@@ -69,16 +69,16 @@ metric_html = f"""
     from {{ opacity: 0; transform: translateX(-34px) scale(.97); }}
     to {{ opacity: 1; transform: translateX(0) scale(1); }}
   }}
-  .card-cyan {{ border-color: #B7C9B6; background: linear-gradient(145deg, #F7FAF4, #E5EEE1); }}
-  .card-blue {{ border-color: #B9C9D0; background: linear-gradient(145deg, #F6FAFB, #E4EEF0); }}
-  .card-pink {{ border-color: #D7B6A4; background: linear-gradient(145deg, #FFF9F5, #F2E3D9); }}
-  .card-violet {{ border-color: #CDBB91; background: linear-gradient(145deg, #FBF8F0, #EEE7D7); }}
-  .metric-label {{ color: #62594D; font-size: 16px; font-weight: 650; margin-bottom: 12px; }}
-  .metric-value {{ color: #3E3428; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  .card-cyan {{ border-color: #78C99A; background: linear-gradient(145deg, #E3F8E9, #BFEBD0); }}
+  .card-blue {{ border-color: #83BCEB; background: linear-gradient(145deg, #E5F2FF, #C9E4FA); }}
+  .card-pink {{ border-color: #F3A47E; background: linear-gradient(145deg, #FFF0E8, #FFD8C5); }}
+  .card-violet {{ border-color: #D6C64A; background: linear-gradient(145deg, #FBF9D9, #F1ECA9); }}
+  .metric-label {{ color: #40594B; font-size: 16px; font-weight: 650; margin-bottom: 12px; }}
+  .metric-value {{ color: #173D2E; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
   .metric-description {{
     display: none;
     margin-top: 18px;
-    color: #433B31;
+    color: #263F33;
     font-weight: 600;
     font-size: 20px;
     line-height: 1.55;
@@ -93,7 +93,7 @@ metric_html = f"""
     height: 1em;
     margin-left: 4px;
     vertical-align: -2px;
-    background: #246B45;
+    background:  #087F5B;
     animation: typingCaret .8s steps(1) infinite;
   }}
   @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
@@ -215,11 +215,11 @@ coverage_component = f"""
     white-space: nowrap;
   }}
   .coverage-table th {{
-    color: #29251F; font-weight: 800;
-    background: linear-gradient(110deg, #E8E3D7, #DDE9DC);
+    color: #172B25; font-weight: 800;
+    background: linear-gradient(110deg, #DDF7E8, #BDECCB);
   }}
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
-  .coverage-table tbody tr:hover td {{ background: rgba(36,107,69,.08); }}
+  .coverage-table tbody tr:hover td {{ background: rgba(8,127,91,.12); }}
   @keyframes coverageHeadingIn {{
     from {{ opacity: 0; transform: translateX(-26px); }}
     to {{ opacity: 1; transform: translateX(0); }}
