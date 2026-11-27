@@ -117,22 +117,32 @@ if submitted:
             "previous_wastage_kg": previous_wastage,
         })
         st.markdown(
-            '<div id="prediction-results-anchor" style="scroll-margin-top: 5rem;"></div>',
+            '<div id="prediction-results-anchor" style="scroll-margin-top: 1rem;"></div>',
             unsafe_allow_html=True,
         )
         st.components.v1.html(
             """
             <script>
-              const scrollToPredictionResults = () => {
-                try {
-                  const target = window.parent.document.getElementById("prediction-results-anchor");
-                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-                } catch (error) {
-                  console.warn("Could not auto-scroll to prediction results:", error);
-                }
-              };
-              window.setTimeout(scrollToPredictionResults, 150);
-              window.setTimeout(scrollToPredictionResults, 450);
+              (() => {
+                let attempts = 0;
+                const scrollToResults = () => {
+                  try {
+                    const doc = window.parent.document;
+                    const anchor = doc.getElementById("prediction-results-anchor");
+                    const headings = Array.from(doc.querySelectorAll("h1, h2, h3"));
+                    const heading = headings.find(el => el.textContent.trim() === "Prediction results");
+                    const target = anchor || heading;
+                    if (target) {
+                      target.scrollIntoView({ behavior: "smooth", block: "start" });
+                      return;
+                    }
+                  } catch (error) {
+                    console.warn("Auto-scroll to prediction results failed:", error);
+                  }
+                  if (++attempts < 20) window.setTimeout(scrollToResults, 100);
+                };
+                window.setTimeout(scrollToResults, 100);
+              })();
             </script>
             """,
             height=1,
