@@ -191,7 +191,7 @@ else:
       }}
     </script>
     """
-    st.components.v1.html(metrics_html, height=125, scrolling=False)
+    st.components.v1.html(metrics_html, height=225, scrolling=False)
     st.caption("Location dropdowns show only states, districts and blocks represented in this dataset.")
 
 st.divider()
