@@ -203,34 +203,42 @@ if submitted:
         distributed = max(0.0, float(result["predicted_distributed_stock_kg"]))
         wastage = max(0.0, float(result["predicted_wastage_kg"]))
 
-        # Forecast the following calendar month with the same submitted
-        # location, demand and stock assumptions.
-        current_period = datetime.strptime(prediction_month.strip(), "%Y-%m")
-        next_month_number = 1 if current_period.month == 12 else current_period.month + 1
-        next_year = current_period.year + (1 if current_period.month == 12 else 0)
-        next_month = f"{next_year:04d}-{next_month_number:02d}"
-        next_inputs = {
-            "state": state,
-            "district": district,
-            "block": block,
-            "commodity": commodity,
-            "prediction_month": next_month,
-            "opening_stock_kg": opening_stock,
-            "received_stock_kg": received_stock,
-            "beneficiaries": beneficiaries,
-            "transactions": transactions,
-            "storage_capacity_kg": storage_capacity,
-            "storage_days": storage_days,
-            "delivery_delay_days": delivery_delay,
-            "previous_wastage_kg": previous_wastage,
-        }
-        next_result = predict_food_waste(next_inputs)
-        next_distributed = max(0.0, float(next_result["predicted_distributed_stock_kg"]))
-        next_wastage = max(0.0, float(next_result["predicted_wastage_kg"]))
+        # Forecast the submitted month and the following two months.
+        current_period = pd.Period(prediction_month.strip(), freq="M")
+        forecast_points = []
+        for offset in range(3):
+            forecast_period = current_period + offset
+            if offset == 0:
+                forecast_distribution = distributed
+                forecast_wastage = wastage
+            else:
+                forecast_inputs = {
+                    "state": state,
+                    "district": district,
+                    "block": block,
+                    "commodity": commodity,
+                    "prediction_month": str(forecast_period),
+                    "opening_stock_kg": opening_stock,
+                    "received_stock_kg": received_stock,
+                    "beneficiaries": beneficiaries,
+                    "transactions": transactions,
+                    "storage_capacity_kg": storage_capacity,
+                    "storage_days": storage_days,
+                    "delivery_delay_days": delivery_delay,
+                    "previous_wastage_kg": previous_wastage,
+                }
+                forecast_result = predict_food_waste(forecast_inputs)
+                forecast_distribution = max(0.0, float(forecast_result["predicted_distributed_stock_kg"]))
+                forecast_wastage = max(0.0, float(forecast_result["predicted_wastage_kg"]))
 
-        current_risk = (wastage / distributed * 100) if distributed > 0 else None
-        next_risk = (next_wastage / next_distributed * 100) if next_distributed > 0 else None
+            risk = (forecast_wastage / forecast_distribution * 100) if forecast_distribution > 0 else None
+            forecast_points.append({
+                "month": forecast_period.strftime("%B"),
+                "year": forecast_period.year,
+                "risk": risk,
+            })
 
+        current_risk = forecast_points[0]["risk"]
         st.subheader("Distribution breakdown")
         chart_col, risk_col = st.columns([1.55, 1], gap="medium")
 
@@ -288,47 +296,57 @@ if submitted:
                 wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
 
         with risk_col:
-            st.markdown(
-                """
+            valid_risks = [point["risk"] for point in forecast_points if point["risk"] is not None]
+            if not valid_risks:
+                st.info("Risk factors cannot be calculated because predicted distribution is zero for all three months.")
+            else:
+                max_risk = max(valid_risks)
+                chart_top = max(10.0, max_risk * 1.22)
+                bars = []
+                bar_colors = ["#B85F4C", "#204F3E", "#6F9B83"]
+                for index, point in enumerate(forecast_points):
+                    risk = point["risk"]
+                    bar_height = max(3.0, (risk / chart_top) * 190) if risk is not None else 3.0
+                    value_label = f"{risk:.1f}%" if risk is not None else "N/A"
+                    bars.append(
+                        f'<div class="risk-bar-column">'
+                        f'<div class="risk-value-label">{value_label}</div>'
+                        f'<div class="risk-bar-track"><div class="risk-bar" style="--bar-height:{bar_height:.1f}px;--bar-color:{bar_colors[index]};--bar-delay:{index * 0.22:.2f}s"></div></div>'
+                        f'<div class="risk-month">{point["month"]}<span>{point["year"]}</span></div>'
+                        f'</div>'
+                    )
+                risk_chart_html = f"""
+                <div class="risk-chart-card">
+                  <div class="risk-chart-title">Wastage risk forecast</div>
+                  <div class="risk-chart-subtitle">Current month and next two months</div>
+                  <div class="risk-chart" role="img" aria-label="Predicted wastage risk: {', '.join(f'{p["month"]} {p["year"]}: {p["risk"]:.1f}%' if p["risk"] is not None else f'{p["month"]} {p["year"]}: unavailable' for p in forecast_points)}">
+                    {''.join(bars)}
+                  </div>
+                  <div class="risk-chart-footnote">Risk factor = predicted wastage ÷ predicted distribution × 100</div>
+                </div>
                 <style>
-                .risk-panel {
-                    background:#FBFAF5; border:1px solid #D8D6C8;
-                    border-radius:15px; padding:16px 17px; margin:5px 0 12px;
-                    box-shadow:0 2px 7px rgba(37,54,44,.045);
-                }
-                .risk-panel.current { border-left:5px solid #B85F4C; }
-                .risk-panel.next { border-left:5px solid #204F3E; }
-                .risk-eyebrow { color:#68746B; font-size:.73rem; font-weight:800;
-                    letter-spacing:.11em; text-transform:uppercase; margin-bottom:7px; }
-                .risk-value { color:#203A30; font-family:Georgia,serif;
-                    font-size:clamp(1.65rem,3vw,2.15rem); font-weight:700; line-height:1.1; }
-                .risk-caption { color:#68746B; font-size:.82rem; margin-top:7px; }
-                .risk-note { color:#68746B; font-size:.78rem; line-height:1.4; margin-top:10px; }
+                  .risk-chart-card {{ background:#FBFAF5; border:1px solid #D8D6C8; border-radius:15px; padding:17px 12px 14px; box-shadow:0 2px 7px rgba(37,54,44,.045); }}
+                  .risk-chart-title {{ color:#203A30; font:700 1.12rem Georgia,serif; }}
+                  .risk-chart-subtitle {{ color:#68746B; font: .78rem sans-serif; margin-top:4px; }}
+                  .risk-chart {{ height:258px; display:flex; align-items:stretch; justify-content:space-around; gap:8px; padding:14px 2px 0; }}
+                  .risk-bar-column {{ flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; }}
+                  .risk-value-label {{ height:24px; color:#203A30; font:700 .95rem Georgia,serif; white-space:nowrap; }}
+                  .risk-bar-track {{ height:194px; width:min(100%,54px); display:flex; align-items:flex-end; border-bottom:1px solid #CFCDBF; }}
+                  .risk-bar {{ width:100%; height:var(--bar-height); background:var(--bar-color); border-radius:7px 7px 0 0; transform:scaleY(0); transform-origin:bottom; animation:riskBarRise .85s cubic-bezier(.2,.75,.25,1) var(--bar-delay) forwards; box-shadow:0 3px 8px rgba(32,58,48,.12); }}
+                  @keyframes riskBarRise {{ from {{ transform:scaleY(0); }} to {{ transform:scaleY(1); }} }}
+                  .risk-month {{ color:#203A30; font:700 .83rem sans-serif; text-align:center; margin-top:9px; }}
+                  .risk-month span {{ display:block; color:#68746B; font-size:.72rem; font-weight:500; margin-top:2px; }}
+                  .risk-chart-footnote {{ color:#68746B; font: .72rem/1.45 sans-serif; margin-top:12px; }}
+                  @media (max-width:700px) {{
+                    .risk-chart-card {{ padding:15px 10px 12px; }}
+                    .risk-chart {{ gap:5px; }}
+                    .risk-value-label {{ font-size:.85rem; }}
+                    .risk-month {{ font-size:.76rem; }}
+                  }}
+                  @media (prefers-reduced-motion: reduce) {{ .risk-bar {{ animation:none; transform:scaleY(1); }} }}
                 </style>
-                """,
-                unsafe_allow_html=True,
-            )
-            current_label = f"{current_period.strftime('%B %Y')}"
-            next_label = datetime.strptime(next_month, "%Y-%m").strftime("%B %Y")
-            current_value = f"{current_risk:.1f}%" if current_risk is not None else "N/A"
-            next_value = f"{next_risk:.1f}%" if next_risk is not None else "N/A"
-            st.markdown(
-                f'<div class="risk-panel current"><div class="risk-eyebrow">Current month · {current_label}</div>'
-                f'<div class="risk-value">{current_value}</div>'
-                '<div class="risk-caption">Predicted wastage risk factor</div></div>',
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                f'<div class="risk-panel next"><div class="risk-eyebrow">Next month · {next_label}</div>'
-                f'<div class="risk-value">{next_value}</div>'
-                '<div class="risk-caption">Predicted wastage risk factor</div></div>',
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                '<div class="risk-note">Risk factor = predicted wastage ÷ predicted distribution × 100. '
-                'Next month uses the same submitted demand, stock and location inputs.</div>',
-                unsafe_allow_html=True,
-            )
+                """
+                st.components.v1.html(risk_chart_html, height=365, scrolling=False)
 
         if distributed > 0 and wastage <= distributed:
             with st.expander("See How?"):
