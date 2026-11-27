@@ -231,7 +231,7 @@ coverage_component = f"""
   .coverage-table thead th:nth-child(4) {{ animation-delay: 2.4s; }}
   .coverage-table tbody td {{
     opacity: 0;
-    animation: coverageRowIn .2s ease-out forwards;
+    animation: coverageRowIn .07s ease-out forwards;
   }}
   .coverage-table tbody td:nth-child(1) {{
     animation-delay: calc(.8s + var(--row-index) * .05s);
