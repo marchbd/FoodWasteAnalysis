@@ -46,7 +46,8 @@ st.markdown("""
     border:1px solid #D8D6C8; font-size:.92rem; font-weight:700;
     box-shadow:0 3px 10px rgba(41,37,31,.05);
 }
-.stage-arrow { color:#B85F4C; font-size:1.25rem; font-weight:800; }
+ .stage-arrow { color:#B85F4C; font-size:1.25rem; font-weight:800; }
+.dataset-note { color:#69756C; font-size:.9rem; margin-top:10px; }
 @keyframes heroFloat { from { transform:translate3d(0,0,0); } to { transform:translate3d(-18px,16px,0); } }
 .st-key-home_dashboard_link_card, .st-key-home_prediction_link_card {
     background:#FBFAF5 !important;
@@ -89,6 +90,7 @@ st.markdown("""
   .hero-subtitle { font-size:1.02rem; line-height:1.5; margin-bottom:20px; }
   .stage-row { gap:7px; }
   .stage-pill { padding:8px 12px; font-size:.82rem; }
+   .dataset-note { display:none; }
   .stats-grid { gap:0 !important; border:1px solid #D8D6C8; border-radius:13px; overflow:hidden; }
   .stat-card { border:0 !important; border-radius:0; box-shadow:none; min-height:108px; padding:16px; background:#FBFAF5 !important; }
   .stat-card:nth-child(odd) { border-right:1px solid #D8D6C8 !important; }
@@ -255,7 +257,7 @@ else:
     </script>
     """
     st.components.v1.html(metrics_html, height=225, scrolling=False)
-    st.caption("Location dropdowns show only states, districts and blocks represented in this dataset.")
+    st.markdown('<div class="dataset-note">Location dropdowns show only states, districts and blocks represented in this dataset.</div>', unsafe_allow_html=True)
 
 st.divider()
 
@@ -264,18 +266,17 @@ left, right = st.columns(2, gap="large")
 
 with left:
     with st.container(border=True, key="home_dashboard_link_card"):
-        st.subheader("📊 Dashboard")
+        st.subheader("Dashboard")
         st.write("Explore the dataset and its geographic coverage.")
         st.page_link(
             "pages/1_Dashboard.py",
             label="Open Dashboard",
-            icon="📊",
             use_container_width=True,
         )
 
 with right:
     with st.container(border=True, key="home_prediction_link_card"):
-        st.subheader("🔮 Food Waste Prediction")
+        st.subheader("Food Waste Prediction")
         st.write(
             "Choose a state and district with available data. "
             "Block selection is optional."
@@ -283,7 +284,6 @@ with right:
         st.page_link(
             "pages/2_Food_Waste_Prediction.py",
             label="Open Prediction",
-            icon="🔮",
             use_container_width=True,
         )
 
