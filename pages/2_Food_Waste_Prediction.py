@@ -306,7 +306,12 @@ if submitted:
             else:
                 max_risk = max(valid_risks)
                 chart_top = max(10, int((max_risk * 1.2 + 4) // 5) * 5)
-                tick_values = list(range(0, chart_top + 1, max(1, chart_top // 4)))
+                # Five evenly spaced Y-axis ticks, matching the five grid lines.
+                tick_values = [round(chart_top * index / 4) for index in range(4, -1, -1)]
+                tick_labels = "".join(
+                    f'<div class="risk-y-tick">{tick}%</div>'
+                    for tick in tick_values
+                )
                 bars = []
                 bar_colors = ["#B85F4C", "#204F3E", "#6F9B83"]
                 for index, point in enumerate(forecast_points):
