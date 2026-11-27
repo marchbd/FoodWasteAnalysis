@@ -5,19 +5,20 @@ def render_top_nav(active_page):
         """
         <style>
         div[data-testid="stPageLink"] a {
-            border-radius: 14px !important;
-            border: 1px solid #d5e2d2 !important;
-            background: linear-gradient(145deg, #fbfdf9, #e9f1e6) !important;
-            color: #245334 !important;
+            border-radius: 13px !important;
+            border: 1px solid #DDCDB5 !important;
+            background: linear-gradient(145deg, #FFFCF6, #F0E4D1) !important;
+            color: #5A4434 !important;
             font-weight: 750 !important;
             justify-content: center !important;
             min-height: 44px;
-            box-shadow: 5px 5px 12px rgba(151,169,148,.18),
-                        -4px -4px 10px rgba(255,255,255,.9) !important;
+            box-shadow: 5px 5px 12px rgba(111,85,56,.12),
+                        -4px -4px 10px rgba(255,255,255,.86) !important;
+            transition: transform .2s ease, background .2s ease;
         }
         div[data-testid="stPageLink"] a:hover {
-            border-color: #9fbea0 !important;
-            background: #e5efe2 !important;
+            border-color: #B19C7A !important;
+            background: #F3E5CF !important;
             transform: translateY(-1px);
         }
         </style>
