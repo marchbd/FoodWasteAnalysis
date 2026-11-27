@@ -197,7 +197,8 @@ coverage_html = re.sub(
     coverage_html,
     flags=re.DOTALL,
 )
-coverage_height = max(300, 58 + len(coverage) * 43)
+# Allow enough iframe space for the header, every data row, borders and bottom padding.
+coverage_height = max(420, 120 + len(coverage) * 56)
 
 coverage_component = f"""
 <div class="coverage-scroll">
@@ -206,7 +207,7 @@ coverage_component = f"""
 <style>
   * {{ box-sizing: border-box; }}
   body {{ margin: 0; background: transparent; font-family: sans-serif; }}
-  .coverage-scroll {{ width: 100%; overflow-x: auto; border: 1.7px solid #485064; border-radius: 14px; }}
+  .coverage-scroll {{ width: 100%; overflow-x: auto; border: 1.7px solid #485064; border-radius: 14px; margin-bottom: 12px; padding-bottom: 2px; }}
   .coverage-table {{
     width: 100%; min-width: 520px; border-collapse: separate;
     border-spacing: 0; color: #383229; font-size: 16px;
@@ -214,7 +215,7 @@ coverage_component = f"""
     overflow: hidden;
   }}
   .coverage-table th, .coverage-table td {{
-    padding: 13px 16px; text-align: left;
+    padding: 14px 16px; text-align: left; line-height: 1.45;
     border-bottom: 1px solid #D8CBB7;
     white-space: nowrap;
   }}
