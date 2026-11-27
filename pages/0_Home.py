@@ -8,17 +8,23 @@ apply_theme()
 
 st.markdown("""
 <style>
+.block-container {
+    padding-top: 3.5rem !important;
+}
+
 .hero-panel {
     position: relative;
     overflow: hidden;
-    padding: 30px 34px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 34px 34px 30px;
     border-radius: 22px;
     background: linear-gradient(120deg, rgba(14,165,233,.20), rgba(124,58,237,.22), rgba(236,72,153,.13));
     border: 1px solid rgba(190, 210, 255, .28);
     box-shadow: 0 16px 44px rgba(2, 8, 23, .30), inset 0 1px 0 rgba(255,255,255,.12);
     backdrop-filter: blur(24px) saturate(160%);
     -webkit-backdrop-filter: blur(24px) saturate(160%);
-    margin: 4px 0 22px 0;
+    margin: 8px 0 22px 0;
 }
 .hero-panel:after {
     content: "";
