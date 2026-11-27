@@ -50,9 +50,9 @@ metric_html = f"""
     opacity: 0;
     transform: translateX(-34px) scale(.97);
     position: relative;
-    border: 1px solid #d6e3d2;
+    border: 1px solid #E0D1BC;
     border-radius: 24px;
-    background: linear-gradient(145deg, #fbfdf9, #e7efe4);
+    background: linear-gradient(145deg, #FFFCF6, #F0E5D4);
     display: flex; flex-direction: column; justify-content: center;
   }}
   .metric-card.is-visible {{
@@ -62,12 +62,12 @@ metric_html = f"""
     from {{ opacity: 0; transform: translateX(-34px) scale(.97); }}
     to {{ opacity: 1; transform: translateX(0) scale(1); }}
   }}
-  .card-cyan {{ border-color: #78cbb8; background: linear-gradient(145deg, #f4fffa, #d9f2e8); }}
-  .card-blue {{ border-color: #8bc5df; background: linear-gradient(145deg, #f5fcff, #dceef8); }}
-  .card-pink {{ border-color: #efb08e; background: linear-gradient(145deg, #fff9f2, #fbe5d6); }}
-  .card-violet {{ border-color: #c2d67a; background: linear-gradient(145deg, #fbffef, #eaf2cb); }}
-  .metric-label {{ color: #61796b; font-size: 16px; margin-bottom: 12px; }}
-  .metric-value {{ color: #126b3a; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  .card-cyan {{ border-color: #B9A78D; background: linear-gradient(145deg, #FBF5EB, #EEDFC9); }}
+  .card-blue {{ border-color: #D9B982; background: linear-gradient(145deg, #FFF9EE, #F4E2C4); }}
+  .card-pink {{ border-color: #C99A7B; background: linear-gradient(145deg, #FFF8F1, #EED9C9); }}
+  .card-violet {{ border-color: #8DBB83; background: linear-gradient(145deg, #F5FBF0, #DFEED8); }}
+  .metric-label {{ color: #877967; font-size: 16px; margin-bottom: 12px; }}
+  .metric-value {{ color: #5A4434; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
   .metric-description {{
     display: none;
     margin-top: 18px;
@@ -198,20 +198,20 @@ coverage_component = f"""
   .coverage-table {{
     width: 100%; min-width: 520px; border-collapse: separate;
     border-spacing: 0; color: #294633; font-size: 15px;
-    background: #f7fbf4; border-radius: 14px;
+    background: #FBF7F0; border-radius: 14px;
     overflow: hidden;
   }}
   .coverage-table th, .coverage-table td {{
     padding: 13px 16px; text-align: left;
-    border-bottom: 1px solid #dce7d9;
+    border-bottom: 1px solid #E0D1BC;
     white-space: nowrap;
   }}
   .coverage-table th {{
-    color: #145b3a; font-weight: 800;
-    background: linear-gradient(110deg, #d7f0dd, #d6eeea);
+    color: #5A4434; font-weight: 800;
+    background: linear-gradient(110deg, #EED4AC, #E8D8C1);
   }}
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
-  .coverage-table tbody tr:hover td {{ background: rgba(45,125,66,.07); }}
+  .coverage-table tbody tr:hover td {{ background: rgba(177,156,122,.15); }}
   @keyframes coverageHeadingIn {{
     from {{ opacity: 0; transform: translateX(-26px); }}
     to {{ opacity: 1; transform: translateX(0); }}
