@@ -132,9 +132,9 @@ def stagger_coverage_rows(match):
     body = match.group(1)
     def add_row_delay(_):
         global row_index
-        delay = row_index * 0.05
+        current_row = row_index
         row_index += 1
-        return f'<tr style="animation-delay: {delay:.2f}s;">'
+        return f'<tr style="--row-index: {current_row};">'
     body = re.sub(r"<tr>", add_row_delay, body)
     return f"<tbody>{body}</tbody>"
 
@@ -190,6 +190,7 @@ coverage_component = f"""
   .coverage-table tbody tr {{
     opacity: 0;
     animation: coverageRowIn .5s ease-out forwards;
+    animation-delay: calc(.65s + var(--row-index) * .05s);
   }}
   @media (prefers-reduced-motion: reduce) {{
     .coverage-table thead th, .coverage-table tbody tr {{
