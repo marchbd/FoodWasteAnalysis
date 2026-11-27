@@ -56,6 +56,37 @@ st.markdown("""
 }
 .stat-label { color: #cbd5e1; font-size: .92rem; font-weight: 650; margin-bottom: 8px; }
 .stat-number { color: #f8fafc; font-size: 2.15rem; font-weight: 750; line-height: 1.1; }
+
+/* Home page navigation cards and their individual rounded buttons */
+.st-key-home_dashboard_link_card,
+.st-key-home_prediction_link_card {
+    background: linear-gradient(135deg, rgba(20, 48, 76, .78), rgba(38, 28, 68, .78)) !important;
+    border: 1px solid rgba(125, 211, 252, .34) !important;
+    border-radius: 20px !important;
+    padding: 18px 20px !important;
+}
+.st-key-home_dashboard_link_card [data-testid="stPageLink"] a,
+.st-key-home_prediction_link_card [data-testid="stPageLink"] a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 48px;
+    padding: 10px 16px !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(125, 211, 252, .58) !important;
+    background: linear-gradient(110deg, #087eaa, #5141a5) !important;
+    color: #f8fbff !important;
+    font-weight: 750 !important;
+    text-decoration: none !important;
+    transition: transform .2s ease, filter .2s ease, border-color .2s ease;
+}
+.st-key-home_dashboard_link_card [data-testid="stPageLink"] a:hover,
+.st-key-home_prediction_link_card [data-testid="stPageLink"] a:hover {
+    background: linear-gradient(110deg, #0b9ac7, #684fc5) !important;
+    border-color: rgba(186, 230, 253, .9) !important;
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+}
 </style>
 <div class="hero-panel">
   <div class="hero-title">🍚 Food Waste Analysis</div>
@@ -168,7 +199,7 @@ st.divider()
 left, right = st.columns(2, gap="large")
 
 with left:
-    with st.container(border=True):
+    with st.container(border=True, key="home_dashboard_link_card"):
         st.subheader("📊 Dashboard")
         st.write("Explore the dataset and its geographic coverage.")
         st.page_link(
@@ -179,7 +210,7 @@ with left:
         )
 
 with right:
-    with st.container(border=True):
+    with st.container(border=True, key="home_prediction_link_card"):
         st.subheader("🔮 Food Waste Prediction")
         st.write(
             "Choose a state and district with available data. "
