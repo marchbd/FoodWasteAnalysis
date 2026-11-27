@@ -1,3 +1,4 @@
+import re
 import streamlit as st
 import streamlit.components.v1 as components
 from utils.data_loader import load_dataset
@@ -123,6 +124,26 @@ coverage = (
     .sort_values("state")
 )
 coverage_html = coverage.to_html(index=False, border=0, classes="coverage-table")
+
+# Stagger each body row vertically by 0.05 seconds.
+row_index = 0
+def stagger_coverage_rows(match):
+    global row_index
+    body = match.group(1)
+    def add_row_delay(_):
+        global row_index
+        delay = row_index * 0.05
+        row_index += 1
+        return f'<tr style="animation-delay: {delay:.2f}s;">'
+    body = re.sub(r"<tr>", add_row_delay, body)
+    return f"<tbody>{body}</tbody>"
+
+coverage_html = re.sub(
+    r"<tbody>(.*?)</tbody>",
+    stagger_coverage_rows,
+    coverage_html,
+    flags=re.DOTALL,
+)
 coverage_height = max(300, 58 + len(coverage) * 43)
 
 coverage_component = f"""
@@ -150,19 +171,30 @@ coverage_component = f"""
   }}
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
   .coverage-table tbody tr:hover td {{ background: rgba(56,189,248,.07); }}
-  @keyframes coverageColumnIn {{
-    from {{ opacity: 0; transform: translateX(-28px); }}
+  @keyframes coverageHeadingIn {{
+    from {{ opacity: 0; transform: translateX(-24px); }}
     to {{ opacity: 1; transform: translateX(0); }}
   }}
-  .coverage-table th, .coverage-table td {{
-    opacity: 0; animation: coverageColumnIn .48s cubic-bezier(.2,.75,.25,1) forwards;
+  @keyframes coverageRowIn {{
+    from {{ opacity: 0; transform: translateY(-14px); }}
+    to {{ opacity: 1; transform: translateY(0); }}
   }}
-  .coverage-table th:nth-child(1), .coverage-table td:nth-child(1) {{ animation-delay: 0s; }}
-  .coverage-table th:nth-child(2), .coverage-table td:nth-child(2) {{ animation-delay: .3s; }}
-  .coverage-table th:nth-child(3), .coverage-table td:nth-child(3) {{ animation-delay: .6s; }}
-  .coverage-table th:nth-child(4), .coverage-table td:nth-child(4) {{ animation-delay: .9s; }}
+  .coverage-table thead th {{
+    opacity: 0;
+    animation: coverageHeadingIn .28s ease-out forwards;
+  }}
+  .coverage-table thead th:nth-child(1) {{ animation-delay: 0s; }}
+  .coverage-table thead th:nth-child(2) {{ animation-delay: .05s; }}
+  .coverage-table thead th:nth-child(3) {{ animation-delay: .10s; }}
+  .coverage-table thead th:nth-child(4) {{ animation-delay: .15s; }}
+  .coverage-table tbody tr {{
+    opacity: 0;
+    animation: coverageRowIn .28s ease-out forwards;
+  }}
   @media (prefers-reduced-motion: reduce) {{
-    .coverage-table th, .coverage-table td {{ opacity: 1; animation: none; }}
+    .coverage-table thead th, .coverage-table tbody tr {{
+      opacity: 1; animation: none;
+    }}
   }}
 </style>
 """
