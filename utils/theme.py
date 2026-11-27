@@ -47,7 +47,7 @@ def apply_theme():
         [data-testid="stDataFrame"],
         [data-testid="stTable"] {
             background: linear-gradient(145deg, #FFFCF6, #F0E5D4) !important;
-            border: 1px solid rgba(224,209,188,.98) !important;
+            border: 1.5px solid #B9A184 !important;
             border-radius: 22px !important;
             box-shadow: 8px 8px 20px rgba(111,85,56,.12),
                         -7px -7px 18px rgba(255,255,255,.86),
@@ -73,7 +73,7 @@ def apply_theme():
         div[data-baseweb="input"] > div,
         div[data-baseweb="textarea"] > div {
             background: #FBF7F0 !important;
-            border: 1px solid #DCCBB2 !important;
+            border: 1.5px solid #B9A184 !important;
             border-radius: 13px !important;
             box-shadow: inset 3px 3px 7px rgba(151,126,95,.13),
                         inset -3px -3px 7px rgba(255,255,255,.9);
@@ -81,7 +81,7 @@ def apply_theme():
         input, textarea { color: #30251D !important; }
         [data-baseweb="popover"], [data-baseweb="menu"] {
             background: #FFFCF6 !important;
-            border: 1px solid #E0D1BC !important;
+            border: 1.5px solid #B9A184 !important;
             border-radius: 14px !important;
             box-shadow: 8px 8px 20px rgba(111,85,56,.16);
         }
@@ -109,7 +109,7 @@ def apply_theme():
         }
         [data-testid="stAlert"] {
             border-radius: 16px;
-            border: 1px solid #E0D1BC;
+            border: 1.5px solid #B9A184;
             background: #F8F1E5;
         }
         [data-testid="stDataFrame"], [data-testid="stTable"] { overflow: hidden; }
