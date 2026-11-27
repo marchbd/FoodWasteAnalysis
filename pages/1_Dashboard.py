@@ -222,7 +222,7 @@ coverage_component = f"""
   }}
   .coverage-table thead th {{
     opacity: 0;
-    animation: coverageHeadingIn .5s ease-out forwards;
+    animation: coverageHeadingIn .2s ease-out forwards;
   }}
   /* Reveal headings one at a time; each column's cells follow its heading. */
   .coverage-table thead th:nth-child(1) {{ animation-delay: 0s; }}
