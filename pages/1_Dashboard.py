@@ -197,21 +197,21 @@ coverage_component = f"""
   .coverage-scroll {{ width: 100%; overflow-x: auto; border-radius: 14px; }}
   .coverage-table {{
     width: 100%; min-width: 520px; border-collapse: separate;
-    border-spacing: 0; color: #dce6f7; font-size: 15px;
-    background: rgba(15, 23, 42, .52); border-radius: 14px;
+    border-spacing: 0; color: #294633; font-size: 15px;
+    background: #f5f9f2; border-radius: 14px;
     overflow: hidden;
   }}
   .coverage-table th, .coverage-table td {{
     padding: 13px 16px; text-align: left;
-    border-bottom: 1px solid rgba(148, 163, 184, .15);
+    border-bottom: 1px solid #dce7d9;
     white-space: nowrap;
   }}
   .coverage-table th {{
-    color: #b9d9f7; font-weight: 750;
-    background: linear-gradient(110deg, rgba(14,165,233,.18), rgba(124,58,237,.18));
+    color: #245b36; font-weight: 750;
+    background: linear-gradient(110deg, #e2eee0, #d8e9d7);
   }}
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
-  .coverage-table tbody tr:hover td {{ background: rgba(56,189,248,.07); }}
+  .coverage-table tbody tr:hover td {{ background: rgba(45,125,66,.07); }}
   @keyframes coverageHeadingIn {{
     from {{ opacity: 0; transform: translateX(-26px); }}
     to {{ opacity: 1; transform: translateX(0); }}
