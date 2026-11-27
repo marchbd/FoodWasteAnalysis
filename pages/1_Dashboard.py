@@ -72,10 +72,11 @@ metric_html = f"""
     display: none;
     margin-top: 18px;
     color: #c1cde1;
-    font-size: 15px;
+    font-size: 20px;
     line-height: 1.55;
-    min-height: 24px;
-    letter-spacing: .1px;
+    min-height: 64px;
+    letter-spacing: .12px;
+    max-width: 1120px;
   }}
   .metric-description::after {{
     content: "";
@@ -105,7 +106,7 @@ metric_html = f"""
   const duration = 1250;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const description = document.querySelector(".metric-description");
-  const descriptionText = "Review the dataset's geographic coverage and compare food records across states, districts, and blocks.";
+  const descriptionText = "Explore how the dataset is distributed across different states, and compare the number of districts, blocks and records represented in each region. The coverage table gives you a state-wise view of the available locations, while the chart below helps identify which states contribute the most records. Use these views to spot geographic differences and understand where the dataset has stronger or more limited coverage.";
   if (description && window.matchMedia("(min-width: 701px)").matches) {{
     if (reduced) {{
       description.textContent = descriptionText;
@@ -114,7 +115,7 @@ metric_html = f"""
       const typeNext = () => {{
         if (charIndex < descriptionText.length) {{
           description.textContent += descriptionText.charAt(charIndex++);
-          window.setTimeout(typeNext, 24);
+          window.setTimeout(typeNext, 18);
         }}
       }};
       window.setTimeout(typeNext, 450);
