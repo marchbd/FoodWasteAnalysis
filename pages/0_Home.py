@@ -158,17 +158,6 @@ else:
       }}
     </style>
     <script>
-      function syncMetricFrameHeight() {{
-        const mobile = window.matchMedia("(max-width: 700px)").matches;
-        window.parent.postMessage({{
-          isStreamlitMessage: true,
-          type: "streamlit:setFrameHeight",
-          height: mobile ? 225 : 125
-        }}, "*");
-      }}
-      syncMetricFrameHeight();
-      window.addEventListener("resize", syncMetricFrameHeight);
-
       const cards = Array.from(document.querySelectorAll(".stat-card"));
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       function countUp(element) {{
@@ -202,7 +191,7 @@ else:
       }}
     </script>
     """
-    st.components.v1.html(metrics_html, height=125, scrolling=False)
+    st.components.v1.html(metrics_html, height=225, scrolling=False)
     st.caption("Location dropdowns show only states, districts and blocks represented in this dataset.")
 
 st.divider()
