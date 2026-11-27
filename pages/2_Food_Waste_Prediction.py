@@ -305,20 +305,27 @@ if submitted:
                 st.info("Risk factors cannot be calculated because predicted distribution is zero for all three months.")
             else:
                 max_risk = max(valid_risks)
-                chart_top = max(10.0, max_risk * 1.22)
+                chart_top = max(10, int((max_risk * 1.2 + 4) // 5) * 5)
+                tick_values = list(range(0, chart_top + 1, max(1, chart_top // 4)))
                 bars = []
                 bar_colors = ["#B85F4C", "#204F3E", "#6F9B83"]
                 for index, point in enumerate(forecast_points):
                     risk = point["risk"]
-                    bar_height = max(3.0, (risk / chart_top) * 190) if risk is not None else 3.0
+                    bar_height = max(2.0, (risk / chart_top) * 220) if risk is not None else 2.0
                     value_label = f"{risk:.1f}%" if risk is not None else "N/A"
                     bars.append(
                         f'<div class="risk-bar-column">'
-                        f'<div class="risk-value-label">{value_label}</div>'
-                        f'<div class="risk-bar-track"><div class="risk-bar" style="--bar-height:{bar_height:.1f}px;--bar-color:{bar_colors[index]};--bar-delay:{index * 0.22:.2f}s"></div></div>'
+                        f'<div class="risk-bar-area">'
+                        f'<div class="risk-value-label" style="--bar-height:{bar_height:.1f}px">{value_label}</div>'
+                        f'<div class="risk-bar" style="--bar-height:{bar_height:.1f}px;--bar-color:{bar_colors[index]};--bar-delay:{index * 0.22:.2f}s"></div>'
+                        f'</div>'
                         f'<div class="risk-month">{point["month"]}<span>{point["year"]}</span></div>'
                         f'</div>'
                     )
+                tick_labels = "".join(
+                    f'<div class="risk-y-tick">{tick}%</div>'
+                    for tick in reversed(tick_values)
+                )
                 risk_aria_label = ", ".join(
                     f"{point['month']} {point['year']}: {point['risk']:.1f}%"
                     if point["risk"] is not None
@@ -330,33 +337,50 @@ if submitted:
                   <div class="risk-chart-title">Wastage risk forecast</div>
                   <div class="risk-chart-subtitle">Current month and next two months</div>
                   <div class="risk-chart" role="img" aria-label="Predicted wastage risk: {risk_aria_label}">
-                    {''.join(bars)}
+                    <div class="risk-y-axis"><div class="risk-y-title">Risk (%)</div>{tick_labels}</div>
+                    <div class="risk-plot">
+                      <div class="risk-grid-lines"><i></i><i></i><i></i><i></i><i></i></div>
+                      <div class="risk-bars">{''.join(bars)}</div>
+                      <div class="risk-x-title">Month</div>
+                    </div>
                   </div>
-                  <div class="risk-chart-footnote">Risk factor = predicted wastage ÷ predicted distribution × 100</div>
                 </div>
                 <style>
-                  .risk-chart-card {{ background:#FBFAF5; border:1px solid #D8D6C8; border-radius:15px; padding:17px 12px 14px; box-shadow:0 2px 7px rgba(37,54,44,.045); }}
-                  .risk-chart-title {{ color:#203A30; font:700 1.12rem Georgia,serif; }}
-                  .risk-chart-subtitle {{ color:#68746B; font: .78rem sans-serif; margin-top:4px; }}
-                  .risk-chart {{ height:258px; display:flex; align-items:stretch; justify-content:space-around; gap:8px; padding:14px 2px 0; }}
-                  .risk-bar-column {{ flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; }}
-                  .risk-value-label {{ height:24px; color:#203A30; font:700 .95rem Georgia,serif; white-space:nowrap; }}
-                  .risk-bar-track {{ height:194px; width:min(100%,54px); display:flex; align-items:flex-end; border-bottom:1px solid #CFCDBF; }}
-                  .risk-bar {{ width:100%; height:var(--bar-height); background:var(--bar-color); border-radius:7px 7px 0 0; transform:scaleY(0); transform-origin:bottom; animation:riskBarRise .85s cubic-bezier(.2,.75,.25,1) var(--bar-delay) forwards; box-shadow:0 3px 8px rgba(32,58,48,.12); }}
+                  .risk-chart-card {{ background:#FBFAF5; border:1px solid #D8D6C8; border-radius:15px; padding:19px 16px 17px; box-shadow:0 2px 7px rgba(37,54,44,.045); }}
+                  .risk-chart-title {{ color:#203A30; font:700 1.45rem Georgia,serif; }}
+                  .risk-chart-subtitle {{ color:#46584E; font:1rem sans-serif; margin-top:6px; }}
+                  .risk-chart {{ display:flex; gap:10px; margin-top:17px; }}
+                  .risk-y-axis {{ width:46px; flex:0 0 46px; height:270px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; padding:0 4px 39px 0; position:relative; }}
+                  .risk-y-title {{ position:absolute; top:50%; left:-9px; transform:translate(-100%,-50%) rotate(-90deg); transform-origin:right center; color:#263A32; font:700 .85rem sans-serif; white-space:nowrap; }}
+                  .risk-y-tick {{ color:#263A32; font:600 .88rem sans-serif; line-height:1; transform:translateY(50%); }}
+                  .risk-plot {{ position:relative; flex:1; min-width:0; height:270px; border-left:2px solid #526258; }}
+                  .risk-grid-lines {{ position:absolute; inset:0 0 39px 0; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }}
+                  .risk-grid-lines i {{ display:block; border-top:1px solid #D5D7CC; width:100%; }}
+                  .risk-grid-lines i:last-child {{ border-top:2px solid #526258; }}
+                  .risk-bars {{ position:absolute; inset:0 0 39px 0; display:flex; justify-content:space-around; gap:9px; }}
+                  .risk-bar-column {{ flex:1; min-width:0; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; position:relative; }}
+                  .risk-bar-area {{ width:min(72%,66px); height:100%; display:flex; justify-content:flex-end; flex-direction:column; align-items:stretch; position:relative; }}
+                  .risk-value-label {{ position:absolute; bottom:calc(var(--bar-height) + 7px); width:100%; text-align:center; color:#203A30; font:700 1.05rem Georgia,serif; white-space:nowrap; }}
+                  .risk-bar {{ flex:0 0 var(--bar-height); width:100%; background:var(--bar-color); border-radius:7px 7px 0 0; transform:scaleY(0); transform-origin:bottom; animation:riskBarRise .9s cubic-bezier(.2,.75,.25,1) var(--bar-delay) forwards; box-shadow:0 3px 8px rgba(32,58,48,.12); z-index:1; }}
                   @keyframes riskBarRise {{ from {{ transform:scaleY(0); }} to {{ transform:scaleY(1); }} }}
-                  .risk-month {{ color:#203A30; font:700 .83rem sans-serif; text-align:center; margin-top:9px; }}
-                  .risk-month span {{ display:block; color:#68746B; font-size:.72rem; font-weight:500; margin-top:2px; }}
-                  .risk-chart-footnote {{ color:#68746B; font: .72rem/1.45 sans-serif; margin-top:12px; }}
+                  .risk-month {{ color:#203A30; font:700 .98rem sans-serif; text-align:center; margin-top:9px; white-space:nowrap; }}
+                  .risk-month span {{ display:block; color:#46584E; font-size:.86rem; font-weight:500; margin-top:3px; }}
+                  .risk-x-title {{ position:absolute; bottom:0; left:0; right:0; text-align:center; color:#263A32; font:700 .85rem sans-serif; }}
                   @media (max-width:700px) {{
-                    .risk-chart-card {{ padding:15px 10px 12px; }}
+                    .risk-chart-card {{ padding:16px 10px 14px; }}
+                    .risk-chart-title {{ font-size:1.25rem; }}
+                    .risk-chart-subtitle {{ font-size:.9rem; }}
                     .risk-chart {{ gap:5px; }}
-                    .risk-value-label {{ font-size:.85rem; }}
-                    .risk-month {{ font-size:.76rem; }}
+                    .risk-y-axis {{ width:39px; flex-basis:39px; }}
+                    .risk-y-tick {{ font-size:.78rem; }}
+                    .risk-value-label {{ font-size:.9rem; }}
+                    .risk-month {{ font-size:.83rem; }}
+                    .risk-month span {{ font-size:.75rem; }}
                   }}
                   @media (prefers-reduced-motion: reduce) {{ .risk-bar {{ animation:none; transform:scaleY(1); }} }}
                 </style>
                 """
-                st.components.v1.html(risk_chart_html, height=365, scrolling=False)
+                st.components.v1.html(risk_chart_html, height=390, scrolling=False)
 
         if distributed > 0 and wastage <= distributed:
             with st.expander("See How?"):
