@@ -123,37 +123,18 @@ if submitted:
         st.components.v1.html(
             """
             <script>
-              (() => {
-                let attempts = 0;
-                const maxAttempts = 30;
-                const scrollToResults = () => {
-                  try {
-                    const doc = window.parent.document;
-                    const anchor = doc.getElementById("prediction-results-anchor");
-                    const heading = Array.from(doc.querySelectorAll("h1, h2, h3"))
-                      .find(el => el.textContent.trim() === "Prediction results");
-                    const target = anchor || heading;
-                    if (target) {
-                      target.scrollIntoView({ behavior: "smooth", block: "start" });
-                      const scroller = doc.querySelector('[data-testid="stAppViewContainer"]');
-                      if (scroller) {
-                        const top = target.getBoundingClientRect().top;
-                        scroller.scrollTo({
-                          top: scroller.scrollTop + top,
-                          behavior: "smooth"
-                        });
-                      }
-                    }
-                  } catch (error) {
-                    console.warn("Could not scroll to prediction results:", error);
+              // Scroll once after Streamlit has rendered the new prediction output.
+              window.setTimeout(() => {
+                try {
+                  const doc = window.parent.document;
+                  const target = doc.getElementById("prediction-results-anchor");
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth", block: "start" });
                   }
-                  attempts += 1;
-                  if (attempts < maxAttempts) {
-                    window.setTimeout(scrollToResults, 150);
-                  }
-                };
-                window.setTimeout(scrollToResults, 150);
-              })();
+                } catch (error) {
+                  console.warn("Could not scroll to prediction results:", error);
+                }
+              }, 350);
             </script>
             """,
             height=1,
