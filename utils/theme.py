@@ -2,44 +2,43 @@ import streamlit as st
 
 
 def apply_theme():
-    """Apply a vibrant botanical claymorphism theme across the app."""
+    """Apply the warm, editorial HopeRise-inspired theme with subtle claymorphism."""
     st.markdown(
         """
         <style>
         :root {
             color-scheme: light;
-            --bg: #f3f7ef;
-            --surface: #fbfdf8;
-            --line: #d5e3d0;
-            --text: #20392a;
-            --muted: #66796b;
-            --green: #126b3a;
-            --green-mid: #1e9b58;
-            --teal: #0f8f83;
-            --lime: #b6d943;
-            --coral: #e77d50;
+            --cream: #F4EBDD;
+            --sand: #EED4AC;
+            --taupe: #B9A78D;
+            --gold: #B19C7A;
+            --espresso: #0D0B09;
+            --brown: #5A4434;
+            --green: #2EA334;
+            --ink: #30251D;
+            --muted: #786B5B;
+            --line: #E0D1BC;
         }
         .stApp {
             background:
-              radial-gradient(ellipse at 4% 3%, rgba(182,217,67,.23), transparent 27%),
-              radial-gradient(ellipse at 96% 8%, rgba(15,143,131,.18), transparent 29%),
-              radial-gradient(ellipse at 50% 100%, rgba(30,155,88,.10), transparent 34%),
-              linear-gradient(140deg, #f8faf3 0%, #edf5e9 48%, #f7f8ef 100%);
-            color: var(--text);
+              radial-gradient(ellipse at 8% 0%, rgba(238,212,172,.40), transparent 31%),
+              radial-gradient(ellipse at 96% 12%, rgba(185,167,141,.20), transparent 30%),
+              linear-gradient(145deg, #F8F4EC 0%, #F4EBDD 52%, #F7F1E7 100%);
+            color: var(--ink);
         }
-        [data-testid="stHeader"] { background: rgba(248,250,243,.82); }
+        [data-testid="stHeader"] { background: rgba(248,244,236,.88); }
         [data-testid="stToolbar"] { right: 1rem; }
         [data-testid="stSidebar"] {
-            background: linear-gradient(155deg, #e8f3df, #d9eee6 58%, #e8efd4);
-            border-right: 1px solid #cbdcc5;
+            background: linear-gradient(160deg, #EFE2CD, #E7D7BE);
+            border-right: 1px solid #D8C6AA;
         }
-        [data-testid="stSidebar"] * { color: var(--text); }
+        [data-testid="stSidebar"] * { color: var(--ink); }
         .block-container { padding-top: 2.4rem; padding-bottom: 3rem; max-width: 1440px; }
-        h1, h2, h3, h4 { color: #174b2d !important; letter-spacing: -.035em; }
+        h1, h2, h3, h4 { color: var(--espresso) !important; letter-spacing: -.035em; }
         h1 { font-weight: 850 !important; }
         h2, h3 { font-weight: 780 !important; }
-        p, label, [data-testid="stCaptionContainer"] { color: #607568; }
-        [data-testid="stCaptionContainer"] { color: #718477; }
+        p, label, [data-testid="stCaptionContainer"] { color: var(--muted); }
+        [data-testid="stCaptionContainer"] { color: #877967; }
 
         [data-testid="stMetric"],
         [data-testid="stVerticalBlockBorderWrapper"],
@@ -47,75 +46,75 @@ def apply_theme():
         [data-testid="stExpander"],
         [data-testid="stDataFrame"],
         [data-testid="stTable"] {
-            background: linear-gradient(145deg, #ffffff, #eaf3e5) !important;
-            border: 1px solid rgba(202, 222, 195, .98) !important;
+            background: linear-gradient(145deg, #FFFCF6, #F0E5D4) !important;
+            border: 1px solid rgba(224,209,188,.98) !important;
             border-radius: 22px !important;
-            box-shadow: 9px 9px 22px rgba(132, 164, 125, .20),
-                        -8px -8px 20px rgba(255,255,255,.92),
-                        inset 1px 1px 0 rgba(255,255,255,.8) !important;
+            box-shadow: 8px 8px 20px rgba(111,85,56,.12),
+                        -7px -7px 18px rgba(255,255,255,.86),
+                        inset 1px 1px 0 rgba(255,255,255,.78) !important;
         }
         [data-testid="stMetric"] {
             padding: 18px 20px;
-            border-top: 4px solid #1e9b58 !important;
+            border-top: 4px solid var(--gold) !important;
             transition: transform .22s ease, box-shadow .22s ease;
         }
         [data-testid="stMetric"]:hover {
             transform: translateY(-3px);
-            box-shadow: 12px 12px 25px rgba(132,164,125,.25),
-                        -8px -8px 20px rgba(255,255,255,.95) !important;
+            box-shadow: 11px 11px 23px rgba(111,85,56,.16),
+                        -7px -7px 18px rgba(255,255,255,.9) !important;
         }
-        [data-testid="stMetricLabel"] { color: #718477 !important; }
-        [data-testid="stMetricValue"] { color: #126b3a !important; font-weight: 850 !important; }
+        [data-testid="stMetricLabel"] { color: #877967 !important; }
+        [data-testid="stMetricValue"] { color: var(--brown) !important; font-weight: 850 !important; }
         [data-testid="stVerticalBlockBorderWrapper"] { padding: 14px; }
         div[data-testid="stForm"] { padding: 22px; }
-        [data-testid="stExpander"] { background: #f2f8ed !important; }
+        [data-testid="stExpander"] { background: #F7F0E5 !important; }
 
         div[data-baseweb="select"] > div,
         div[data-baseweb="input"] > div,
         div[data-baseweb="textarea"] > div {
-            background: #f8fbf4 !important;
-            border: 1px solid #cbdcc5 !important;
+            background: #FBF7F0 !important;
+            border: 1px solid #DCCBB2 !important;
             border-radius: 13px !important;
-            box-shadow: inset 3px 3px 7px rgba(160,184,151,.18),
-                        inset -3px -3px 7px rgba(255,255,255,.95);
+            box-shadow: inset 3px 3px 7px rgba(151,126,95,.13),
+                        inset -3px -3px 7px rgba(255,255,255,.9);
         }
-        input, textarea { color: #263d2d !important; }
+        input, textarea { color: #30251D !important; }
         [data-baseweb="popover"], [data-baseweb="menu"] {
-            background: #fbfdf8 !important;
-            border: 1px solid #d1e1cb !important;
+            background: #FFFCF6 !important;
+            border: 1px solid #E0D1BC !important;
             border-radius: 14px !important;
-            box-shadow: 8px 8px 20px rgba(132,164,125,.22);
+            box-shadow: 8px 8px 20px rgba(111,85,56,.16);
         }
-        [role="option"] { color: #263d2d !important; }
-        [role="option"]:hover { background: #e3f1dc !important; }
+        [role="option"] { color: #30251D !important; }
+        [role="option"]:hover { background: #F1E3CE !important; }
 
         .stButton > button, .stFormSubmitButton > button, [data-testid="stDownloadButton"] button {
             border-radius: 14px;
-            border: 1px solid #126b3a;
-            background: linear-gradient(115deg, #159653, #0f766e);
+            border: 1px solid #25872C;
+            background: linear-gradient(115deg, #36B33D, #25872C);
             color: #fff;
             font-weight: 800;
-            box-shadow: 5px 5px 12px rgba(18,107,58,.20),
-                        -3px -3px 8px rgba(255,255,255,.85),
-                        inset 1px 1px 0 rgba(255,255,255,.22);
+            box-shadow: 5px 5px 12px rgba(46,163,52,.19),
+                        -3px -3px 8px rgba(255,255,255,.82),
+                        inset 1px 1px 0 rgba(255,255,255,.2);
             transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
         }
         .stButton > button:hover, .stFormSubmitButton > button:hover,
         [data-testid="stDownloadButton"] button:hover {
             transform: translateY(-2px);
-            filter: brightness(1.07);
-            box-shadow: 7px 7px 15px rgba(18,107,58,.25),
-                        -3px -3px 8px rgba(255,255,255,.92);
+            filter: brightness(1.06);
+            box-shadow: 7px 7px 15px rgba(46,163,52,.23),
+                        -3px -3px 8px rgba(255,255,255,.9);
             color: #fff;
         }
         [data-testid="stAlert"] {
             border-radius: 16px;
-            border: 1px solid #d6e7c7;
-            background: #f2f8e9;
+            border: 1px solid #E0D1BC;
+            background: #F8F1E5;
         }
         [data-testid="stDataFrame"], [data-testid="stTable"] { overflow: hidden; }
-        hr { border-color: #d5e5cf !important; }
-        a { color: #0f8060 !important; }
+        hr { border-color: #E0D1BC !important; }
+        a { color: #278A30 !important; }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
         }
