@@ -2,7 +2,7 @@ import streamlit as st
 
 
 def apply_theme():
-    """Bright, high-contrast multi-colour theme for Food Waste Analysis."""
+    """High-contrast multi-colour theme with consistent dark-edged surfaces."""
     st.markdown(
         """
         <style>
@@ -10,13 +10,14 @@ def apply_theme():
             color-scheme: light;
             --ink: #20243A;
             --muted: #525B70;
-            --line: #D7DCE8;
+            --line: #465066;
             --teal: #087F8C;
             --violet: #7356C9;
             --coral: #E56B55;
             --amber: #D99A18;
             --green: #27845A;
             --blue: #3978C8;
+            --edge: #485064;
         }
         .stApp {
             color: var(--ink);
@@ -30,7 +31,7 @@ def apply_theme():
         [data-testid="stToolbar"] { right: 1rem; }
         [data-testid="stSidebar"] {
             background: linear-gradient(160deg, #F0EAFE, #E5F3F5 55%, #FFF0E8);
-            border-right: 1px solid #D2D5E4;
+            border-right: 1.5px solid var(--edge);
         }
         [data-testid="stSidebar"] * { color: var(--ink); }
         .block-container { padding-top: 2.25rem; padding-bottom: 3rem; max-width: 1440px; }
@@ -41,13 +42,21 @@ def apply_theme():
         p, label, [data-testid="stCaptionContainer"] { color: var(--muted); }
         [data-testid="stCaptionContainer"] { font-size: 1rem; line-height: 1.55; color: #525B70; }
 
-        [data-testid="stMetric"], [data-testid="stVerticalBlockBorderWrapper"],
-        div[data-testid="stForm"], [data-testid="stExpander"],
-        [data-testid="stDataFrame"], [data-testid="stTable"] {
-            background: linear-gradient(145deg, #FFFFFF, #F6F7FB) !important;
-            border: 1.5px solid #D4D9E6 !important;
-            border-radius: 20px !important;
-            box-shadow: 0 9px 24px rgba(43,49,78,.075), inset 0 1px 0 rgba(255,255,255,.96) !important;
+        /* Dark, crisp outlines on the shared rounded-card system. */
+        [data-testid="stMetric"],
+        [data-testid="stVerticalBlockBorderWrapper"],
+        div[data-testid="stForm"],
+        [data-testid="stExpander"],
+        [data-testid="stDataFrame"],
+        [data-testid="stTable"],
+        [data-testid="stAlert"],
+        .st-key-location_period_card,
+        .st-key-demand_stock_card,
+        .st-key-home_dashboard_link_card,
+        .st-key-home_prediction_link_card {
+            border: 1.6px solid var(--edge) !important;
+            border-radius: 18px !important;
+            box-shadow: 0 8px 22px rgba(32,36,58,.10), inset 0 1px 0 rgba(255,255,255,.94) !important;
         }
         [data-testid="stMetric"] {
             padding: 18px 20px;
@@ -56,7 +65,7 @@ def apply_theme():
         }
         [data-testid="stMetric"]:hover {
             transform: translateY(-4px);
-            box-shadow: 0 15px 30px rgba(43,49,78,.14) !important;
+            box-shadow: 0 15px 30px rgba(43,49,78,.17) !important;
         }
         [data-testid="stMetricLabel"] { color: #525B70 !important; font-size: .95rem !important; font-weight: 700 !important; }
         [data-testid="stMetricValue"] { color: #292E49 !important; font-weight: 850 !important; }
@@ -64,44 +73,45 @@ def apply_theme():
         div[data-testid="stForm"] { padding: 22px; }
         [data-testid="stExpander"] { background: #FBFAFF !important; }
 
-        div[data-baseweb="select"] > div, div[data-baseweb="input"] > div,
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="input"] > div,
         div[data-baseweb="textarea"] > div {
             background: #FFFFFF !important;
-            border: 1px solid #C9CEDD !important;
-            border-radius: 12px !important;
+            border: 1.5px solid #596176 !important;
+            border-radius: 11px !important;
             box-shadow: inset 0 1px 3px rgba(43,49,78,.045);
             min-height: 42px;
         }
         input, textarea { color: #20243A !important; }
         [data-baseweb="popover"], [data-baseweb="menu"] {
-            background: #FFFFFF !important; border: 1px solid #C9CEDD !important;
-            border-radius: 12px !important; box-shadow: 0 12px 28px rgba(43,49,78,.16);
+            background: #FFFFFF !important; border: 1.5px solid var(--edge) !important;
+            border-radius: 12px !important; box-shadow: 0 12px 28px rgba(43,49,78,.18);
         }
         [role="option"] { color: #20243A !important; }
         [role="option"]:hover { background: #F0ECFF !important; }
 
         .stButton > button, .stFormSubmitButton > button, [data-testid="stDownloadButton"] button {
-            min-height: 44px; border-radius: 12px; border: 1px solid #5940AE;
-            background: linear-gradient(115deg, #8064DC, #6248BC);
-            color: #fff !important; font-weight: 750;
-            box-shadow: 0 6px 14px rgba(98,72,188,.22);
+            min-height: 46px; border-radius: 12px; border: 1.5px solid #282D49;
+            background: linear-gradient(115deg, #343B60, #20243A);
+            color: #FFFFFF !important; font-weight: 780;
+            box-shadow: 0 6px 14px rgba(32,36,58,.24);
             transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
         }
+        .stButton > button p, .stFormSubmitButton > button p,
+        [data-testid="stDownloadButton"] button p { color: #FFFFFF !important; }
         .stButton > button:hover, .stFormSubmitButton > button:hover,
         [data-testid="stDownloadButton"] button:hover {
-            transform: translateY(-2px); filter: brightness(1.07);
-            box-shadow: 0 10px 20px rgba(98,72,188,.28); color: #fff !important;
+            transform: translateY(-2px); filter: brightness(1.12);
+            box-shadow: 0 10px 20px rgba(32,36,58,.30); color: #FFFFFF !important;
         }
         .stButton > button:focus-visible, .stFormSubmitButton > button:focus-visible,
         [data-testid="stPageLink"] a:focus-visible {
             outline: 3px solid #E9A23B !important; outline-offset: 3px !important;
         }
-        [data-testid="stAlert"] {
-            border-radius: 14px; border: 1px solid #D6C8F5; background: #F7F3FF;
-        }
+        [data-testid="stAlert"] { background: #F7F3FF; }
         [data-testid="stDataFrame"], [data-testid="stTable"] { overflow: hidden; }
-        hr { border-color: #D9DDE9 !important; }
-        a { color: #6250B5 !important; }
+        hr { border-color: #B8BECE !important; }
+        a { color: #51409A !important; }
         @media (max-width: 700px) { .block-container { padding: 1.25rem 1rem 2rem; } }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
