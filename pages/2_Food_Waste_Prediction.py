@@ -11,23 +11,23 @@ render_top_nav("prediction")
 
 st.markdown("""<style>
 .st-key-location_period_card {
- background: linear-gradient(135deg, rgba(8,145,178,.22), rgba(37,99,235,.13), rgba(15,23,42,.68));
- border: 1px solid rgba(103,232,249,.35);
+ background: linear-gradient(145deg, #fbfdf9, #e4efe1);
+ border: 1px solid #cbdcc7;
  border-radius: 18px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: none;
+ box-shadow: 8px 8px 18px rgba(151,169,148,.20), -7px -7px 16px rgba(255,255,255,.9);
  backdrop-filter: none;
 }
-.st-key-location_period_card h3 { color: #a5f3fc !important; }
+.st-key-location_period_card h3 { color: #245b36 !important; }
 .st-key-demand_stock_card {
- background: linear-gradient(145deg, rgba(109,40,217,.22), rgba(190,24,93,.13), rgba(30,20,48,.70));
- border: 1px solid rgba(216,180,254,.32);
+ background: linear-gradient(145deg, #fbfdf9, #e8f0e5);
+ border: 1px solid #d0dfcc;
  border-radius: 18px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: none;
+ box-shadow: 8px 8px 18px rgba(151,169,148,.20), -7px -7px 16px rgba(255,255,255,.9);
  backdrop-filter: none;
 }
-.st-key-demand_stock_card h3 { color: #e9d5ff !important; }
-.st-key-location_period_card div[data-baseweb='select'] > div, .st-key-location_period_card div[data-baseweb='input'] > div { border-color: #285064 !important; background: #0c1d2b !important; }
-.st-key-demand_stock_card div[data-baseweb='input'] > div { border-color: #493b61 !important; background: #191528 !important; }
+.st-key-demand_stock_card h3 { color: #245b36 !important; }
+.st-key-location_period_card div[data-baseweb='select'] > div, .st-key-location_period_card div[data-baseweb='input'] > div { border-color: #cbdcc7 !important; background: #f4f8f1 !important; }
+.st-key-demand_stock_card div[data-baseweb='input'] > div { border-color: #d0dfcc !important; background: #f4f8f1 !important; }
 </style>""", unsafe_allow_html=True)
 
 st.title("🔮 Food Waste Prediction")
@@ -174,18 +174,18 @@ if submitted:
             <div class="donut-wrap">
               <svg class="donut-svg" viewBox="0 0 300 300" role="img" aria-label="Usable quantity {usable:,.2f} kilograms and predicted wastage {wastage:,.2f} kilograms">
                 <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(148,163,184,.13)" stroke-width="46"/>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#6366f1" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#21834A" stroke-width="46"
                         stroke-linecap="butt" transform="rotate(-90 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{usable_arc:.3f} {circumference:.3f}" dur="1.1s" fill="freeze"/>
                 </circle>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#f0523a" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#D97736" stroke-width="46"
                         stroke-linecap="butt" transform="rotate({wastage_start_angle - 90:.3f} 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{wastage_arc:.3f} {circumference:.3f}" begin=".12s" dur="1.1s" fill="freeze"/>
                 </circle>
-                <text x="150" y="146" text-anchor="middle" fill="#eaf2ff" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
-                <text x="150" y="169" text-anchor="middle" fill="#cbd5e1" font-size="14">wasted</text>
+                <text x="150" y="146" text-anchor="middle" fill="#21452E" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
+                <text x="150" y="169" text-anchor="middle" fill="#718074" font-size="14">wasted</text>
               </svg>
               <div class="donut-legend">
                 <span><i class="usable-dot"></i>Usable quantity</span>
@@ -193,13 +193,13 @@ if submitted:
               </div>
             </div>
             <style>
-              .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#eaf2ff; }}
+              .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#21452E; }}
               .donut-svg {{ width:min(100%, 330px); height:auto; overflow:visible; }}
               .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:0; font:14px sans-serif; }}
               .donut-legend span {{ display:flex; align-items:center; gap:9px; }}
               .donut-legend i {{ width:13px; height:13px; display:inline-block; }}
-              .usable-dot {{ background:#6366f1; }}
-              .waste-dot {{ background:#f0523a; }}
+              .usable-dot {{ background:#21834A; }}
+              .waste-dot {{ background:#D97736; }}
               @media (prefers-reduced-motion: reduce) {{
                 .donut-svg animate {{ display:none; }}
               }}
