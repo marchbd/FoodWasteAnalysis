@@ -349,12 +349,12 @@ if submitted:
                   </div>
                 </div>
                 <style>
-                  .risk-chart-card {{ background:#FBFAF5; border:1px solid #D8D6C8; border-radius:15px; padding:19px 16px 17px; box-shadow:0 2px 7px rgba(37,54,44,.045); }}
+                  .risk-chart-card {{ background:#FBFAF5; border:1px solid #D8D6C8; border-radius:15px; padding:21px 19px 19px; box-shadow:0 2px 7px rgba(37,54,44,.045); }}
                   .risk-chart-title {{ color:#203A30; font:700 1.45rem Georgia,serif; }}
                   .risk-chart-subtitle {{ color:#46584E; font:1rem sans-serif; margin-top:6px; }}
                   .risk-chart {{ display:flex; gap:10px; margin-top:17px; }}
-                  .risk-y-axis {{ width:46px; flex:0 0 46px; height:320px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; padding:0 4px 76px 0; position:relative; box-sizing:border-box; }}
-                  .risk-y-title {{ position:absolute; top:42%; left:-9px; transform:translate(-100%,-50%) rotate(-90deg); transform-origin:right center; color:#263A32; font:700 .85rem sans-serif; white-space:nowrap; }}
+                  .risk-y-axis {{ width:58px; flex:0 0 58px; height:320px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; padding:0 4px 76px 0; position:relative; box-sizing:border-box; }}
+                  .risk-y-title {{ position:absolute; top:42%; left:50%; transform:translate(-50%,-50%) rotate(-90deg); transform-origin:center center; color:#263A32; font:700 .85rem sans-serif; white-space:nowrap; }}
                   .risk-y-tick {{ color:#263A32; font:600 .88rem sans-serif; line-height:1; transform:translateY(50%); }}
                   .risk-plot {{ position:relative; flex:1; min-width:0; height:320px; border-left:2px solid #526258; box-sizing:border-box; }}
                   .risk-grid-lines {{ position:absolute; inset:0 0 76px 0; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }}
@@ -374,7 +374,7 @@ if submitted:
                     .risk-chart-title {{ font-size:1.25rem; }}
                     .risk-chart-subtitle {{ font-size:.9rem; }}
                     .risk-chart {{ gap:5px; }}
-                    .risk-y-axis {{ width:39px; flex-basis:39px; }}
+                    .risk-y-axis {{ width:49px; flex-basis:49px; }}
                     .risk-y-tick {{ font-size:.78rem; }}
                     .risk-value-label {{ font-size:.9rem; }}
                     .risk-month {{ font-size:.83rem; }}
@@ -383,7 +383,7 @@ if submitted:
                   @media (prefers-reduced-motion: reduce) {{ .risk-bar {{ animation:none; transform:scaleY(1); }} }}
                 </style>
                 """
-                st.components.v1.html(risk_chart_html, height=390, scrolling=False)
+                st.components.v1.html(risk_chart_html, height=405, scrolling=False)
 
         if distributed > 0 and wastage <= distributed:
             with st.expander("See How?"):
