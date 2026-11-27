@@ -78,7 +78,6 @@ metric_html = f"""
 <script>
   const cards = Array.from(document.querySelectorAll(".metric-card"));
   const duration = 1250;
-  const gapAfterCount = 220;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function animateCount(element) {{
@@ -105,10 +104,9 @@ metric_html = f"""
       const card = cards[index];
       card.classList.add("is-visible");
       const value = card.querySelector(".metric-value");
-      window.setTimeout(() => {{
-        animateCount(value);
-        window.setTimeout(() => showCard(index + 1), duration + gapAfterCount);
-      }}, 260);
+      window.setTimeout(() => animateCount(value), 260);
+      // Reveal the next card 2 seconds after this card appears.
+      window.setTimeout(() => showCard(index + 1), 2000);
     }}
     showCard(0);
   }}
