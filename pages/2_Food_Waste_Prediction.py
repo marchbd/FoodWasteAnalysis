@@ -204,10 +204,14 @@ if submitted:
         wastage = max(0.0, float(result["predicted_wastage_kg"]))
 
         # Forecast the submitted month and the following two months.
-        current_period = pd.Period(prediction_month.strip(), freq="M")
+        current_period = datetime.strptime(prediction_month.strip(), "%Y-%m")
         forecast_points = []
         for offset in range(3):
-            forecast_period = current_period + offset
+            month_index = current_period.month - 1 + offset
+            forecast_year = current_period.year + month_index // 12
+            forecast_month_number = month_index % 12 + 1
+            forecast_date = datetime(forecast_year, forecast_month_number, 1)
+            forecast_month = forecast_date.strftime("%Y-%m")
             if offset == 0:
                 forecast_distribution = distributed
                 forecast_wastage = wastage
@@ -217,7 +221,7 @@ if submitted:
                     "district": district,
                     "block": block,
                     "commodity": commodity,
-                    "prediction_month": str(forecast_period),
+                    "prediction_month": forecast_month,
                     "opening_stock_kg": opening_stock,
                     "received_stock_kg": received_stock,
                     "beneficiaries": beneficiaries,
@@ -233,8 +237,8 @@ if submitted:
 
             risk = (forecast_wastage / forecast_distribution * 100) if forecast_distribution > 0 else None
             forecast_points.append({
-                "month": forecast_period.strftime("%B"),
-                "year": forecast_period.year,
+                "month": forecast_date.strftime("%B"),
+                "year": forecast_year,
                 "risk": risk,
             })
 
@@ -315,11 +319,17 @@ if submitted:
                         f'<div class="risk-month">{point["month"]}<span>{point["year"]}</span></div>'
                         f'</div>'
                     )
+                risk_aria_label = ", ".join(
+                    f"{point['month']} {point['year']}: {point['risk']:.1f}%"
+                    if point["risk"] is not None
+                    else f"{point['month']} {point['year']}: unavailable"
+                    for point in forecast_points
+                )
                 risk_chart_html = f"""
                 <div class="risk-chart-card">
                   <div class="risk-chart-title">Wastage risk forecast</div>
                   <div class="risk-chart-subtitle">Current month and next two months</div>
-                  <div class="risk-chart" role="img" aria-label="Predicted wastage risk: {', '.join(f'{p["month"]} {p["year"]}: {p["risk"]:.1f}%' if p["risk"] is not None else f'{p["month"]} {p["year"]}: unavailable' for p in forecast_points)}">
+                  <div class="risk-chart" role="img" aria-label="Predicted wastage risk: {risk_aria_label}">
                     {''.join(bars)}
                   </div>
                   <div class="risk-chart-footnote">Risk factor = predicted wastage ÷ predicted distribution × 100</div>
