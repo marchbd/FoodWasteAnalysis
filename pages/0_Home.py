@@ -75,7 +75,8 @@ st.markdown("""
     border-radius: 14px !important;
     border: 1px solid rgba(125, 211, 252, .58) !important;
     background: linear-gradient(110deg, #087eaa, #5141a5) !important;
-    color: #f8fbff !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
     font-weight: 750 !important;
     text-decoration: none !important;
     transition: transform .2s ease, filter .2s ease, border-color .2s ease;
