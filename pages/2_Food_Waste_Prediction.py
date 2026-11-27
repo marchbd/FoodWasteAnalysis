@@ -52,34 +52,44 @@ if not states:
 if not models_ready():
     st.warning("Trained models are not available. Ensure both .cbm files are committed under models/.")
 
-with st.form("prediction_inputs"):
-    with st.container(border=True, key="location_period_card"):
-        st.subheader("📍 Location and period")
-        location_col, period_col = st.columns([1.4, 1])
-        with location_col:
-            state = st.selectbox("State", states)
-            state_data = data[data["state"].astype(str) == state]
-            districts = sorted(state_data["district"].dropna().astype(str).unique().tolist())
-            if not districts:
-                st.error("No district data is available for this state.")
-                st.stop()
-            district = st.selectbox("District", districts)
-            district_data = state_data[state_data["district"].astype(str) == district]
-            available_blocks = sorted(
-                b for b in district_data["block"].dropna().astype(str).unique().tolist()
-                if b.strip() and b.upper() != "UNKNOWN"
-            )
-            block_choice = st.selectbox("Block (optional)", ["Skip block (optional)"] + available_blocks)
-            block = "" if block_choice == "Skip block (optional)" else block_choice
-            commodities = sorted(district_data["commodity"].dropna().astype(str).unique().tolist())
-            if not commodities:
-                st.error("No commodity data is available for this district.")
-                st.stop()
-            commodity = st.selectbox("Commodity", commodities)
-        with period_col:
-            prediction_month = st.text_input("Prediction month (YYYY-MM)", value="2026-11")
+with st.container(border=True, key="location_period_card"):
+    st.subheader("📍 Location and period")
+    location_col, period_col = st.columns([1.4, 1])
+    with location_col:
+        state = st.selectbox("State", states, key="prediction_state")
+        state_data = data[data["state"].astype(str) == state]
+        districts = sorted(state_data["district"].dropna().astype(str).unique().tolist())
+        if not districts:
+            st.error("No district data is available for this state.")
+            st.stop()
+        # State-specific keys ensure the district selection resets to a valid
+        # option whenever the selected state changes.
+        district = st.selectbox(
+            "District", districts, key=f"prediction_district_{state}"
+        )
+        district_data = state_data[state_data["district"].astype(str) == district]
+        available_blocks = sorted(
+            b for b in district_data["block"].dropna().astype(str).unique().tolist()
+            if b.strip() and b.upper() != "UNKNOWN"
+        )
+        block_choice = st.selectbox(
+            "Block (optional)",
+            ["Skip block (optional)"] + available_blocks,
+            key=f"prediction_block_{state}_{district}",
+        )
+        block = "" if block_choice == "Skip block (optional)" else block_choice
+        commodities = sorted(district_data["commodity"].dropna().astype(str).unique().tolist())
+        if not commodities:
+            st.error("No commodity data is available for this district.")
+            st.stop()
+        commodity = st.selectbox(
+            "Commodity", commodities, key=f"prediction_commodity_{state}_{district}"
+        )
+    with period_col:
+        prediction_month = st.text_input("Prediction month (YYYY-MM)", value="2026-11")
 
-    st.write("")
+st.write("")
+with st.form("prediction_inputs"):
     with st.container(border=True, key="demand_stock_card"):
         st.subheader("📦 Demand and stock")
         demand_col, stock_col = st.columns(2)
