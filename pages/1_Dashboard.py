@@ -122,7 +122,51 @@ coverage = (
     .agg(districts=("district", "nunique"), blocks=("block", "nunique"), records=("state", "size"))
     .sort_values("state")
 )
-st.dataframe(coverage, use_container_width=True, hide_index=True)
+coverage_html = coverage.to_html(index=False, border=0, classes="coverage-table")
+coverage_height = max(300, 58 + len(coverage) * 43)
+
+coverage_component = f"""
+<div class="coverage-scroll">
+  {coverage_html}
+</div>
+<style>
+  * {{ box-sizing: border-box; }}
+  body {{ margin: 0; background: transparent; font-family: sans-serif; }}
+  .coverage-scroll {{ width: 100%; overflow-x: auto; border-radius: 14px; }}
+  .coverage-table {{
+    width: 100%; min-width: 520px; border-collapse: separate;
+    border-spacing: 0; color: #dce6f7; font-size: 15px;
+    background: rgba(15, 23, 42, .52); border-radius: 14px;
+    overflow: hidden;
+  }}
+  .coverage-table th, .coverage-table td {{
+    padding: 13px 16px; text-align: left;
+    border-bottom: 1px solid rgba(148, 163, 184, .15);
+    white-space: nowrap;
+  }}
+  .coverage-table th {{
+    color: #b9d9f7; font-weight: 750;
+    background: linear-gradient(110deg, rgba(14,165,233,.18), rgba(124,58,237,.18));
+  }}
+  .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
+  .coverage-table tbody tr:hover td {{ background: rgba(56,189,248,.07); }}
+  @keyframes coverageColumnIn {{
+    from {{ opacity: 0; transform: translateX(-28px); }}
+    to {{ opacity: 1; transform: translateX(0); }}
+  }}
+  .coverage-table th, .coverage-table td {{
+    opacity: 0; animation: coverageColumnIn .48s cubic-bezier(.2,.75,.25,1) forwards;
+  }}
+  .coverage-table th:nth-child(1), .coverage-table td:nth-child(1) {{ animation-delay: 0s; }}
+  .coverage-table th:nth-child(2), .coverage-table td:nth-child(2) {{ animation-delay: .3s; }}
+  .coverage-table th:nth-child(3), .coverage-table td:nth-child(3) {{ animation-delay: .6s; }}
+  .coverage-table th:nth-child(4), .coverage-table td:nth-child(4) {{ animation-delay: .9s; }}
+  @media (prefers-reduced-motion: reduce) {{
+    .coverage-table th, .coverage-table td {{ opacity: 1; animation: none; }}
+  }}
+</style>
+"""
+components.html(coverage_component, height=coverage_height, scrolling=False)
 
 st.subheader("Records by state")
 state_counts = data.groupby("state").size().sort_values(ascending=False)
