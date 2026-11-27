@@ -10,6 +10,7 @@ apply_theme()
 render_top_nav("prediction")
 
 st.markdown("""<style>
+.prediction-kicker { color:#A65B49; font-size:.78rem; letter-spacing:.16em; font-weight:800; margin:4px 0 10px; }
 .st-key-location_period_card, .st-key-demand_stock_card {
     border:1px solid #D8D6C8 !important;
     border-radius:15px !important;
@@ -73,8 +74,9 @@ st.markdown("""<style>
 }
 </style>""", unsafe_allow_html=True)
 
-st.title("Food Waste Prediction")
-st.caption("Two-stage prediction: distribution first, then food wastage.")
+st.markdown('<div class="prediction-kicker">STAGE 1 → STAGE 2</div>', unsafe_allow_html=True)
+st.title("Food waste prediction")
+st.caption("Distribution is predicted first, then food wastage.")
 
 data = load_dataset()
 if data is None:
