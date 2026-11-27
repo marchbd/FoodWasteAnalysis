@@ -222,7 +222,7 @@ coverage_component = f"""
   }}
   .coverage-table thead th {{
     opacity: 0;
-    animation: coverageHeadingIn .8s ease-out forwards;
+    animation: coverageHeadingIn .5s ease-out forwards;
   }}
   /* Reveal headings one at a time; each column's cells follow its heading. */
   .coverage-table thead th:nth-child(1) {{ animation-delay: 0s; }}
@@ -231,7 +231,7 @@ coverage_component = f"""
   .coverage-table thead th:nth-child(4) {{ animation-delay: 2.4s; }}
   .coverage-table tbody td {{
     opacity: 0;
-    animation: coverageRowIn .5s ease-out forwards;
+    animation: coverageRowIn .2s ease-out forwards;
   }}
   .coverage-table tbody td:nth-child(1) {{
     animation-delay: calc(.8s + var(--row-index) * .05s);
