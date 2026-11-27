@@ -5,27 +5,29 @@ def render_top_nav(active_page):
         """
         <style>
         div[data-testid="stPageLink"] a {
+            min-height: 48px;
             border-radius: 13px !important;
-            border: 1px solid #DDCDB5 !important;
-            background: linear-gradient(145deg, #FFFCF6, #F0E4D1) !important;
-            color: #5A4434 !important;
-            font-weight: 750 !important;
+            border: 1px solid #C9B99F !important;
+            background: linear-gradient(145deg, #FFFEFA, #F0E8DA) !important;
+            color: #43392D !important;
+            font-size: 1rem !important;
+            font-weight: 700 !important;
             justify-content: center !important;
-            min-height: 44px;
-            box-shadow: 5px 5px 12px rgba(111,85,56,.12),
-                        -4px -4px 10px rgba(255,255,255,.86) !important;
-            transition: transform .2s ease, background .2s ease;
+            box-shadow: 0 5px 14px rgba(65,53,36,.08) !important;
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
         }
         div[data-testid="stPageLink"] a:hover {
-            border-color: #B19C7A !important;
-            background: #F3E5CF !important;
-            transform: translateY(-1px);
+            border-color: #78947B !important;
+            background: linear-gradient(145deg, #F4F8F1, #E5EFE3) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(36,107,69,.14) !important;
         }
+        div[data-testid="stPageLink"] a p { color: inherit !important; }
         </style>
         """,
         unsafe_allow_html=True,
     )
-    left, right = st.columns(2)
+    left, right = st.columns(2, gap="large")
     if active_page == "home":
         left.page_link("pages/1_Dashboard.py", label="Dashboard", use_container_width=True)
         right.page_link("pages/2_Food_Waste_Prediction.py", label="Food Waste Prediction", use_container_width=True)
