@@ -106,7 +106,7 @@ metric_html = f"""
       const value = card.querySelector(".metric-value");
       window.setTimeout(() => animateCount(value), 260);
       // Reveal the next card 2 seconds after this card appears.
-      window.setTimeout(() => showCard(index + 1), 500);
+      window.setTimeout(() => showCard(index + 1), 300);
     }}
     showCard(0);
   }}
