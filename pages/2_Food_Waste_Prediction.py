@@ -11,44 +11,65 @@ render_top_nav("prediction")
 
 st.markdown("""<style>
 .st-key-location_period_card, .st-key-demand_stock_card {
-    border:1.7px solid #485064 !important;
-    border-radius:20px !important;
-    padding:1.15rem 1.25rem .75rem !important;
-    box-shadow:0 8px 20px rgba(65,53,36,.08), inset 0 1px 0 rgba(255,255,255,.9) !important;
-    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-}
-.st-key-location_period_card {
-    background:linear-gradient(135deg,#F0EAFF,#DED5FF) !important;
-}
-.st-key-demand_stock_card {
-    background:linear-gradient(135deg,#FFF0E8,#FFE0D2) !important;
+    border:1px solid #D8D6C8 !important;
+    border-radius:15px !important;
+    padding:1rem 1.1rem .75rem !important;
+    background:#FBFAF5 !important;
+    box-shadow:0 2px 7px rgba(37,54,44,.045) !important;
+    transition:box-shadow .2s ease, border-color .2s ease;
 }
 .st-key-location_period_card:hover, .st-key-demand_stock_card:hover {
-    transform:translateY(-3px);
-    border-color:#E59A77 !important;
-    box-shadow:0 13px 26px rgba(8,127,91,.22) !important;
+    border-color:#B8B5A7 !important;
+    box-shadow:0 5px 14px rgba(37,54,44,.07) !important;
 }
 .st-key-location_period_card h3, .st-key-demand_stock_card h3 {
-    color:#292E49 !important;
-    font-size:1.25rem !important;
-    font-weight:780 !important;
+    color:#203A30 !important;
+    font-family:Georgia, "Times New Roman", serif !important;
+    font-size:1.2rem !important;
+    font-weight:700 !important;
 }
 .st-key-location_period_card label, .st-key-demand_stock_card label {
-    color:#4B5269 !important;
-    font-weight:650 !important;
+    color:#56645B !important;
+    font-weight:600 !important;
 }
 .st-key-location_period_card div[data-baseweb='select'] > div,
 .st-key-location_period_card div[data-baseweb='input'] > div,
 .st-key-demand_stock_card div[data-baseweb='input'] > div {
-    border:1.7px solid #485064 !important;
-    background:#FFFEFA !important;
+    border:1px solid #D2D0C3 !important;
+    background:#FFFDF8 !important;
+}
+.st-key-location_period_card [data-testid="stHorizontalBlock"] {
+    flex-wrap:nowrap !important;
+}
+.st-key-location_period_card [data-testid="column"] {
+    min-width:0 !important;
 }
 [data-testid="stMetric"] {
-    border-top:3px solid #8064DC !important;
+    border:1px solid #D8D6C8 !important;
+    border-radius:14px !important;
+    background:#FBFAF5 !important;
 }
-[data-testid="stMetricValue"] { color:#684DB5 !important; }
+[data-testid="stMetricValue"] {
+    color:#204F3E !important;
+    font-family:Georgia,serif !important;
+}
 @media (max-width:700px) {
-    .st-key-location_period_card, .st-key-demand_stock_card { padding:.9rem !important; }
+    .st-key-location_period_card, .st-key-demand_stock_card { padding:.8rem !important; }
+    .st-key-location_period_card [data-testid="stHorizontalBlock"],
+    .st-key-demand_stock_card [data-testid="stHorizontalBlock"] {
+        flex-wrap:nowrap !important;
+        gap:.5rem !important;
+    }
+    .st-key-location_period_card [data-testid="column"],
+    .st-key-demand_stock_card [data-testid="column"] {
+        min-width:0 !important;
+        width:50% !important;
+        flex:1 1 50% !important;
+    }
+    .st-key-location_period_card label,
+    .st-key-demand_stock_card label { font-size:.78rem !important; }
+    .st-key-location_period_card input,
+    .st-key-demand_stock_card input { font-size:.85rem !important; }
 }
 </style>""", unsafe_allow_html=True)
 
@@ -76,39 +97,40 @@ if not models_ready():
 
 with st.container(border=True, key="location_period_card"):
     st.subheader("Location and period")
-    location_col, period_col = st.columns([1.4, 1])
+    location_col, period_col = st.columns([1, 1])
     with location_col:
         state = st.selectbox("State", states, key="prediction_state")
-        state_data = data[data["state"].astype(str) == state]
-        districts = sorted(state_data["district"].dropna().astype(str).unique().tolist())
-        if not districts:
-            st.error("No district data is available for this state.")
-            st.stop()
-        # State-specific keys ensure the district selection resets to a valid
-        # option whenever the selected state changes.
-        district = st.selectbox(
-            "District", districts, key=f"prediction_district_{state}"
-        )
-        district_data = state_data[state_data["district"].astype(str) == district]
-        available_blocks = sorted(
-            b for b in district_data["block"].dropna().astype(str).unique().tolist()
-            if b.strip() and b.upper() != "UNKNOWN"
-        )
-        block_choice = st.selectbox(
-            "Block (optional)",
-            ["Skip block (optional)"] + available_blocks,
-            key=f"prediction_block_{state}_{district}",
-        )
-        block = "" if block_choice == "Skip block (optional)" else block_choice
-        commodities = sorted(district_data["commodity"].dropna().astype(str).unique().tolist())
-        if not commodities:
-            st.error("No commodity data is available for this district.")
-            st.stop()
-        commodity = st.selectbox(
-            "Commodity", commodities, key=f"prediction_commodity_{state}_{district}"
-        )
     with period_col:
-        prediction_month = st.text_input("Prediction month (YYYY-MM)", value="2026-11")
+        prediction_month = st.text_input("Month (YYYY-MM)", value="2026-11")
+
+    state_data = data[data["state"].astype(str) == state]
+    districts = sorted(state_data["district"].dropna().astype(str).unique().tolist())
+    if not districts:
+        st.error("No district data is available for this state.")
+        st.stop()
+    # State-specific keys ensure the district selection resets to a valid
+    # option whenever the selected state changes.
+    district = st.selectbox(
+        "District", districts, key=f"prediction_district_{state}"
+    )
+    district_data = state_data[state_data["district"].astype(str) == district]
+    available_blocks = sorted(
+        b for b in district_data["block"].dropna().astype(str).unique().tolist()
+        if b.strip() and b.upper() != "UNKNOWN"
+    )
+    block_choice = st.selectbox(
+        "Block (optional)",
+        ["Skip block (optional)"] + available_blocks,
+        key=f"prediction_block_{state}_{district}",
+    )
+    block = "" if block_choice == "Skip block (optional)" else block_choice
+    commodities = sorted(district_data["commodity"].dropna().astype(str).unique().tolist())
+    if not commodities:
+        st.error("No commodity data is available for this district.")
+        st.stop()
+    commodity = st.selectbox(
+        "Commodity", commodities, key=f"prediction_commodity_{state}_{district}"
+    )
 
 st.write("")
 with st.form("prediction_inputs"):
@@ -196,18 +218,18 @@ if submitted:
             <div class="donut-wrap">
               <svg class="donut-svg" viewBox="0 0 300 300" role="img" aria-label="Usable quantity {usable:,.2f} kilograms and predicted wastage {wastage:,.2f} kilograms">
                 <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(148,163,184,.13)" stroke-width="46"/>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#087F8C" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#204F3E" stroke-width="46"
                         stroke-linecap="butt" transform="rotate(-90 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{usable_arc:.3f} {circumference:.3f}" dur="1.1s" fill="freeze"/>
                 </circle>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#E56B55" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#B85F4C" stroke-width="46"
                         stroke-linecap="butt" transform="rotate({wastage_start_angle - 90:.3f} 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{wastage_arc:.3f} {circumference:.3f}" begin=".12s" dur="1.1s" fill="freeze"/>
                 </circle>
-                <text x="150" y="146" text-anchor="middle" fill="#292E49" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
-                <text x="150" y="169" text-anchor="middle" fill="#525B70" font-size="14">wasted</text>
+                <text x="150" y="146" text-anchor="middle" fill="#203A30" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
+                <text x="150" y="169" text-anchor="middle" fill="#68746B" font-size="14">wasted</text>
               </svg>
               <div class="donut-legend">
                 <span><i class="usable-dot"></i>Usable quantity</span>
@@ -215,13 +237,13 @@ if submitted:
               </div>
             </div>
             <style>
-              .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#172B25; }}
+              .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#203A30; }}
               .donut-svg {{ width:min(100%, 330px); height:auto; overflow:visible; }}
               .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:0; font:600 15px sans-serif; }}
               .donut-legend span {{ display:flex; align-items:center; gap:9px; }}
               .donut-legend i {{ width:13px; height:13px; display:inline-block; }}
-              .usable-dot {{ background:#087F8C; }}
-              .waste-dot {{ background:#E56B55; }}
+              .usable-dot {{ background:#204F3E; }}
+              .waste-dot {{ background:#B85F4C; }}
               @media (prefers-reduced-motion: reduce) {{
                 .donut-svg animate {{ display:none; }}
               }}
