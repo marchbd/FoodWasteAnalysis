@@ -69,16 +69,20 @@ metric_html = f"""
     from {{ opacity: 0; transform: translateX(-34px) scale(.97); }}
     to {{ opacity: 1; transform: translateX(0) scale(1); }}
   }}
-  .card-cyan {{ border-color: #78C99A; background: linear-gradient(145deg, #E3F8E9, #BFEBD0); }}
-  .card-blue {{ border-color: #83BCEB; background: linear-gradient(145deg, #E5F2FF, #C9E4FA); }}
-  .card-pink {{ border-color: #F3A47E; background: linear-gradient(145deg, #FFF0E8, #FFD8C5); }}
-  .card-violet {{ border-color: #D6C64A; background: linear-gradient(145deg, #FBF9D9, #F1ECA9); }}
-  .metric-label {{ color: #40594B; font-size: 16px; font-weight: 650; margin-bottom: 12px; }}
-  .metric-value {{ color: #173D2E; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  .card-cyan {{ border-color: #E8A68F; background: linear-gradient(145deg, #FFF0E8, #FFD9C9); }}
+  .card-blue {{ border-color: #B9A9EA; background: linear-gradient(145deg, #F1ECFF, #DDD3FF); }}
+  .card-pink {{ border-color: #9BC9E8; background: linear-gradient(145deg, #E6F5FF, #CBE8FA); }}
+  .card-violet {{ border-color: #9ACBAA; background: linear-gradient(145deg, #E5F6EC, #C8EBD6); }}
+  .metric-label {{ color: #4B5269; font-size: 16px; font-weight: 700; margin-bottom: 12px; }}
+  .card-cyan .metric-value {{ color:#C45B43; }}
+  .card-blue .metric-value {{ color:#684DB5; }}
+  .card-pink .metric-value {{ color:#2878B8; }}
+  .card-violet .metric-value {{ color:#27845A; }}
+  .metric-value {{ color: #292E49; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
   .metric-description {{
     display: none;
     margin-top: 18px;
-    color: #263F33;
+    color: #46506A;
     font-weight: 600;
     font-size: 20px;
     line-height: 1.55;
@@ -93,7 +97,7 @@ metric_html = f"""
     height: 1em;
     margin-left: 4px;
     vertical-align: -2px;
-    background:  #087F5B;
+    background:  #8064DC;
     animation: typingCaret .8s steps(1) infinite;
   }}
   @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
@@ -215,11 +219,11 @@ coverage_component = f"""
     white-space: nowrap;
   }}
   .coverage-table th {{
-    color: #172B25; font-weight: 800;
-    background: linear-gradient(110deg, #DDF7E8, #BDECCB);
+    color: #292E49; font-weight: 800;
+    background: linear-gradient(110deg, #FFE0D2, #E4DCFF, #D8F0FF, #DDF3E3);
   }}
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
-  .coverage-table tbody tr:hover td {{ background: rgba(8,127,91,.12); }}
+  .coverage-table tbody tr:hover td {{ background: rgba(128,100,220,.12); }}
   @keyframes coverageHeadingIn {{
     from {{ opacity: 0; transform: translateX(-26px); }}
     to {{ opacity: 1; transform: translateX(0); }}
