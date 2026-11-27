@@ -5,22 +5,26 @@ def render_top_nav(active_page):
         """
         <style>
         div[data-testid="stPageLink"] a {
-            min-height: 48px;
-            border-radius: 13px !important;
-            border: 1px solid #8FB29A !important;
-            background: linear-gradient(145deg, #FFFFFF, #E7F3E7) !important;
-            color: #173D2E !important;
-            font-size: 1rem !important;
-            font-weight: 700 !important;
-            justify-content: center !important;
-            box-shadow: 0 5px 14px rgba(8,127,91,.12) !important;
-            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+            min-height: 50px; border-radius: 14px !important;
+            border: 1px solid #D2D5E4 !important;
+            background: linear-gradient(135deg, #FFFFFF, #F1F0FA) !important;
+            color: #292E49 !important; font-size: 1rem !important;
+            font-weight: 750 !important; justify-content: center !important;
+            box-shadow: 0 6px 16px rgba(43,49,78,.09) !important;
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+        div[data-testid="stPageLink"]:nth-of-type(1) a {
+            background: linear-gradient(120deg, #FFF0E8, #FFE0D2) !important;
+            border-color: #E8B39F !important;
+        }
+        div[data-testid="stPageLink"]:nth-of-type(2) a {
+            background: linear-gradient(120deg, #F0EBFF, #DFD7FF) !important;
+            border-color: #BFB1F0 !important;
         }
         div[data-testid="stPageLink"] a:hover {
-            border-color: #B4D92E !important;
-            background: linear-gradient(145deg, #E4F8E9, #CFF2D8) !important;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(8,127,91,.24) !important;
+            transform: translateY(-4px);
+            box-shadow: 0 13px 23px rgba(43,49,78,.16) !important;
+            filter: saturate(1.12);
         }
         div[data-testid="stPageLink"] a p { color: inherit !important; }
         </style>
