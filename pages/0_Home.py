@@ -2,9 +2,11 @@ import streamlit as st
 
 from utils.data_loader import load_dataset
 from utils.theme import apply_theme
+from utils.navigation import render_top_nav
 
 st.set_page_config(page_title="Food Waste Analysis", page_icon="🍚", layout="wide")
 apply_theme()
+render_top_nav("home")
 
 st.markdown("""
 <style>
@@ -13,12 +15,10 @@ st.markdown("""
     position: relative; overflow: hidden; isolation: isolate;
     box-sizing: border-box; width: 100%;
     padding: clamp(28px, 4vw, 46px);
-    border-radius: 24px;
-    background:
-      radial-gradient(circle at 88% 15%, rgba(255,255,255,.68), transparent 23%),
-      linear-gradient(112deg, #FFE1D3 0%, #F4E9FF 48%, #D9F3F1 100%);
-    border: 1px solid #8FB29A;
-    box-shadow: 0 14px 34px rgba(55,48,36,.10), inset 0 1px 0 rgba(255,255,255,.95);
+    border-radius: 18px;
+    background: #F4F2E9;
+    border: 1px solid #D8D6C8;
+    box-shadow: none;
     margin: 8px 0 24px;
 }
 .hero-panel:before {
@@ -32,30 +32,32 @@ st.markdown("""
     background:radial-gradient(circle, rgba(229,107,85,.34), transparent 70%);
     animation: heroFloat 8s ease-in-out infinite alternate;
 }
+.hero-kicker { color:#A65B49; font-size:.82rem; letter-spacing:.16em; font-weight:800; margin:0 0 16px; }
 .hero-title {
-    color:#20243A; font-size:clamp(2.15rem,4.5vw,3.5rem);
-    font-weight:850; letter-spacing:-.055em; line-height:1.05; margin:0 0 12px;
+    color:#203A30; font-family:Georgia, "Times New Roman", serif;
+    font-size:clamp(2.15rem,4.5vw,3.5rem);
+    font-weight:700; letter-spacing:-.035em; line-height:1.06; margin:0 0 12px;
 }
-.hero-subtitle { color:#4B5269; font-size:clamp(1.05rem,1.5vw,1.2rem); line-height:1.6; margin:0 0 22px; max-width:760px; }
+.hero-subtitle { color:#56645B; font-size:clamp(1.05rem,1.5vw,1.2rem); line-height:1.6; margin:0 0 22px; max-width:760px; }
 .stage-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
 .stage-pill {
     display:inline-flex; align-items:center; padding:9px 15px; border-radius:999px;
-    color:#51409A; background:rgba(255,255,255,.68);
-    border:1px solid #C7B8EA; font-size:.92rem; font-weight:700;
+    color:#204F3E; background:#FBFAF5;
+    border:1px solid #D8D6C8; font-size:.92rem; font-weight:700;
     box-shadow:0 3px 10px rgba(41,37,31,.05);
 }
-.stage-arrow { color:#087F8C; font-size:1.25rem; font-weight:800; }
+.stage-arrow { color:#B85F4C; font-size:1.25rem; font-weight:800; }
 @keyframes heroFloat { from { transform:translate3d(0,0,0); } to { transform:translate3d(-18px,16px,0); } }
 .st-key-home_dashboard_link_card, .st-key-home_prediction_link_card {
-    background:linear-gradient(145deg,#FFF7F1,#F0EAFE) !important;
-    border:1.7px solid #485064 !important; border-radius:20px !important;
-    box-shadow:0 8px 20px rgba(65,53,36,.08), inset 0 1px 0 rgba(255,255,255,.9) !important;
+    background:#FBFAF5 !important;
+    border:1px solid #D8D6C8 !important; border-radius:16px !important;
+    box-shadow:0 2px 7px rgba(37,54,44,.045) !important;
     transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
     padding:18px 20px !important;
 }
 .st-key-home_dashboard_link_card:hover, .st-key-home_prediction_link_card:hover {
     transform:translateY(-5px);
-    border-color:#20243A !important;
+    border-color:#B8B5A7 !important;
     box-shadow:0 15px 28px rgba(36,107,69,.14) !important;
 }
 .st-key-home_dashboard_link_card [data-testid="stPageLink"] a,
@@ -67,27 +69,45 @@ st.markdown("""
     transition:transform .2s ease, filter .2s ease, box-shadow .2s ease;
 }
 .st-key-home_dashboard_link_card [data-testid="stPageLink"] a {
-    background:linear-gradient(115deg,#174F68,#12394F) !important;
-    border:1.7px solid #102F43 !important; box-shadow:0 5px 12px rgba(33,75,54,.2);
+    background:#204F3E !important;
+    border:1px solid #173F32 !important; box-shadow:none;
 }
 .st-key-home_prediction_link_card [data-testid="stPageLink"] a {
-    background:linear-gradient(115deg,#593B83,#39285F) !important;
-    border:1.7px solid #2B1D4C !important; box-shadow:0 5px 12px rgba(36,107,69,.2);
+    background:#204F3E !important;
+    border:1px solid #173F32 !important; box-shadow:none;
 }
 .st-key-home_dashboard_link_card [data-testid="stPageLink"] a:hover,
 .st-key-home_prediction_link_card [data-testid="stPageLink"] a:hover {
     transform:translateY(-2px); filter:brightness(1.08);
-    box-shadow:0 9px 17px rgba(8,127,91,.30);
+    box-shadow:0 5px 12px rgba(32,79,62,.18);
+}
+@media (max-width:700px) {
+  .block-container { padding-top:.55rem !important; }
+  .hero-panel { padding:22px 2px 16px; margin:0 0 14px; border:0; border-radius:0; background:transparent; }
+  .hero-kicker { font-size:.76rem; margin-bottom:14px; }
+  .hero-title { font-size:clamp(2.05rem,8vw,2.55rem); line-height:1.08; margin-bottom:12px; }
+  .hero-subtitle { font-size:1.02rem; line-height:1.5; margin-bottom:20px; }
+  .stage-row { gap:7px; }
+  .stage-pill { padding:8px 12px; font-size:.82rem; }
+  .stats-grid { gap:0 !important; border:1px solid #D8D6C8; border-radius:13px; overflow:hidden; }
+  .stat-card { border:0 !important; border-radius:0; box-shadow:none; min-height:108px; padding:16px; background:#FBFAF5 !important; }
+  .stat-card:nth-child(odd) { border-right:1px solid #D8D6C8 !important; }
+  .stat-card:nth-child(-n+2) { border-bottom:1px solid #D8D6C8 !important; }
+  .stat-card:hover { transform:none !important; box-shadow:none !important; }
+  .stat-label { font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; }
+  .stat-number { font-size:2rem; }
+  .st-key-home_dashboard_link_card, .st-key-home_prediction_link_card { margin-top:14px; }
 }
 @media (prefers-reduced-motion: reduce) { .hero-panel:after { animation:none; } }
 </style>
 <div class="hero-panel">
-  <div class="hero-title">Food Waste Analysis</div>
-  <p class="hero-subtitle">A clear view of food distribution, demand patterns and wastage prediction.</p>
+  <div class="hero-kicker">TWO-STAGE MACHINE LEARNING</div>
+  <div class="hero-title">Know how much food will be wasted, before it is.</div>
+  <p class="hero-subtitle">Estimate food distribution across states, districts and blocks, then predict wastage and the usable quantity that remains.</p>
   <div class="stage-row">
-    <span class="stage-pill">Stage 1 · Distribution prediction</span>
+    <span class="stage-pill">1 · Distribution</span>
     <span class="stage-arrow">→</span>
-    <span class="stage-pill">Stage 2 · Wastage prediction</span>
+    <span class="stage-pill">2 · Wastage</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -125,22 +145,16 @@ else:
       .stat-card {{
         min-width: 0; min-height: 105px; padding: 16px 18px;
         border-radius: 16px;
-        background: linear-gradient(145deg, #FFFFFF, #E5F3E6);
-        border: 1px solid #8FB29A;
+        background: #FBFAF5;
+        border: 1px solid #D8D6C8;
         box-shadow: 7px 7px 16px rgba(90,68,52,.14), -6px -6px 14px rgba(255,255,255,.88);
         transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
         backdrop-filter: blur(22px) saturate(155%);
         opacity: 0;
         transform: translateX(-28px) scale(.97);
       }}
-      .stat-card:nth-child(1) {{ background:linear-gradient(135deg,#FFF0E8,#FFD9C9); border-color:#E6A68F; }}
-      .stat-card:nth-child(2) {{ background:linear-gradient(135deg,#F1ECFF,#DDD3FF); border-color:#B9A9EA; }}
-      .stat-card:nth-child(3) {{ background:linear-gradient(135deg,#E6F5FF,#CBE8FA); border-color:#9BC9E8; }}
-      .stat-card:nth-child(4) {{ background:linear-gradient(135deg,#E5F6EC,#C8EBD6); border-color:#9ACBAA; }}
-      .stat-card:nth-child(1) .stat-number {{ color:#C45B43; }}
-      .stat-card:nth-child(2) .stat-number {{ color:#684DB5; }}
-      .stat-card:nth-child(3) .stat-number {{ color:#2878B8; }}
-      .stat-card:nth-child(4) .stat-number {{ color:#27845A; }}
+      .stat-card:nth-child(1), .stat-card:nth-child(2), .stat-card:nth-child(3), .stat-card:nth-child(4) {{ background:#FBFAF5; border-color:#D8D6C8; }}
+      .stat-card .stat-number {{ color:#204F3E; font-family:Georgia,serif; }}
       .stat-card:hover {{
         transform: translateY(-7px) scale(1.015) !important;
         border-color: #80674F;
@@ -153,7 +167,7 @@ else:
         from {{ opacity: 0; transform: translateX(-28px) scale(.97); }}
         to {{ opacity: 1; transform: translateX(0) scale(1); }}
       }}
-      .stat-label {{ color: #40594B; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }}
+      .stat-label {{ color: #69756C; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }}
       .stat-number {{ color: #087F8C; font-size: 2.2rem; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }}
       .metric-description {{
         display: none;
@@ -173,7 +187,7 @@ else:
         height: 1em;
         margin-left: 4px;
         vertical-align: -2px;
-        background: #087F8C;
+        background: #B85F4C;
         animation: typingCaret .8s steps(1) infinite;
       }}
       @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
