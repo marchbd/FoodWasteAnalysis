@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
+import uuid
 from prediction.pipeline import models_ready, predict_food_waste
 from utils.data_loader import load_dataset
 from utils.theme import apply_theme
@@ -120,26 +121,23 @@ if submitted:
             '<div id="prediction-results-anchor" style="scroll-margin-top: 0;"></div>',
             unsafe_allow_html=True,
         )
-        st.components.v1.html(
-            """
+        scroll_trigger = uuid.uuid4().hex
+        scroll_html = """
             <script>
-              // Scroll once after Streamlit has rendered the new prediction output.
+              // This component is uniquely refreshed for every Predict submission.
               window.setTimeout(() => {
                 try {
                   const doc = window.parent.document;
                   const target = doc.getElementById("prediction-results-anchor");
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }
+                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
                 } catch (error) {
                   console.warn("Could not scroll to prediction results:", error);
                 }
-              }, 350);
+              }, 400);
             </script>
-            """,
-            height=1,
-            scrolling=False,
-        )
+            <!-- scroll-trigger: """ + scroll_trigger + """ -->
+        """
+        st.components.v1.html(scroll_html, height=1, scrolling=False)
         st.subheader("Prediction results")
         m1, m2 = st.columns(2)
         m1.metric("Predicted distributed quantity", f"{result['predicted_distributed_stock_kg']:,.2f} kg")
