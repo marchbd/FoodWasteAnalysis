@@ -9,17 +9,6 @@ apply_theme()
 render_top_nav("prediction")
 
 st.markdown("""<style>
-/* Prediction page background only — input card styles remain untouched. */
-.stApp {
- background:
-   radial-gradient(ellipse at 12% 8%, rgba(13,148,136,.22), transparent 34%),
-   radial-gradient(ellipse at 88% 12%, rgba(234,179,8,.12), transparent 30%),
-   radial-gradient(ellipse at 72% 88%, rgba(20,184,166,.12), transparent 32%),
-   linear-gradient(145deg, #071a1c 0%, #0b1724 48%, #171629 100%) !important;
-}
-</style>""", unsafe_allow_html=True)
-
-st.markdown("""<style>
 .st-key-location_period_card {
  background: linear-gradient(135deg, rgba(8,145,178,.22), rgba(37,99,235,.13), rgba(15,23,42,.68));
  border: 1px solid rgba(103,232,249,.35);
