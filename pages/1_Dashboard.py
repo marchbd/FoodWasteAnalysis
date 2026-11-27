@@ -77,6 +77,17 @@ metric_html = f"""
   }}
 </style>
 <script>
+  function syncMetricFrameHeight() {{
+    const mobile = window.matchMedia("(max-width: 700px)").matches;
+    window.parent.postMessage({{
+      isStreamlitMessage: true,
+      type: "streamlit:setFrameHeight",
+      height: mobile ? 245 : 155
+    }}, "*");
+  }}
+  syncMetricFrameHeight();
+  window.addEventListener("resize", syncMetricFrameHeight);
+
   const cards = Array.from(document.querySelectorAll(".metric-card"));
   const duration = 1250;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -113,7 +124,7 @@ metric_html = f"""
   }}
 </script>
 """
-components.html(metric_html, height=245, scrolling=False)
+components.html(metric_html, height=155, scrolling=False)
 
 
 st.subheader("Geographic coverage")
