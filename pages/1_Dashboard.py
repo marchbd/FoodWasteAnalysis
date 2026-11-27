@@ -40,6 +40,7 @@ metric_html = f"""
     <div class="metric-value" data-target="{blocks_count}">0</div>
   </div>
 </div>
+<div class="metric-description" aria-label="Dashboard description"></div>
 <style>
   * {{ box-sizing: border-box; }}
   body {{ margin: 0; font-family: sans-serif; background: transparent; }}
@@ -67,6 +68,29 @@ metric_html = f"""
   .card-violet {{ border-color: rgba(196,181,253,.36); }}
   .metric-label {{ color: #c1cde1; font-size: 16px; margin-bottom: 12px; }}
   .metric-value {{ color: #dce6f7; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  .metric-description {{
+    display: none;
+    margin-top: 18px;
+    color: #c1cde1;
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 24px;
+    letter-spacing: .1px;
+  }}
+  .metric-description::after {{
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 4px;
+    vertical-align: -2px;
+    background: #7dd3fc;
+    animation: typingCaret .8s steps(1) infinite;
+  }}
+  @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
+  @media (min-width: 701px) {{
+    .metric-description {{ display: block; }}
+  }}
   @media (max-width: 700px) {{
     .metrics-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }}
     .metric-card {{ min-height: 112px; padding: 18px; border-radius: 18px; }}
@@ -80,6 +104,22 @@ metric_html = f"""
   const cards = Array.from(document.querySelectorAll(".metric-card"));
   const duration = 1250;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const description = document.querySelector(".metric-description");
+  const descriptionText = "Review the dataset's geographic coverage and compare food records across states, districts, and blocks.";
+  if (description && window.matchMedia("(min-width: 701px)").matches) {{
+    if (reduced) {{
+      description.textContent = descriptionText;
+    }} else {{
+      let charIndex = 0;
+      const typeNext = () => {{
+        if (charIndex < descriptionText.length) {{
+          description.textContent += descriptionText.charAt(charIndex++);
+          window.setTimeout(typeNext, 24);
+        }}
+      }};
+      window.setTimeout(typeNext, 450);
+    }}
+  }}
 
   function animateCount(element) {{
     const target = Number(element.dataset.target);
