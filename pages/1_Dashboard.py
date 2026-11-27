@@ -262,5 +262,52 @@ components.html(coverage_component, height=coverage_height, scrolling=False)
 
 st.subheader("Records by state")
 state_counts = data.groupby("state").size().sort_values(ascending=False)
-st.bar_chart(state_counts)
+chart_data = state_counts.rename_axis("State").reset_index(name="Records")
+
+# Use explicit axis typography so labels and tick values stay readable on mobile.
+import altair as alt
+
+state_chart = (
+    alt.Chart(chart_data)
+    .mark_bar(color="#1767B8")
+    .encode(
+        x=alt.X(
+            "State:N",
+            sort="-y",
+            axis=alt.Axis(
+                title=None,
+                labelAngle=-90,
+                labelFontSize=15,
+                labelFontWeight="bold",
+                labelColor="#263A32",
+                labelLimit=180,
+                labelPadding=12,
+                tickColor="#263A32",
+                domainColor="#657168",
+            ),
+        ),
+        y=alt.Y(
+            "Records:Q",
+            axis=alt.Axis(
+                title=None,
+                labelFontSize=15,
+                labelFontWeight="bold",
+                labelColor="#263A32",
+                format=",",
+                gridColor="#D8D6C8",
+                gridOpacity=0.85,
+                tickColor="#657168",
+                domainColor="#657168",
+            ),
+        ),
+        tooltip=[
+            alt.Tooltip("State:N", title="State"),
+            alt.Tooltip("Records:Q", title="Records", format=","),
+        ],
+    )
+    .properties(height=410, padding={"left": 8, "right": 12, "top": 8, "bottom": 8})
+    .configure_view(strokeOpacity=0)
+    .configure(background="#F4F2E9")
+)
+st.altair_chart(state_chart, use_container_width=True)
 
