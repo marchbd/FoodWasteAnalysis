@@ -72,49 +72,94 @@ data = load_dataset()
 if data is None:
     st.warning("Dataset missing. Add data/raw/Datasetfood.csv to the repository.")
 else:
-    def animated_count(label, value):
-        html = """
-        <div class="stat-card">
-          <div class="stat-label">__LABEL__</div>
-          <div class="stat-number"><span id="count">0</span></div>
-        </div>
-        <style>
-          body { margin: 0; background: transparent; }
-          .stat-card { min-height: 105px; box-sizing: border-box; padding: 16px 18px;
-            border-radius: 16px; background: linear-gradient(135deg, rgba(14,165,233,.19), rgba(124,58,237,.20), rgba(236,72,153,.12));
-            border: 1px solid rgba(190,210,255,.27); backdrop-filter: blur(22px) saturate(155%); }
-          .stat-label { color: #cbd5e1; font: 650 .92rem sans-serif; margin-bottom: 8px; }
-          .stat-number { color: #f8fafc; font: 750 2.15rem/1.1 sans-serif; }
-        </style>
-        <script>
-          const target = __VALUE__;
-          const duration = 1500;
-          const start = performance.now();
-          const number = document.getElementById("count");
-          function animate(now) {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            number.textContent = Math.floor(target * eased).toLocaleString("en-IN");
-            if (progress < 1) requestAnimationFrame(animate);
-          }
-          requestAnimationFrame(animate);
-        </script>
-        """.replace("__VALUE__", str(int(value))).replace("__LABEL__", label)
-        st.components.v1.html(html, height=112, scrolling=False)
-
     block_count = data.loc[
         data["block"].astype(str).str.upper() != "UNKNOWN", "block"
     ].nunique()
 
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        animated_count("Records", len(data))
-    with c2:
-        animated_count("States", data["state"].nunique())
-    with c3:
-        animated_count("Districts", data["district"].nunique())
-    with c4:
-        animated_count("Blocks", block_count)
+    metrics = [
+        ("Records", len(data)),
+        ("States", data["state"].nunique()),
+        ("Districts", data["district"].nunique()),
+        ("Blocks", block_count),
+    ]
+    metric_cards = "".join(
+        f'<div class="stat-card"><div class="stat-label">{label}</div>'
+        f'<div class="stat-number" data-target="{int(value)}">0</div></div>'
+        for label, value in metrics
+    )
+    metrics_html = f"""
+    <div class="stats-grid">{metric_cards}</div>
+    <style>
+      * {{ box-sizing: border-box; }}
+      body {{ margin: 0; background: transparent; font-family: sans-serif; }}
+      .stats-grid {{
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }}
+      .stat-card {{
+        min-width: 0; min-height: 105px; padding: 16px 18px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(14,165,233,.19), rgba(124,58,237,.20), rgba(236,72,153,.12));
+        border: 1px solid rgba(190,210,255,.27);
+        backdrop-filter: blur(22px) saturate(155%);
+        opacity: 0;
+        transform: translateX(-28px) scale(.97);
+      }}
+      .stat-card.is-visible {{
+        animation: statSlideIn .48s cubic-bezier(.2,.75,.25,1) forwards;
+      }}
+      @keyframes statSlideIn {{
+        from {{ opacity: 0; transform: translateX(-28px) scale(.97); }}
+        to {{ opacity: 1; transform: translateX(0) scale(1); }}
+      }}
+      .stat-label {{ color: #cbd5e1; font-size: .92rem; font-weight: 650; margin-bottom: 8px; }}
+      .stat-number {{ color: #f8fafc; font-size: 2.15rem; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }}
+      @media (max-width: 700px) {{
+        .stats-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }}
+        .stat-card {{ min-height: 100px; padding: 14px; }}
+        .stat-number {{ font-size: 1.8rem; }}
+      }}
+      @media (prefers-reduced-motion: reduce) {{
+        .stat-card {{ opacity: 1; transform: none; }}
+        .stat-card.is-visible {{ animation: none; }}
+      }}
+    </style>
+    <script>
+      const cards = Array.from(document.querySelectorAll(".stat-card"));
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      function countUp(element) {{
+        const target = Number(element.dataset.target);
+        const start = performance.now();
+        const duration = 1500;
+        function tick(now) {{
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          element.textContent = Math.floor(target * eased).toLocaleString("en-IN");
+          if (progress < 1) requestAnimationFrame(tick);
+        }}
+        requestAnimationFrame(tick);
+      }}
+      if (reduced) {{
+        cards.forEach(card => {{
+          card.classList.add("is-visible");
+          const number = card.querySelector(".stat-number");
+          number.textContent = Number(number.dataset.target).toLocaleString("en-IN");
+        }});
+      }} else {{
+        function reveal(index) {{
+          if (index >= cards.length) return;
+          const card = cards[index];
+          card.classList.add("is-visible");
+          const number = card.querySelector(".stat-number");
+          window.setTimeout(() => countUp(number), 180);
+          window.setTimeout(() => reveal(index + 1), 300);
+        }}
+        reveal(0);
+      }}
+    </script>
+    """
+    st.components.v1.html(metrics_html, height=125, scrolling=False)
     st.caption("Location dropdowns show only states, districts and blocks represented in this dataset.")
 
 st.divider()
