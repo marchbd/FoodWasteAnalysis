@@ -50,10 +50,17 @@ metric_html = f"""
     opacity: 0;
     transform: translateX(-34px) scale(.97);
     position: relative;
-    border: 1px solid #E0D1BC;
+    border: 1.5px solid #B9A184;
     border-radius: 24px;
+    box-shadow: 7px 7px 16px rgba(90,68,52,.14), -6px -6px 14px rgba(255,255,255,.88);
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
     background: linear-gradient(145deg, #FFFCF6, #F0E5D4);
     display: flex; flex-direction: column; justify-content: center;
+  }}
+  .metric-card:hover {{
+    transform: translateY(-7px) scale(1.015) !important;
+    border-color: #80674F;
+    box-shadow: 12px 16px 24px rgba(90,68,52,.20), -5px -5px 14px rgba(255,255,255,.9);
   }}
   .metric-card.is-visible {{
     animation: cardSlideIn .58s cubic-bezier(.2,.75,.25,1) forwards;
@@ -71,7 +78,8 @@ metric_html = f"""
   .metric-description {{
     display: none;
     margin-top: 18px;
-    color: #718074;
+    color: #5A4434;
+    font-weight: 550;
     font-size: 20px;
     line-height: 1.55;
     min-height: 64px;
