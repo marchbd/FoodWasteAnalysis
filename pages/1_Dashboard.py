@@ -8,7 +8,7 @@ from utils.navigation import render_top_nav
 apply_theme()
 render_top_nav("dashboard")
 
-st.title("📊 Food Waste Dashboard")
+st.title("Food Waste Dashboard")
 st.caption("Geographic coverage and records across the dataset.")
 
 data = load_dataset()
@@ -50,9 +50,9 @@ metric_html = f"""
     opacity: 0;
     transform: translateX(-34px) scale(.97);
     position: relative;
-    border: 1px solid rgba(148, 163, 184, .28);
+    border: 1px solid #d6e3d2;
     border-radius: 24px;
-    background: linear-gradient(145deg, rgba(24, 42, 67, .88), rgba(15, 23, 42, .92));
+    background: linear-gradient(145deg, #fbfdf9, #e7efe4);
     display: flex; flex-direction: column; justify-content: center;
   }}
   .metric-card.is-visible {{
@@ -66,12 +66,12 @@ metric_html = f"""
   .card-blue {{ border-color: rgba(96,165,250,.34); }}
   .card-pink {{ border-color: rgba(240,171,252,.34); }}
   .card-violet {{ border-color: rgba(196,181,253,.36); }}
-  .metric-label {{ color: #c1cde1; font-size: 16px; margin-bottom: 12px; }}
-  .metric-value {{ color: #dce6f7; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  .metric-label {{ color: #718074; font-size: 16px; margin-bottom: 12px; }}
+  .metric-value {{ color: #21633a; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
   .metric-description {{
     display: none;
     margin-top: 18px;
-    color: #c1cde1;
+    color: #718074;
     font-size: 20px;
     line-height: 1.55;
     min-height: 64px;
@@ -85,7 +85,7 @@ metric_html = f"""
     height: 1em;
     margin-left: 4px;
     vertical-align: -2px;
-    background: #7dd3fc;
+    background: #21834a;
     animation: typingCaret .8s steps(1) infinite;
   }}
   @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
