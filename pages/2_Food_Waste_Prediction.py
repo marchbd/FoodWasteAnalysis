@@ -117,7 +117,7 @@ if submitted:
             "previous_wastage_kg": previous_wastage,
         })
         st.markdown(
-            '<div id="prediction-results-anchor" style="scroll-margin-top: 1rem;"></div>',
+            '<div id="prediction-results-anchor" style="scroll-margin-top: 0;"></div>',
             unsafe_allow_html=True,
         )
         st.components.v1.html(
@@ -125,23 +125,34 @@ if submitted:
             <script>
               (() => {
                 let attempts = 0;
+                const maxAttempts = 30;
                 const scrollToResults = () => {
                   try {
                     const doc = window.parent.document;
                     const anchor = doc.getElementById("prediction-results-anchor");
-                    const headings = Array.from(doc.querySelectorAll("h1, h2, h3"));
-                    const heading = headings.find(el => el.textContent.trim() === "Prediction results");
+                    const heading = Array.from(doc.querySelectorAll("h1, h2, h3"))
+                      .find(el => el.textContent.trim() === "Prediction results");
                     const target = anchor || heading;
                     if (target) {
                       target.scrollIntoView({ behavior: "smooth", block: "start" });
-                      return;
+                      const scroller = doc.querySelector('[data-testid="stAppViewContainer"]');
+                      if (scroller) {
+                        const top = target.getBoundingClientRect().top;
+                        scroller.scrollTo({
+                          top: scroller.scrollTop + top,
+                          behavior: "smooth"
+                        });
+                      }
                     }
                   } catch (error) {
-                    console.warn("Auto-scroll to prediction results failed:", error);
+                    console.warn("Could not scroll to prediction results:", error);
                   }
-                  if (++attempts < 20) window.setTimeout(scrollToResults, 100);
+                  attempts += 1;
+                  if (attempts < maxAttempts) {
+                    window.setTimeout(scrollToResults, 150);
+                  }
                 };
-                window.setTimeout(scrollToResults, 100);
+                window.setTimeout(scrollToResults, 150);
               })();
             </script>
             """,
