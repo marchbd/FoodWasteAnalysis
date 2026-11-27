@@ -5,17 +5,20 @@ def render_top_nav(active_page):
         """
         <style>
         div[data-testid="stPageLink"] a {
-            border-radius: 13px !important;
-            border: 1px solid rgba(125,211,252,.30) !important;
-            background: linear-gradient(115deg, rgba(14,165,233,.16), rgba(124,58,237,.16)) !important;
-            color: #edf4ff !important;
-            font-weight: 700 !important;
+            border-radius: 14px !important;
+            border: 1px solid #d5e2d2 !important;
+            background: linear-gradient(145deg, #fbfdf9, #e9f1e6) !important;
+            color: #245334 !important;
+            font-weight: 750 !important;
             justify-content: center !important;
-            min-height: 42px;
+            min-height: 44px;
+            box-shadow: 5px 5px 12px rgba(151,169,148,.18),
+                        -4px -4px 10px rgba(255,255,255,.9) !important;
         }
         div[data-testid="stPageLink"] a:hover {
-            border-color: rgba(125,211,252,.75) !important;
-            background: linear-gradient(115deg, rgba(14,165,233,.30), rgba(124,58,237,.28)) !important;
+            border-color: #9fbea0 !important;
+            background: #e5efe2 !important;
+            transform: translateY(-1px);
         }
         </style>
         """,
@@ -23,12 +26,12 @@ def render_top_nav(active_page):
     )
     left, right = st.columns(2)
     if active_page == "home":
-        left.page_link("pages/1_Dashboard.py", label="📊  Dashboard", use_container_width=True)
-        right.page_link("pages/2_Food_Waste_Prediction.py", label="🔮  Prediction", use_container_width=True)
+        left.page_link("pages/1_Dashboard.py", label="Dashboard", use_container_width=True)
+        right.page_link("pages/2_Food_Waste_Prediction.py", label="Food Waste Prediction", use_container_width=True)
     elif active_page == "dashboard":
-        left.page_link("pages/0_Home.py", label="🏠  Home", use_container_width=True)
-        right.page_link("pages/2_Food_Waste_Prediction.py", label="🔮  Prediction", use_container_width=True)
+        left.page_link("pages/0_Home.py", label="Home", use_container_width=True)
+        right.page_link("pages/2_Food_Waste_Prediction.py", label="Food Waste Prediction", use_container_width=True)
     else:
-        left.page_link("pages/0_Home.py", label="🏠  Home", use_container_width=True)
-        right.page_link("pages/1_Dashboard.py", label="📊  Dashboard", use_container_width=True)
+        left.page_link("pages/0_Home.py", label="Home", use_container_width=True)
+        right.page_link("pages/1_Dashboard.py", label="Dashboard", use_container_width=True)
     st.write("")
