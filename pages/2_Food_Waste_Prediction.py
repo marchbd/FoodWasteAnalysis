@@ -116,6 +116,28 @@ if submitted:
             "delivery_delay_days": delivery_delay,
             "previous_wastage_kg": previous_wastage,
         })
+        st.markdown(
+            '<div id="prediction-results-anchor" style="scroll-margin-top: 5rem;"></div>',
+            unsafe_allow_html=True,
+        )
+        st.components.v1.html(
+            """
+            <script>
+              const scrollToPredictionResults = () => {
+                try {
+                  const target = window.parent.document.getElementById("prediction-results-anchor");
+                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+                } catch (error) {
+                  console.warn("Could not auto-scroll to prediction results:", error);
+                }
+              };
+              window.setTimeout(scrollToPredictionResults, 150);
+              window.setTimeout(scrollToPredictionResults, 450);
+            </script>
+            """,
+            height=1,
+            scrolling=False,
+        )
         st.subheader("Prediction results")
         m1, m2 = st.columns(2)
         m1.metric("Predicted distributed quantity", f"{result['predicted_distributed_stock_kg']:,.2f} kg")
