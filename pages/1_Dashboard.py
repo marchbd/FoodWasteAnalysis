@@ -62,12 +62,12 @@ metric_html = f"""
     from {{ opacity: 0; transform: translateX(-34px) scale(.97); }}
     to {{ opacity: 1; transform: translateX(0) scale(1); }}
   }}
-  .card-cyan {{ border-color: rgba(103,232,249,.38); }}
-  .card-blue {{ border-color: rgba(96,165,250,.34); }}
-  .card-pink {{ border-color: rgba(240,171,252,.34); }}
-  .card-violet {{ border-color: rgba(196,181,253,.36); }}
-  .metric-label {{ color: #718074; font-size: 16px; margin-bottom: 12px; }}
-  .metric-value {{ color: #21633a; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  .card-cyan {{ border-color: #78cbb8; background: linear-gradient(145deg, #f4fffa, #d9f2e8); }}
+  .card-blue {{ border-color: #8bc5df; background: linear-gradient(145deg, #f5fcff, #dceef8); }}
+  .card-pink {{ border-color: #efb08e; background: linear-gradient(145deg, #fff9f2, #fbe5d6); }}
+  .card-violet {{ border-color: #c2d67a; background: linear-gradient(145deg, #fbffef, #eaf2cb); }}
+  .metric-label {{ color: #61796b; font-size: 16px; margin-bottom: 12px; }}
+  .metric-value {{ color: #126b3a; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
   .metric-description {{
     display: none;
     margin-top: 18px;
@@ -85,7 +85,7 @@ metric_html = f"""
     height: 1em;
     margin-left: 4px;
     vertical-align: -2px;
-    background: #21834a;
+    background: #159653;
     animation: typingCaret .8s steps(1) infinite;
   }}
   @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
@@ -198,7 +198,7 @@ coverage_component = f"""
   .coverage-table {{
     width: 100%; min-width: 520px; border-collapse: separate;
     border-spacing: 0; color: #294633; font-size: 15px;
-    background: #f5f9f2; border-radius: 14px;
+    background: #f7fbf4; border-radius: 14px;
     overflow: hidden;
   }}
   .coverage-table th, .coverage-table td {{
@@ -207,8 +207,8 @@ coverage_component = f"""
     white-space: nowrap;
   }}
   .coverage-table th {{
-    color: #245b36; font-weight: 750;
-    background: linear-gradient(110deg, #e2eee0, #d8e9d7);
+    color: #145b3a; font-weight: 800;
+    background: linear-gradient(110deg, #d7f0dd, #d6eeea);
   }}
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
   .coverage-table tbody tr:hover td {{ background: rgba(45,125,66,.07); }}
