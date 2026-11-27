@@ -7,20 +7,20 @@ def render_top_nav(active_page):
         div[data-testid="stPageLink"] a {
             min-height: 48px;
             border-radius: 13px !important;
-            border: 1px solid #C9B99F !important;
-            background: linear-gradient(145deg, #FFFEFA, #F0E8DA) !important;
-            color: #43392D !important;
+            border: 1px solid #8FB29A !important;
+            background: linear-gradient(145deg, #FFFFFF, #E7F3E7) !important;
+            color: #173D2E !important;
             font-size: 1rem !important;
             font-weight: 700 !important;
             justify-content: center !important;
-            box-shadow: 0 5px 14px rgba(65,53,36,.08) !important;
+            box-shadow: 0 5px 14px rgba(8,127,91,.12) !important;
             transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
         }
         div[data-testid="stPageLink"] a:hover {
-            border-color: #78947B !important;
-            background: linear-gradient(145deg, #F4F8F1, #E5EFE3) !important;
+            border-color: #B4D92E !important;
+            background: linear-gradient(145deg, #E4F8E9, #CFF2D8) !important;
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(36,107,69,.14) !important;
+            box-shadow: 0 10px 20px rgba(8,127,91,.24) !important;
         }
         div[data-testid="stPageLink"] a p { color: inherit !important; }
         </style>
