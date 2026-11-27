@@ -186,7 +186,7 @@ else:
       const cards = Array.from(document.querySelectorAll(".stat-card"));
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const description = document.querySelector(".metric-description");
-      const descriptionText = "Explore food records across states, districts and blocks, examine how distribution varies by location, and discover where food wastage may occur. The Prediction section uses a two-stage machine-learning approach: it first estimates food distribution, then predicts wastage to help you understand the estimated usable quantity and wastage share.";
+      const descriptionText = "Explore food distribution across states, districts and blocks, then use our two-stage machine-learning model to estimate food wastage and the remaining usable quantity.";
       if (description && window.matchMedia("(min-width: 701px)").matches) {{
         if (reduced) {{
           description.textContent = descriptionText;
