@@ -69,10 +69,10 @@ metric_html = f"""
     from {{ opacity: 0; transform: translateX(-34px) scale(.97); }}
     to {{ opacity: 1; transform: translateX(0) scale(1); }}
   }}
-  .card-cyan {{ border-color: #E8A68F; background: linear-gradient(145deg, #FFF0E8, #FFD9C9); }}
-  .card-blue {{ border-color: #B9A9EA; background: linear-gradient(145deg, #F1ECFF, #DDD3FF); }}
-  .card-pink {{ border-color: #9BC9E8; background: linear-gradient(145deg, #E6F5FF, #CBE8FA); }}
-  .card-violet {{ border-color: #9ACBAA; background: linear-gradient(145deg, #E5F6EC, #C8EBD6); }}
+  .card-cyan {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #FFF0E8, #FFD9C9); }}
+  .card-blue {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #F1ECFF, #DDD3FF); }}
+  .card-pink {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #E6F5FF, #CBE8FA); }}
+  .card-violet {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #E5F6EC, #C8EBD6); }}
   .metric-label {{ color: #4B5269; font-size: 16px; font-weight: 700; margin-bottom: 12px; }}
   .card-cyan .metric-value {{ color:#C45B43; }}
   .card-blue .metric-value {{ color:#684DB5; }}
@@ -206,7 +206,7 @@ coverage_component = f"""
 <style>
   * {{ box-sizing: border-box; }}
   body {{ margin: 0; background: transparent; font-family: sans-serif; }}
-  .coverage-scroll {{ width: 100%; overflow-x: auto; border-radius: 14px; }}
+  .coverage-scroll {{ width: 100%; overflow-x: auto; border: 1.7px solid #485064; border-radius: 14px; }}
   .coverage-table {{
     width: 100%; min-width: 520px; border-collapse: separate;
     border-spacing: 0; color: #383229; font-size: 16px;
