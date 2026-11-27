@@ -2,120 +2,120 @@ import streamlit as st
 
 
 def apply_theme():
-    """Apply the shared sage-and-emerald claymorphism theme."""
+    """Apply a vibrant botanical claymorphism theme across the app."""
     st.markdown(
         """
         <style>
         :root {
             color-scheme: light;
-            --bg: #f4f7f1;
-            --surface: #f7faf5;
-            --surface-deep: #e8efe5;
-            --line: #d8e3d5;
-            --text: #24352b;
-            --muted: #68796d;
-            --green: #166534;
-            --green-mid: #21834a;
-            --green-bright: #22a85a;
-            --sage: #dce9dc;
+            --bg: #f3f7ef;
+            --surface: #fbfdf8;
+            --line: #d5e3d0;
+            --text: #20392a;
+            --muted: #66796b;
+            --green: #126b3a;
+            --green-mid: #1e9b58;
+            --teal: #0f8f83;
+            --lime: #b6d943;
+            --coral: #e77d50;
         }
         .stApp {
             background:
-              radial-gradient(ellipse at 8% 0%, rgba(180, 210, 177, .34), transparent 34%),
-              radial-gradient(ellipse at 94% 8%, rgba(202, 226, 204, .42), transparent 32%),
-              linear-gradient(145deg, #f7f9f4 0%, #edf3eb 55%, #f5f7f1 100%);
+              radial-gradient(ellipse at 4% 3%, rgba(182,217,67,.23), transparent 27%),
+              radial-gradient(ellipse at 96% 8%, rgba(15,143,131,.18), transparent 29%),
+              radial-gradient(ellipse at 50% 100%, rgba(30,155,88,.10), transparent 34%),
+              linear-gradient(140deg, #f8faf3 0%, #edf5e9 48%, #f7f8ef 100%);
             color: var(--text);
         }
-        [data-testid="stHeader"] { background: rgba(247,250,245,.78); }
+        [data-testid="stHeader"] { background: rgba(248,250,243,.82); }
         [data-testid="stToolbar"] { right: 1rem; }
         [data-testid="stSidebar"] {
-            background: linear-gradient(155deg, #edf4eb, #e2ecdf);
-            border-right: 1px solid var(--line);
+            background: linear-gradient(155deg, #e8f3df, #d9eee6 58%, #e8efd4);
+            border-right: 1px solid #cbdcc5;
         }
         [data-testid="stSidebar"] * { color: var(--text); }
         .block-container { padding-top: 2.4rem; padding-bottom: 3rem; max-width: 1440px; }
-        h1, h2, h3, h4 { color: #203c2b !important; letter-spacing: -.035em; }
-        h1 { font-weight: 800 !important; }
-        h2, h3 { font-weight: 750 !important; }
-        p, label, [data-testid="stCaptionContainer"] { color: #5e7063; }
-        [data-testid="stCaptionContainer"] { color: #718074; }
+        h1, h2, h3, h4 { color: #174b2d !important; letter-spacing: -.035em; }
+        h1 { font-weight: 850 !important; }
+        h2, h3 { font-weight: 780 !important; }
+        p, label, [data-testid="stCaptionContainer"] { color: #607568; }
+        [data-testid="stCaptionContainer"] { color: #718477; }
 
-        /* Soft clay surfaces: raised outer shadow and subtle inset highlight. */
         [data-testid="stMetric"],
         [data-testid="stVerticalBlockBorderWrapper"],
         div[data-testid="stForm"],
         [data-testid="stExpander"],
         [data-testid="stDataFrame"],
         [data-testid="stTable"] {
-            background: linear-gradient(145deg, #fbfdf9, #eaf1e7) !important;
-            border: 1px solid rgba(210, 224, 207, .95) !important;
+            background: linear-gradient(145deg, #ffffff, #eaf3e5) !important;
+            border: 1px solid rgba(202, 222, 195, .98) !important;
             border-radius: 22px !important;
-            box-shadow: 9px 9px 22px rgba(151, 169, 148, .22),
-                        -8px -8px 20px rgba(255, 255, 255, .88),
-                        inset 1px 1px 0 rgba(255,255,255,.72) !important;
+            box-shadow: 9px 9px 22px rgba(132, 164, 125, .20),
+                        -8px -8px 20px rgba(255,255,255,.92),
+                        inset 1px 1px 0 rgba(255,255,255,.8) !important;
         }
         [data-testid="stMetric"] {
             padding: 18px 20px;
+            border-top: 4px solid #1e9b58 !important;
             transition: transform .22s ease, box-shadow .22s ease;
         }
         [data-testid="stMetric"]:hover {
             transform: translateY(-3px);
-            box-shadow: 12px 12px 25px rgba(151,169,148,.25),
-                        -8px -8px 20px rgba(255,255,255,.9) !important;
+            box-shadow: 12px 12px 25px rgba(132,164,125,.25),
+                        -8px -8px 20px rgba(255,255,255,.95) !important;
         }
-        [data-testid="stMetricLabel"] { color: #718074 !important; }
-        [data-testid="stMetricValue"] { color: #1d6038 !important; font-weight: 800; }
+        [data-testid="stMetricLabel"] { color: #718477 !important; }
+        [data-testid="stMetricValue"] { color: #126b3a !important; font-weight: 850 !important; }
         [data-testid="stVerticalBlockBorderWrapper"] { padding: 14px; }
         div[data-testid="stForm"] { padding: 22px; }
-        [data-testid="stExpander"] { background: #f4f8f1 !important; }
+        [data-testid="stExpander"] { background: #f2f8ed !important; }
 
-        /* Light, tactile inputs. */
         div[data-baseweb="select"] > div,
         div[data-baseweb="input"] > div,
         div[data-baseweb="textarea"] > div {
-            background: #f4f8f1 !important;
-            border: 1px solid #d4e1d1 !important;
+            background: #f8fbf4 !important;
+            border: 1px solid #cbdcc5 !important;
             border-radius: 13px !important;
-            box-shadow: inset 3px 3px 7px rgba(170,188,166,.20),
-                        inset -3px -3px 7px rgba(255,255,255,.9);
+            box-shadow: inset 3px 3px 7px rgba(160,184,151,.18),
+                        inset -3px -3px 7px rgba(255,255,255,.95);
         }
-        input, textarea { color: #26392d !important; }
+        input, textarea { color: #263d2d !important; }
         [data-baseweb="popover"], [data-baseweb="menu"] {
-            background: #f8fbf6 !important;
-            border: 1px solid #d7e3d3 !important;
+            background: #fbfdf8 !important;
+            border: 1px solid #d1e1cb !important;
             border-radius: 14px !important;
-            box-shadow: 8px 8px 20px rgba(151,169,148,.22);
+            box-shadow: 8px 8px 20px rgba(132,164,125,.22);
         }
-        [role="option"] { color: #26392d !important; }
-        [role="option"]:hover { background: #e2eee0 !important; }
+        [role="option"] { color: #263d2d !important; }
+        [role="option"]:hover { background: #e3f1dc !important; }
 
         .stButton > button, .stFormSubmitButton > button, [data-testid="stDownloadButton"] button {
             border-radius: 14px;
-            border: 1px solid #17643a;
-            background: linear-gradient(145deg, #23864b, #166534);
+            border: 1px solid #126b3a;
+            background: linear-gradient(115deg, #159653, #0f766e);
             color: #fff;
-            font-weight: 750;
-            box-shadow: 5px 5px 12px rgba(34, 94, 55, .20),
+            font-weight: 800;
+            box-shadow: 5px 5px 12px rgba(18,107,58,.20),
                         -3px -3px 8px rgba(255,255,255,.85),
-                        inset 1px 1px 0 rgba(255,255,255,.20);
+                        inset 1px 1px 0 rgba(255,255,255,.22);
             transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
         }
         .stButton > button:hover, .stFormSubmitButton > button:hover,
         [data-testid="stDownloadButton"] button:hover {
             transform: translateY(-2px);
-            filter: brightness(1.06);
-            box-shadow: 7px 7px 15px rgba(34,94,55,.24),
-                        -3px -3px 8px rgba(255,255,255,.9);
+            filter: brightness(1.07);
+            box-shadow: 7px 7px 15px rgba(18,107,58,.25),
+                        -3px -3px 8px rgba(255,255,255,.92);
             color: #fff;
         }
         [data-testid="stAlert"] {
             border-radius: 16px;
-            border: 1px solid #d8e5d4;
-            background: #f1f7ef;
+            border: 1px solid #d6e7c7;
+            background: #f2f8e9;
         }
         [data-testid="stDataFrame"], [data-testid="stTable"] { overflow: hidden; }
-        hr { border-color: #dbe5d8 !important; }
-        a { color: #176b3b !important; }
+        hr { border-color: #d5e5cf !important; }
+        a { color: #0f8060 !important; }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
         }
