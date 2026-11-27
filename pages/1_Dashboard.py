@@ -50,11 +50,11 @@ metric_html = f"""
     opacity: 0;
     transform: translateX(-34px) scale(.97);
     position: relative;
-    border: 1px solid #8FB29A;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(65,53,36,.08), inset 0 1px 0 rgba(255,255,255,.9);
+    border: 1px solid #D8D6C8;
+    border-radius: 14px;
+    box-shadow: 0 2px 7px rgba(37,54,44,.045);
     transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-    background: linear-gradient(145deg, #FFFFFF, #E5F3E6);
+    background: #FBFAF5;
     display: flex; flex-direction: column; justify-content: center;
   }}
   .metric-card:hover {{
@@ -69,16 +69,10 @@ metric_html = f"""
     from {{ opacity: 0; transform: translateX(-34px) scale(.97); }}
     to {{ opacity: 1; transform: translateX(0) scale(1); }}
   }}
-  .card-cyan {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #FFF0E8, #FFD9C9); }}
-  .card-blue {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #F1ECFF, #DDD3FF); }}
-  .card-pink {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #E6F5FF, #CBE8FA); }}
-  .card-violet {{ border: 1.7px solid #485064; background: linear-gradient(145deg, #E5F6EC, #C8EBD6); }}
-  .metric-label {{ color: #4B5269; font-size: 16px; font-weight: 700; margin-bottom: 12px; }}
-  .card-cyan .metric-value {{ color:#C45B43; }}
-  .card-blue .metric-value {{ color:#684DB5; }}
-  .card-pink .metric-value {{ color:#2878B8; }}
-  .card-violet .metric-value {{ color:#27845A; }}
-  .metric-value {{ color: #292E49; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
+  .card-cyan, .card-blue, .card-pink, .card-violet {{ border: 1px solid #D8D6C8; background: #FBFAF5; }}
+  .metric-label {{ color: #69756C; font-size: 16px; font-weight: 700; margin-bottom: 12px; }}
+  .card-cyan .metric-value, .card-blue .metric-value, .card-pink .metric-value, .card-violet .metric-value {{ color:#204F3E; }}
+  .metric-value {{ color: #204F3E; font-family:Georgia,serif; font-size: clamp(30px, 3.2vw, 42px); line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }}
   .metric-description {{
     display: none;
     margin-top: 18px;
@@ -97,7 +91,7 @@ metric_html = f"""
     height: 1em;
     margin-left: 4px;
     vertical-align: -2px;
-    background:  #8064DC;
+    background:  #B85F4C;
     animation: typingCaret .8s steps(1) infinite;
   }}
   @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
@@ -207,24 +201,26 @@ coverage_component = f"""
 <style>
   * {{ box-sizing: border-box; }}
   body {{ margin: 0; background: transparent; font-family: sans-serif; }}
-  .coverage-scroll {{ width: 100%; overflow-x: auto; border: 1.7px solid #485064; border-radius: 14px; margin-bottom: 4px; padding-bottom: 0; }}
+  .coverage-scroll {{ width: 100%; overflow-x: auto; border: 1px solid #D8D6C8; border-radius: 13px; margin-bottom: 4px; padding-bottom: 0; }}
   .coverage-table {{
-    width: 100%; min-width: 520px; border-collapse: separate;
-    border-spacing: 0; color: #383229; font-size: 16px;
-    background: #FBF7F0; border-radius: 14px;
+    width: 100%; min-width: 0; border-collapse: separate;
+    border-spacing: 0; color: #293D33; font-size: 15px;
+    background: #FBFAF5; border-radius: 13px;
     overflow: hidden;
   }}
   .coverage-table th, .coverage-table td {{
-    padding: 12px 15px; text-align: left; line-height: 1.3;
-    border-bottom: 1px solid #D8CBB7;
+    padding: 11px 13px; text-align: left; line-height: 1.3;
+    border-bottom: 1px solid #E1DFD4;
     white-space: nowrap;
   }}
   .coverage-table th {{
-    color: #292E49; font-weight: 800;
-    background: linear-gradient(110deg, #FFE0D2, #E4DCFF, #D8F0FF, #DDF3E3);
+    color: #FFFFFF; font-weight: 800; letter-spacing:.08em; text-transform:uppercase;
+    background: #204F3E;
   }}
+  .coverage-table tbody tr:nth-child(even) td {{ background:#F0EEE3; }}
+  .coverage-table tbody tr:nth-child(odd) td {{ background:#FBFAF5; }}
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
-  .coverage-table tbody tr:hover td {{ background: rgba(128,100,220,.12); }}
+  .coverage-table tbody tr:hover td {{ background:#E7EADF; }}
   @keyframes coverageHeadingIn {{
     from {{ opacity: 0; transform: translateX(-26px); }}
     to {{ opacity: 1; transform: translateX(0); }}
@@ -250,6 +246,11 @@ coverage_component = f"""
   .coverage-table tbody td:nth-child(2) {{ animation-delay: calc(.9s + var(--row-delay)); }}
   .coverage-table tbody td:nth-child(3) {{ animation-delay: calc(1.45s + var(--row-delay)); }}
   .coverage-table tbody td:nth-child(4) {{ animation-delay: calc(2s + var(--row-delay)); }}
+  @media (max-width:700px) {{
+    .coverage-table {{ font-size:11px; }}
+    .coverage-table th, .coverage-table td {{ padding:10px 5px; white-space:normal; }}
+    .coverage-table th {{ letter-spacing:.035em; font-size:9px; }}
+  }}
   @media (prefers-reduced-motion: reduce) {{
     .coverage-table thead th, .coverage-table tbody td {{
       opacity: 1; animation: none;
