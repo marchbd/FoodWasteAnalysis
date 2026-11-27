@@ -45,10 +45,20 @@ metric_html = f"""
   .metrics-grid {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }}
   .metric-card {{
     min-height: 140px; padding: 25px 24px;
+    opacity: 0;
+    transform: translateX(-34px) scale(.97);
+    position: relative;
     border: 1px solid rgba(148, 163, 184, .28);
     border-radius: 24px;
     background: linear-gradient(145deg, rgba(24, 42, 67, .88), rgba(15, 23, 42, .92));
     display: flex; flex-direction: column; justify-content: center;
+  }}
+  .metric-card.is-visible {{
+    animation: cardSlideIn .58s cubic-bezier(.2,.75,.25,1) forwards;
+  }}
+  @keyframes cardSlideIn {{
+    from {{ opacity: 0; transform: translateX(-34px) scale(.97); }}
+    to {{ opacity: 1; transform: translateX(0) scale(1); }}
   }}
   .card-cyan {{ border-color: rgba(103,232,249,.38); }}
   .card-blue {{ border-color: rgba(96,165,250,.34); }}
@@ -66,16 +76,14 @@ metric_html = f"""
   }}
 </style>
 <script>
-  const values = document.querySelectorAll(".metric-value");
-  const duration = 1500;
-  values.forEach((element) => {{
+  const cards = Array.from(document.querySelectorAll(".metric-card"));
+  const duration = 1250;
+  const gapAfterCount = 220;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function animateCount(element) {{
     const target = Number(element.dataset.target);
     const start = performance.now();
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {{
-      element.textContent = target.toLocaleString("en-IN");
-      return;
-    }}
     function tick(now) {{
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
@@ -83,7 +91,27 @@ metric_html = f"""
       if (progress < 1) requestAnimationFrame(tick);
     }}
     requestAnimationFrame(tick);
-  }});
+  }}
+
+  if (reduced) {{
+    cards.forEach((card) => {{
+      card.classList.add("is-visible");
+      const value = card.querySelector(".metric-value");
+      value.textContent = Number(value.dataset.target).toLocaleString("en-IN");
+    }});
+  }} else {{
+    function showCard(index) {{
+      if (index >= cards.length) return;
+      const card = cards[index];
+      card.classList.add("is-visible");
+      const value = card.querySelector(".metric-value");
+      window.setTimeout(() => {{
+        animateCount(value);
+        window.setTimeout(() => showCard(index + 1), duration + gapAfterCount);
+      }}, 260);
+    }}
+    showCard(0);
+  }}
 </script>
 """
 components.html(metric_html, height=155, scrolling=False)
