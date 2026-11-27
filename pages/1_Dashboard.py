@@ -113,7 +113,7 @@ metric_html = f"""
   }}
 </script>
 """
-components.html(metric_html, height=155, scrolling=False)
+components.html(metric_html, height=245, scrolling=False)
 
 
 st.subheader("Geographic coverage")
