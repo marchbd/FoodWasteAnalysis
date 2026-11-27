@@ -19,9 +19,9 @@ st.markdown("""
     width: 100%;
     padding: 34px 34px 30px;
     border-radius: 22px;
-    background: linear-gradient(135deg, #e4efe1, #f8fbf5 58%, #d9e9d7);
-    border: 1px solid #d3e2d0;
-    box-shadow: 12px 12px 26px rgba(151,169,148,.22), -9px -9px 22px rgba(255,255,255,.92), inset 1px 1px 0 rgba(255,255,255,.85);
+    background: radial-gradient(circle at 88% 12%, rgba(182,217,67,.34), transparent 24%), linear-gradient(115deg, #d9f0df 0%, #eff8e8 48%, #d9eeeb 100%);
+    border: 1px solid #c5dfc5;
+    box-shadow: 12px 12px 26px rgba(105,151,112,.22), -9px -9px 22px rgba(255,255,255,.92), inset 1px 1px 0 rgba(255,255,255,.85);
     backdrop-filter: blur(24px) saturate(160%);
     -webkit-backdrop-filter: blur(24px) saturate(160%);
     margin: 8px 0 22px 0;
@@ -32,36 +32,36 @@ st.markdown("""
     width: 240px; height: 240px;
     right: -55px; top: -115px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(90,160,98,.22), transparent 68%);
+    background: radial-gradient(circle, rgba(182,217,67,.5), transparent 68%);
     animation: heroPulse 4s ease-in-out infinite alternate;
 }
 .hero-title {
-    color: #21452e; font-size: clamp(2rem, 4vw, 3.15rem);
+    color: #14532d; font-size: clamp(2rem, 4vw, 3.15rem);
     font-weight: 800; letter-spacing: -1.5px; margin: 0 0 8px 0;
 }
-.hero-subtitle { color: #627568; font-size: 1.04rem; margin: 0 0 20px 0; }
+.hero-subtitle { color: #4d6b58; font-size: 1.04rem; margin: 0 0 20px 0; }
 .stage-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .stage-pill {
     display: inline-block; padding: 8px 14px; border-radius: 999px;
-    color: #245b36; background: #e4efe1;
-    border: 1px solid #c9ddc6; font-size: .9rem; font-weight: 650;
+    color: #116044; background: linear-gradient(110deg, #d4f0d9, #d9f1e9);
+    border: 1px solid #b9dbc2; font-size: .9rem; font-weight: 650;
 }
-.stage-arrow { color: #7dd3fc; font-size: 1.2rem; }
+.stage-arrow { color: #0f9b83; font-size: 1.2rem; }
 @keyframes heroPulse { from { transform: scale(.85); opacity: .55; } to { transform: scale(1.12); opacity: 1; } }
 .stat-card {
     min-height: 105px; box-sizing: border-box; padding: 16px 18px;
-    border-radius: 16px; background: linear-gradient(145deg, #fbfdf9, #e8f0e5);
-    border: 1px solid #d7e3d4;
+    border-radius: 16px; background: linear-gradient(145deg, #ffffff, #e4f3df);
+    border: 1px solid #cce1c8;
     box-shadow: 7px 7px 16px rgba(151,169,148,.20), -6px -6px 14px rgba(255,255,255,.9);
 }
 .stat-label { color: #718074; font-size: .92rem; font-weight: 650; margin-bottom: 8px; }
-.stat-number { color: #21633a; font-size: 2.15rem; font-weight: 750; line-height: 1.1; }
+.stat-number { color: #11804b; font-size: 2.15rem; font-weight: 750; line-height: 1.1; }
 
 /* Home page navigation cards and their individual rounded buttons */
 .st-key-home_dashboard_link_card,
 .st-key-home_prediction_link_card {
-    background: linear-gradient(145deg, #fbfdf9, #e9f1e6) !important;
-    border: 1px solid #d5e2d2 !important;
+    background: linear-gradient(145deg, #ffffff, #e2f1df) !important;
+    border: 1px solid #c5dfc5 !important;
     border-radius: 20px !important;
     padding: 18px 20px !important;
 }
@@ -74,7 +74,7 @@ st.markdown("""
     padding: 10px 16px !important;
     border-radius: 14px !important;
     border: 1px solid #17643a !important;
-    background: linear-gradient(145deg, #23864b, #166534) !important;
+    background: linear-gradient(115deg, #159653, #0f766e) !important;
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
     font-weight: 750 !important;
@@ -83,7 +83,7 @@ st.markdown("""
 }
 .st-key-home_dashboard_link_card [data-testid="stPageLink"] a:hover,
 .st-key-home_prediction_link_card [data-testid="stPageLink"] a:hover {
-    background: linear-gradient(145deg, #2a9855, #1b7540) !important;
+    background: linear-gradient(115deg, #20ad61, #0d8c7e) !important;
     border-color: rgba(186, 230, 253, .9) !important;
     filter: brightness(1.08);
     transform: translateY(-2px);
@@ -147,7 +147,7 @@ else:
         to {{ opacity: 1; transform: translateX(0) scale(1); }}
       }}
       .stat-label {{ color: #718074; font-size: .92rem; font-weight: 650; margin-bottom: 8px; }}
-      .stat-number {{ color: #21633a; font-size: 2.15rem; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }}
+      .stat-number {{ color: #11804b; font-size: 2.15rem; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }}
       .metric-description {{
         display: none;
         margin-top: 17px;
