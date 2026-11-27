@@ -181,7 +181,7 @@ coverage_component = f"""
   }}
   .coverage-table thead th {{
     opacity: 0;
-    animation: coverageHeadingIn .28s ease-out forwards;
+    animation: coverageHeadingIn .5s ease-out forwards;
   }}
   .coverage-table thead th:nth-child(1) {{ animation-delay: 0s; }}
   .coverage-table thead th:nth-child(2) {{ animation-delay: .05s; }}
@@ -189,7 +189,7 @@ coverage_component = f"""
   .coverage-table thead th:nth-child(4) {{ animation-delay: .15s; }}
   .coverage-table tbody tr {{
     opacity: 0;
-    animation: coverageRowIn .28s ease-out forwards;
+    animation: coverageRowIn .5s ease-out forwards;
   }}
   @media (prefers-reduced-motion: reduce) {{
     .coverage-table thead th, .coverage-table tbody tr {{
