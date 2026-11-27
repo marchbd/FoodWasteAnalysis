@@ -4,29 +4,31 @@ def render_top_nav(active_page):
     st.markdown(
         """
         <style>
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:first-child [data-testid="stPageLink"] a {
+            background: linear-gradient(120deg, #174F68, #12394F) !important;
+            border: 1.6px solid #102F43 !important;
+            color: #FFFFFF !important;
+        }
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:last-child [data-testid="stPageLink"] a {
+            background: linear-gradient(120deg, #593B83, #39285F) !important;
+            border: 1.6px solid #2B1D4C !important;
+            color: #FFFFFF !important;
+        }
         div[data-testid="stPageLink"] a {
-            min-height: 50px; border-radius: 14px !important;
-            border: 1px solid #D2D5E4 !important;
-            background: linear-gradient(135deg, #FFFFFF, #F1F0FA) !important;
-            color: #292E49 !important; font-size: 1rem !important;
-            font-weight: 750 !important; justify-content: center !important;
-            box-shadow: 0 6px 16px rgba(43,49,78,.09) !important;
-            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+            min-height: 52px; border-radius: 14px !important;
+            color: #FFFFFF !important; font-size: 1.02rem !important;
+            font-weight: 780 !important; justify-content: center !important;
+            text-shadow: 0 1px 1px rgba(0,0,0,.18);
+            box-shadow: 0 7px 16px rgba(32,36,58,.20) !important;
+            transition: transform .22s ease, box-shadow .22s ease, filter .22s ease;
         }
-        div[data-testid="stPageLink"]:nth-of-type(1) a {
-            background: linear-gradient(120deg, #FFF0E8, #FFE0D2) !important;
-            border-color: #E8B39F !important;
-        }
-        div[data-testid="stPageLink"]:nth-of-type(2) a {
-            background: linear-gradient(120deg, #F0EBFF, #DFD7FF) !important;
-            border-color: #BFB1F0 !important;
-        }
+        div[data-testid="stPageLink"] a p,
+        div[data-testid="stPageLink"] a span { color: #FFFFFF !important; }
         div[data-testid="stPageLink"] a:hover {
             transform: translateY(-4px);
-            box-shadow: 0 13px 23px rgba(43,49,78,.16) !important;
-            filter: saturate(1.12);
+            filter: brightness(1.13) saturate(1.12);
+            box-shadow: 0 13px 24px rgba(32,36,58,.28) !important;
         }
-        div[data-testid="stPageLink"] a p { color: inherit !important; }
         </style>
         """,
         unsafe_allow_html=True,
