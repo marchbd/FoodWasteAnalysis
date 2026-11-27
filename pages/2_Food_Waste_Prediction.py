@@ -11,7 +11,7 @@ render_top_nav("prediction")
 
 st.markdown("""<style>
 .st-key-location_period_card, .st-key-demand_stock_card {
-    border:1px solid #BFB1E5 !important;
+    border:1.7px solid #485064 !important;
     border-radius:20px !important;
     padding:1.15rem 1.25rem .75rem !important;
     box-shadow:0 8px 20px rgba(65,53,36,.08), inset 0 1px 0 rgba(255,255,255,.9) !important;
@@ -40,7 +40,7 @@ st.markdown("""<style>
 .st-key-location_period_card div[data-baseweb='select'] > div,
 .st-key-location_period_card div[data-baseweb='input'] > div,
 .st-key-demand_stock_card div[data-baseweb='input'] > div {
-    border:1px solid #BFB1E5 !important;
+    border:1.7px solid #485064 !important;
     background:#FFFEFA !important;
 }
 [data-testid="stMetric"] {
