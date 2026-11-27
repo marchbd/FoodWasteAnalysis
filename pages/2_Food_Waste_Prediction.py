@@ -11,42 +11,42 @@ render_top_nav("prediction")
 
 st.markdown("""<style>
 .st-key-location_period_card, .st-key-demand_stock_card {
-    border:1px solid #8FB29A !important;
+    border:1px solid #BFB1E5 !important;
     border-radius:20px !important;
     padding:1.15rem 1.25rem .75rem !important;
     box-shadow:0 8px 20px rgba(65,53,36,.08), inset 0 1px 0 rgba(255,255,255,.9) !important;
     transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
 }
 .st-key-location_period_card {
-    background:linear-gradient(135deg,#E4F8E9,#D4F0DC) !important;
+    background:linear-gradient(135deg,#F0EAFF,#DED5FF) !important;
 }
 .st-key-demand_stock_card {
-    background:linear-gradient(135deg,#FFFFFF,#E5F3E6) !important;
+    background:linear-gradient(135deg,#FFF0E8,#FFE0D2) !important;
 }
 .st-key-location_period_card:hover, .st-key-demand_stock_card:hover {
     transform:translateY(-3px);
-    border-color:#B4D92E !important;
+    border-color:#E59A77 !important;
     box-shadow:0 13px 26px rgba(8,127,91,.22) !important;
 }
 .st-key-location_period_card h3, .st-key-demand_stock_card h3 {
-    color:#172B25 !important;
+    color:#292E49 !important;
     font-size:1.25rem !important;
     font-weight:780 !important;
 }
 .st-key-location_period_card label, .st-key-demand_stock_card label {
-    color:#354F42 !important;
+    color:#4B5269 !important;
     font-weight:650 !important;
 }
 .st-key-location_period_card div[data-baseweb='select'] > div,
 .st-key-location_period_card div[data-baseweb='input'] > div,
 .st-key-demand_stock_card div[data-baseweb='input'] > div {
-    border:1px solid #8FB29A !important;
+    border:1px solid #BFB1E5 !important;
     background:#FFFEFA !important;
 }
 [data-testid="stMetric"] {
-    border-top:3px solid #087F5B !important;
+    border-top:3px solid #8064DC !important;
 }
-[data-testid="stMetricValue"] { color:#07543D !important; }
+[data-testid="stMetricValue"] { color:#684DB5 !important; }
 @media (max-width:700px) {
     .st-key-location_period_card, .st-key-demand_stock_card { padding:.9rem !important; }
 }
@@ -196,18 +196,18 @@ if submitted:
             <div class="donut-wrap">
               <svg class="donut-svg" viewBox="0 0 300 300" role="img" aria-label="Usable quantity {usable:,.2f} kilograms and predicted wastage {wastage:,.2f} kilograms">
                 <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(148,163,184,.13)" stroke-width="46"/>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#087F5B" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#087F8C" stroke-width="46"
                         stroke-linecap="butt" transform="rotate(-90 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{usable_arc:.3f} {circumference:.3f}" dur="1.1s" fill="freeze"/>
                 </circle>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#E4A11B" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#E56B55" stroke-width="46"
                         stroke-linecap="butt" transform="rotate({wastage_start_angle - 90:.3f} 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{wastage_arc:.3f} {circumference:.3f}" begin=".12s" dur="1.1s" fill="freeze"/>
                 </circle>
-                <text x="150" y="146" text-anchor="middle" fill="#172B25" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
-                <text x="150" y="169" text-anchor="middle" fill="#40594B" font-size="14">wasted</text>
+                <text x="150" y="146" text-anchor="middle" fill="#292E49" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
+                <text x="150" y="169" text-anchor="middle" fill="#525B70" font-size="14">wasted</text>
               </svg>
               <div class="donut-legend">
                 <span><i class="usable-dot"></i>Usable quantity</span>
@@ -220,8 +220,8 @@ if submitted:
               .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:0; font:600 15px sans-serif; }}
               .donut-legend span {{ display:flex; align-items:center; gap:9px; }}
               .donut-legend i {{ width:13px; height:13px; display:inline-block; }}
-              .usable-dot {{ background:#087F5B; }}
-              .waste-dot {{ background:#E4A11B; }}
+              .usable-dot {{ background:#087F8C; }}
+              .waste-dot {{ background:#E56B55; }}
               @media (prefers-reduced-motion: reduce) {{
                 .donut-svg animate {{ display:none; }}
               }}
