@@ -121,6 +121,7 @@ else:
     )
     metrics_html = f"""
     <div class="stats-grid">{metric_cards}</div>
+    <div class="metric-description" aria-label="Platform description"></div>
     <style>
       * {{ box-sizing: border-box; }}
       body {{ margin: 0; background: transparent; font-family: sans-serif; }}
@@ -147,6 +148,29 @@ else:
       }}
       .stat-label {{ color: #cbd5e1; font-size: .92rem; font-weight: 650; margin-bottom: 8px; }}
       .stat-number {{ color: #f8fafc; font-size: 2.15rem; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }}
+      .metric-description {{
+        display: none;
+        margin-top: 17px;
+        color: #cbd5e1;
+        font-size: 15px;
+        line-height: 1.55;
+        min-height: 24px;
+        letter-spacing: .1px;
+      }}
+      .metric-description::after {{
+        content: "";
+        display: inline-block;
+        width: 2px;
+        height: 1em;
+        margin-left: 4px;
+        vertical-align: -2px;
+        background: #7dd3fc;
+        animation: typingCaret .8s steps(1) infinite;
+      }}
+      @keyframes typingCaret {{ 50% {{ opacity: 0; }} }}
+      @media (min-width: 701px) {{
+        .metric-description {{ display: block; }}
+      }}
       @media (max-width: 700px) {{
         .stats-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }}
         .stat-card {{ min-height: 100px; padding: 14px; }}
@@ -160,6 +184,22 @@ else:
     <script>
       const cards = Array.from(document.querySelectorAll(".stat-card"));
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const description = document.querySelector(".metric-description");
+      const descriptionText = "Explore food distribution patterns across locations and use a two-stage machine-learning model to estimate potential food wastage.";
+      if (description && window.matchMedia("(min-width: 701px)").matches) {{
+        if (reduced) {{
+          description.textContent = descriptionText;
+        }} else {{
+          let charIndex = 0;
+          const typeNext = () => {{
+            if (charIndex < descriptionText.length) {{
+              description.textContent += descriptionText.charAt(charIndex++);
+              window.setTimeout(typeNext, 24);
+            }}
+          }};
+          window.setTimeout(typeNext, 450);
+        }}
+      }}
       function countUp(element) {{
         const target = Number(element.dataset.target);
         const start = performance.now();
