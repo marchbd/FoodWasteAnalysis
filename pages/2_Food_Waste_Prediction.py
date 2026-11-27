@@ -10,24 +10,46 @@ apply_theme()
 render_top_nav("prediction")
 
 st.markdown("""<style>
+.st-key-location_period_card, .st-key-demand_stock_card {
+    border:1px solid #BDAE96 !important;
+    border-radius:20px !important;
+    padding:1.15rem 1.25rem .75rem !important;
+    box-shadow:0 8px 20px rgba(65,53,36,.08), inset 0 1px 0 rgba(255,255,255,.9) !important;
+    transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
 .st-key-location_period_card {
- background: radial-gradient(circle at 92% 8%, rgba(177,156,122,.22), transparent 28%), linear-gradient(120deg, #FBF5EB, #F0E5D4);
- border: 1px solid #DDCBB1;
- border-radius: 18px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: 8px 8px 18px rgba(90,68,52,.12), -7px -7px 16px rgba(255,255,255,.88);
- backdrop-filter: none;
+    background:linear-gradient(135deg,#F8F6EF,#E9EEE5) !important;
 }
-.st-key-location_period_card h3 { color: #5A4434 !important; }
 .st-key-demand_stock_card {
- background: radial-gradient(circle at 90% 8%, rgba(46,163,52,.12), transparent 28%), linear-gradient(120deg, #FFFCF6, #F0E5D4);
- border: 1px solid #DCCBB2;
- border-radius: 18px; padding: 1.1rem 1.2rem .65rem;
- box-shadow: 8px 8px 18px rgba(90,68,52,.12), -7px -7px 16px rgba(255,255,255,.88);
- backdrop-filter: none;
+    background:linear-gradient(135deg,#FFFEFA,#F0E8DA) !important;
 }
-.st-key-demand_stock_card h3 { color: #2EA334 !important; }
-.st-key-location_period_card div[data-baseweb='select'] > div, .st-key-location_period_card div[data-baseweb='input'] > div { border-color: #DDCBB1 !important; background: #FBF7F0 !important; }
-.st-key-demand_stock_card div[data-baseweb='input'] > div { border-color: #DDCBB1 !important; background: #FBF7F0 !important; }
+.st-key-location_period_card:hover, .st-key-demand_stock_card:hover {
+    transform:translateY(-3px);
+    border-color:#78947B !important;
+    box-shadow:0 13px 26px rgba(36,107,69,.12) !important;
+}
+.st-key-location_period_card h3, .st-key-demand_stock_card h3 {
+    color:#29251F !important;
+    font-size:1.25rem !important;
+    font-weight:780 !important;
+}
+.st-key-location_period_card label, .st-key-demand_stock_card label {
+    color:#51483D !important;
+    font-weight:650 !important;
+}
+.st-key-location_period_card div[data-baseweb='select'] > div,
+.st-key-location_period_card div[data-baseweb='input'] > div,
+.st-key-demand_stock_card div[data-baseweb='input'] > div {
+    border:1px solid #BDAE96 !important;
+    background:#FFFEFA !important;
+}
+[data-testid="stMetric"] {
+    border-top:3px solid #246B45 !important;
+}
+[data-testid="stMetricValue"] { color:#315F46 !important; }
+@media (max-width:700px) {
+    .st-key-location_period_card, .st-key-demand_stock_card { padding:.9rem !important; }
+}
 </style>""", unsafe_allow_html=True)
 
 st.title("Food Waste Prediction")
@@ -174,18 +196,18 @@ if submitted:
             <div class="donut-wrap">
               <svg class="donut-svg" viewBox="0 0 300 300" role="img" aria-label="Usable quantity {usable:,.2f} kilograms and predicted wastage {wastage:,.2f} kilograms">
                 <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(148,163,184,.13)" stroke-width="46"/>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#2EA334" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#246B45" stroke-width="46"
                         stroke-linecap="butt" transform="rotate(-90 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{usable_arc:.3f} {circumference:.3f}" dur="1.1s" fill="freeze"/>
                 </circle>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#B19C7A" stroke-width="46"
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#C59A54" stroke-width="46"
                         stroke-linecap="butt" transform="rotate({wastage_start_angle - 90:.3f} 150 150)"
                         stroke-dasharray="0 {circumference:.3f}">
                   <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{wastage_arc:.3f} {circumference:.3f}" begin=".12s" dur="1.1s" fill="freeze"/>
                 </circle>
-                <text x="150" y="146" text-anchor="middle" fill="#0D0B09" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
-                <text x="150" y="169" text-anchor="middle" fill="#786B5B" font-size="14">wasted</text>
+                <text x="150" y="146" text-anchor="middle" fill="#29251F" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
+                <text x="150" y="169" text-anchor="middle" fill="#62594D" font-size="14">wasted</text>
               </svg>
               <div class="donut-legend">
                 <span><i class="usable-dot"></i>Usable quantity</span>
@@ -195,11 +217,11 @@ if submitted:
             <style>
               .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#30251D; }}
               .donut-svg {{ width:min(100%, 330px); height:auto; overflow:visible; }}
-              .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:0; font:14px sans-serif; }}
+              .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:0; font:600 15px sans-serif; }}
               .donut-legend span {{ display:flex; align-items:center; gap:9px; }}
               .donut-legend i {{ width:13px; height:13px; display:inline-block; }}
-              .usable-dot {{ background:#2EA334; }}
-              .waste-dot {{ background:#B19C7A; }}
+              .usable-dot {{ background:#246B45; }}
+              .waste-dot {{ background:#C59A54; }}
               @media (prefers-reduced-motion: reduce) {{
                 .donut-svg animate {{ display:none; }}
               }}
