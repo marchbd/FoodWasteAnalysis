@@ -224,14 +224,26 @@ coverage_component = f"""
     opacity: 0;
     animation: coverageHeadingIn .8s ease-out forwards;
   }}
+  /* Reveal headings one at a time; each column's cells follow its heading. */
   .coverage-table thead th:nth-child(1) {{ animation-delay: 0s; }}
-  .coverage-table thead th:nth-child(2) {{ animation-delay: .05s; }}
-  .coverage-table thead th:nth-child(3) {{ animation-delay: .10s; }}
-  .coverage-table thead th:nth-child(4) {{ animation-delay: .15s; }}
-  .coverage-table tbody tr {{
+  .coverage-table thead th:nth-child(2) {{ animation-delay: .8s; }}
+  .coverage-table thead th:nth-child(3) {{ animation-delay: 1.6s; }}
+  .coverage-table thead th:nth-child(4) {{ animation-delay: 2.4s; }}
+  .coverage-table tbody td {{
     opacity: 0;
     animation: coverageRowIn .5s ease-out forwards;
-    animation-delay: calc(.65s + var(--row-index) * .05s);
+  }}
+  .coverage-table tbody td:nth-child(1) {{
+    animation-delay: calc(.8s + var(--row-index) * .05s);
+  }}
+  .coverage-table tbody td:nth-child(2) {{
+    animation-delay: calc(1.6s + var(--row-index) * .05s);
+  }}
+  .coverage-table tbody td:nth-child(3) {{
+    animation-delay: calc(2.4s + var(--row-index) * .05s);
+  }}
+  .coverage-table tbody td:nth-child(4) {{
+    animation-delay: calc(3.2s + var(--row-index) * .05s);
   }}
   @media (prefers-reduced-motion: reduce) {{
     .coverage-table thead th, .coverage-table tbody tr {{
