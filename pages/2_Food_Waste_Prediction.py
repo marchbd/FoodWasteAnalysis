@@ -134,39 +134,46 @@ if submitted:
         else:
             usable = distributed - wastage
             wastage_pct = (wastage / distributed) * 100
-            fig = go.Figure(
-                data=[
-                    go.Pie(
-                        labels=["Usable quantity", "Predicted wastage"],
-                        values=[usable, wastage],
-                        hole=0.68,
-                        sort=False,
-                        direction="clockwise",
-                        textinfo="none",
-                        hovertemplate="%{label}<br>%{value:,.2f} kg (%{percent})<extra></extra>",
-                    )
-                ]
-            )
-            fig.update_layout(
-                height=330,
-                template='plotly_dark',
-                paper_bgcolor='rgba(0,0,0,0)',
-                plot_bgcolor='rgba(0,0,0,0)',
-                font=dict(color='#eaf2ff'),
-                margin=dict(t=20, b=20, l=10, r=10),
-                showlegend=True,
-                legend=dict(orientation="h", yanchor="bottom", y=-0.12, xanchor="center", x=0.5),
-                annotations=[
-                    dict(
-                        text=f"{wastage_pct:.1f}%<br><sup>wasted</sup>",
-                        x=0.5,
-                        y=0.5,
-                        font=dict(size=22),
-                        showarrow=False,
-                    )
-                ],
-            )
-            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            circumference = 2 * 3.141592653589793 * 108
+            usable_arc = circumference * (usable / distributed)
+            wastage_arc = circumference * (wastage / distributed)
+            wastage_start_angle = 360 * (usable / distributed)
+            donut_html = f"""
+            <div class="donut-wrap">
+              <svg class="donut-svg" viewBox="0 0 300 300" role="img" aria-label="Usable quantity {usable:,.2f} kilograms and predicted wastage {wastage:,.2f} kilograms">
+                <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(148,163,184,.13)" stroke-width="46"/>
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#6366f1" stroke-width="46"
+                        stroke-linecap="butt" transform="rotate(-90 150 150)"
+                        stroke-dasharray="0 {circumference:.3f}">
+                  <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{usable_arc:.3f} {circumference:.3f}" dur="1.1s" fill="freeze"/>
+                </circle>
+                <circle cx="150" cy="150" r="108" fill="none" stroke="#f0523a" stroke-width="46"
+                        stroke-linecap="butt" transform="rotate({wastage_start_angle - 90:.3f} 150 150)"
+                        stroke-dasharray="0 {circumference:.3f}">
+                  <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{wastage_arc:.3f} {circumference:.3f}" begin=".12s" dur="1.1s" fill="freeze"/>
+                </circle>
+                <text x="150" y="146" text-anchor="middle" fill="#eaf2ff" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
+                <text x="150" y="169" text-anchor="middle" fill="#cbd5e1" font-size="14">wasted</text>
+              </svg>
+              <div class="donut-legend">
+                <span><i class="usable-dot"></i>Usable quantity</span>
+                <span><i class="waste-dot"></i>Predicted wastage</span>
+              </div>
+            </div>
+            <style>
+              .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#eaf2ff; }}
+              .donut-svg {{ width:min(100%, 330px); height:auto; overflow:visible; }}
+              .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:0; font:14px sans-serif; }}
+              .donut-legend span {{ display:flex; align-items:center; gap:9px; }}
+              .donut-legend i {{ width:13px; height:13px; display:inline-block; }}
+              .usable-dot {{ background:#6366f1; }}
+              .waste-dot {{ background:#f0523a; }}
+              @media (prefers-reduced-motion: reduce) {{
+                .donut-svg animate {{ display:none; }}
+              }}
+            </style>
+            """
+            st.components.v1.html(donut_html, height=365, scrolling=False)
             usable_col, wastage_col = st.columns(2)
             usable_col.metric("Usable quantity", f"{usable:,.2f} kg")
             wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
