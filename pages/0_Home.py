@@ -112,13 +112,32 @@ else:
     st.caption("Location dropdowns show only states, districts and blocks represented in this dataset.")
 
 st.divider()
-left, right = st.columns(2)
+
+# Keep both destinations in separate, clearly visible cards.
+left, right = st.columns(2, gap="large")
+
 with left:
-    st.subheader("📊 Dashboard")
-    st.write("Explore the dataset and its geographic coverage.")
-    st.page_link("pages/1_Dashboard.py", label="Open Dashboard", icon="📊")
+    with st.container(border=True):
+        st.subheader("📊 Dashboard")
+        st.write("Explore the dataset and its geographic coverage.")
+        st.page_link(
+            "pages/1_Dashboard.py",
+            label="Open Dashboard",
+            icon="📊",
+            use_container_width=True,
+        )
+
 with right:
-    st.subheader("🔮 Food Waste Prediction")
-    st.write("Choose a state and district with available data. Block selection is optional.")
-    st.page_link("pages/2_Food_Waste_Prediction.py", label="Open Prediction", icon="🔮")
+    with st.container(border=True):
+        st.subheader("🔮 Food Waste Prediction")
+        st.write(
+            "Choose a state and district with available data. "
+            "Block selection is optional."
+        )
+        st.page_link(
+            "pages/2_Food_Waste_Prediction.py",
+            label="Open Prediction",
+            icon="🔮",
+            use_container_width=True,
+        )
 
