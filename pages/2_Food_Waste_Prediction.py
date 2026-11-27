@@ -315,16 +315,13 @@ if submitted:
                     value_label = f"{risk:.1f}%" if risk is not None else "N/A"
                     bars.append(
                         f'<div class="risk-bar-column">'
-                        f'<div class="risk-bar-area">'
                         f'<div class="risk-value-label" style="--bar-height:{bar_height:.1f}px">{value_label}</div>'
                         f'<div class="risk-bar" style="--bar-height:{bar_height:.1f}px;--bar-color:{bar_colors[index]};--bar-delay:{index * 0.22:.2f}s"></div>'
                         f'</div>'
-                        f'<div class="risk-month">{point["month"]}<span>{point["year"]}</span></div>'
-                        f'</div>'
                     )
-                tick_labels = "".join(
-                    f'<div class="risk-y-tick">{tick}%</div>'
-                    for tick in reversed(tick_values)
+                month_labels = "".join(
+                    f'<div class="risk-month">{point["month"]}<span>{point["year"]}</span></div>'
+                    for point in forecast_points
                 )
                 risk_aria_label = ", ".join(
                     f"{point['month']} {point['year']}: {point['risk']:.1f}%"
@@ -341,6 +338,7 @@ if submitted:
                     <div class="risk-plot">
                       <div class="risk-grid-lines"><i></i><i></i><i></i><i></i><i></i></div>
                       <div class="risk-bars">{''.join(bars)}</div>
+                      <div class="risk-months">{month_labels}</div>
                       <div class="risk-x-title">Month</div>
                     </div>
                   </div>
@@ -350,22 +348,22 @@ if submitted:
                   .risk-chart-title {{ color:#203A30; font:700 1.45rem Georgia,serif; }}
                   .risk-chart-subtitle {{ color:#46584E; font:1rem sans-serif; margin-top:6px; }}
                   .risk-chart {{ display:flex; gap:10px; margin-top:17px; }}
-                  .risk-y-axis {{ width:46px; flex:0 0 46px; height:270px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; padding:0 4px 39px 0; position:relative; }}
-                  .risk-y-title {{ position:absolute; top:50%; left:-9px; transform:translate(-100%,-50%) rotate(-90deg); transform-origin:right center; color:#263A32; font:700 .85rem sans-serif; white-space:nowrap; }}
+                  .risk-y-axis {{ width:46px; flex:0 0 46px; height:320px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-end; padding:0 4px 76px 0; position:relative; box-sizing:border-box; }}
+                  .risk-y-title {{ position:absolute; top:42%; left:-9px; transform:translate(-100%,-50%) rotate(-90deg); transform-origin:right center; color:#263A32; font:700 .85rem sans-serif; white-space:nowrap; }}
                   .risk-y-tick {{ color:#263A32; font:600 .88rem sans-serif; line-height:1; transform:translateY(50%); }}
-                  .risk-plot {{ position:relative; flex:1; min-width:0; height:270px; border-left:2px solid #526258; }}
-                  .risk-grid-lines {{ position:absolute; inset:0 0 39px 0; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }}
+                  .risk-plot {{ position:relative; flex:1; min-width:0; height:320px; border-left:2px solid #526258; box-sizing:border-box; }}
+                  .risk-grid-lines {{ position:absolute; inset:0 0 76px 0; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }}
                   .risk-grid-lines i {{ display:block; border-top:1px solid #D5D7CC; width:100%; }}
                   .risk-grid-lines i:last-child {{ border-top:2px solid #526258; }}
-                  .risk-bars {{ position:absolute; inset:0 0 39px 0; display:flex; justify-content:space-around; gap:9px; }}
-                  .risk-bar-column {{ flex:1; min-width:0; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; position:relative; }}
-                  .risk-bar-area {{ width:min(72%,66px); height:100%; display:flex; justify-content:flex-end; flex-direction:column; align-items:stretch; position:relative; }}
+                  .risk-bars {{ position:absolute; inset:0 0 76px 0; display:flex; justify-content:space-around; gap:9px; }}
+                  .risk-bar-column {{ flex:1; min-width:0; height:100%; display:flex; justify-content:flex-end; align-items:center; position:relative; }}
                   .risk-value-label {{ position:absolute; bottom:calc(var(--bar-height) + 7px); width:100%; text-align:center; color:#203A30; font:700 1.05rem Georgia,serif; white-space:nowrap; }}
-                  .risk-bar {{ flex:0 0 var(--bar-height); width:100%; background:var(--bar-color); border-radius:7px 7px 0 0; transform:scaleY(0); transform-origin:bottom; animation:riskBarRise .9s cubic-bezier(.2,.75,.25,1) var(--bar-delay) forwards; box-shadow:0 3px 8px rgba(32,58,48,.12); z-index:1; }}
+                  .risk-bar {{ flex:0 0 var(--bar-height); width:min(72%,66px); background:var(--bar-color); border-radius:7px 7px 0 0; transform:scaleY(0); transform-origin:bottom; animation:riskBarRise .9s cubic-bezier(.2,.75,.25,1) var(--bar-delay) forwards; box-shadow:0 3px 8px rgba(32,58,48,.12); z-index:1; }}
                   @keyframes riskBarRise {{ from {{ transform:scaleY(0); }} to {{ transform:scaleY(1); }} }}
-                  .risk-month {{ color:#203A30; font:700 .98rem sans-serif; text-align:center; margin-top:9px; white-space:nowrap; }}
+                  .risk-months {{ position:absolute; left:0; right:0; bottom:29px; height:42px; display:flex; gap:9px; }}
+                  .risk-month {{ flex:1; min-width:0; color:#203A30; font:700 .98rem sans-serif; text-align:center; white-space:nowrap; }}
                   .risk-month span {{ display:block; color:#46584E; font-size:.86rem; font-weight:500; margin-top:3px; }}
-                  .risk-x-title {{ position:absolute; bottom:0; left:0; right:0; text-align:center; color:#263A32; font:700 .85rem sans-serif; }}
+                  .risk-x-title {{ position:absolute; bottom:4px; left:0; right:0; text-align:center; color:#263A32; font:700 .85rem sans-serif; }}
                   @media (max-width:700px) {{
                     .risk-chart-card {{ padding:16px 10px 14px; }}
                     .risk-chart-title {{ font-size:1.25rem; }}
