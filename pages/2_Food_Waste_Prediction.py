@@ -30,7 +30,7 @@ st.markdown("""<style>
 .st-key-demand_stock_card div[data-baseweb='input'] > div { border-color: #d0dfcc !important; background: #f4f8f1 !important; }
 </style>""", unsafe_allow_html=True)
 
-st.title("🔮 Food Waste Prediction")
+st.title("Food Waste Prediction")
 st.caption("Two-stage prediction: distribution first, then food wastage.")
 
 data = load_dataset()
@@ -53,7 +53,7 @@ if not models_ready():
     st.warning("Trained models are not available. Ensure both .cbm files are committed under models/.")
 
 with st.container(border=True, key="location_period_card"):
-    st.subheader("📍 Location and period")
+    st.subheader("Location and period")
     location_col, period_col = st.columns([1.4, 1])
     with location_col:
         state = st.selectbox("State", states, key="prediction_state")
@@ -91,7 +91,7 @@ with st.container(border=True, key="location_period_card"):
 st.write("")
 with st.form("prediction_inputs"):
     with st.container(border=True, key="demand_stock_card"):
-        st.subheader("📦 Demand and stock")
+        st.subheader("Demand and stock")
         demand_col, stock_col = st.columns(2)
         with demand_col:
             beneficiaries = st.number_input("Expected beneficiaries", min_value=1, value=500, step=1)
@@ -155,7 +155,7 @@ if submitted:
 
         distributed = max(0.0, float(result["predicted_distributed_stock_kg"]))
         wastage = max(0.0, float(result["predicted_wastage_kg"]))
-        st.subheader("Predicted distribution breakdown")
+        st.subheader("Distribution breakdown")
         if distributed <= 0:
             st.info("A doughnut breakdown is unavailable because the predicted distributed quantity is zero.")
         elif wastage > distributed:
