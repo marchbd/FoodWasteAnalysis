@@ -189,7 +189,7 @@ coverage_component = f"""
   .coverage-table thead th:nth-child(4) {{ animation-delay: .15s; }}
   .coverage-table tbody tr {{
     opacity: 0;
-    animation: coverageRowIn .5s ease-out forwards;
+    animation: coverageRowIn .2s ease-out forwards;
     animation-delay: calc(.65s + var(--row-index) * .05s);
   }}
   @media (prefers-reduced-motion: reduce) {{
