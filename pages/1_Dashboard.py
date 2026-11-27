@@ -106,7 +106,7 @@ metric_html = f"""
   const duration = 1250;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const description = document.querySelector(".metric-description");
-  const descriptionText = "Explore how the dataset is distributed across different states, and compare the number of districts, blocks and records represented in each region. The coverage table gives you a state-wise view of the available locations, while the chart below helps identify which states contribute the most records. Use these views to spot geographic differences and understand where the dataset has stronger or more limited coverage.";
+  const descriptionText = "Compare state-wise records, districts and blocks through the coverage table and chart to understand the geographic distribution of the dataset.";
   if (description && window.matchMedia("(min-width: 701px)").matches) {{
     if (reduced) {{
       description.textContent = descriptionText;
