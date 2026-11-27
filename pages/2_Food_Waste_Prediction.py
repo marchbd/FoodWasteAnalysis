@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 import uuid
+from datetime import datetime
 from prediction.pipeline import models_ready, predict_food_waste
 from utils.data_loader import load_dataset
 from utils.theme import apply_theme
@@ -201,61 +202,135 @@ if submitted:
 
         distributed = max(0.0, float(result["predicted_distributed_stock_kg"]))
         wastage = max(0.0, float(result["predicted_wastage_kg"]))
-        st.subheader("Distribution breakdown")
-        if distributed <= 0:
-            st.info("A doughnut breakdown is unavailable because the predicted distributed quantity is zero.")
-        elif wastage > distributed:
-            st.warning(
-                "Predicted wastage is higher than predicted distributed quantity, "
-                "so a distribution breakdown would be misleading. Please review the inputs."
-            )
-        else:
-            usable = distributed - wastage
-            wastage_pct = (wastage / distributed) * 100
-            circumference = 2 * 3.141592653589793 * 108
-            usable_arc = circumference * (usable / distributed)
-            wastage_arc = circumference * (wastage / distributed)
-            wastage_start_angle = 360 * (usable / distributed)
-            donut_html = f"""
-            <div class="donut-wrap">
-              <svg class="donut-svg" viewBox="0 0 300 300" role="img" aria-label="Usable quantity {usable:,.2f} kilograms and predicted wastage {wastage:,.2f} kilograms">
-                <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(148,163,184,.13)" stroke-width="46"/>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#204F3E" stroke-width="46"
-                        stroke-linecap="butt" transform="rotate(-90 150 150)"
-                        stroke-dasharray="0 {circumference:.3f}">
-                  <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{usable_arc:.3f} {circumference:.3f}" dur="1.1s" fill="freeze"/>
-                </circle>
-                <circle cx="150" cy="150" r="108" fill="none" stroke="#B85F4C" stroke-width="46"
-                        stroke-linecap="butt" transform="rotate({wastage_start_angle - 90:.3f} 150 150)"
-                        stroke-dasharray="0 {circumference:.3f}">
-                  <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{wastage_arc:.3f} {circumference:.3f}" begin=".12s" dur="1.1s" fill="freeze"/>
-                </circle>
-                <text x="150" y="146" text-anchor="middle" fill="#203A30" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
-                <text x="150" y="169" text-anchor="middle" fill="#68746B" font-size="14">wasted</text>
-              </svg>
-              <div class="donut-legend">
-                <span><i class="usable-dot"></i>Usable quantity</span>
-                <span><i class="waste-dot"></i>Predicted wastage</span>
-              </div>
-            </div>
-            <style>
-              .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#203A30; }}
-              .donut-svg {{ width:min(100%, 330px); height:auto; overflow:visible; }}
-              .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-top:0; font:600 15px sans-serif; }}
-              .donut-legend span {{ display:flex; align-items:center; gap:9px; }}
-              .donut-legend i {{ width:13px; height:13px; display:inline-block; }}
-              .usable-dot {{ background:#204F3E; }}
-              .waste-dot {{ background:#B85F4C; }}
-              @media (prefers-reduced-motion: reduce) {{
-                .donut-svg animate {{ display:none; }}
-              }}
-            </style>
-            """
-            st.components.v1.html(donut_html, height=365, scrolling=False)
-            usable_col, wastage_col = st.columns(2)
-            usable_col.metric("Usable quantity", f"{usable:,.2f} kg")
-            wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
 
+        # Forecast the following calendar month with the same submitted
+        # location, demand and stock assumptions.
+        current_period = datetime.strptime(prediction_month.strip(), "%Y-%m")
+        next_month_number = 1 if current_period.month == 12 else current_period.month + 1
+        next_year = current_period.year + (1 if current_period.month == 12 else 0)
+        next_month = f"{next_year:04d}-{next_month_number:02d}"
+        next_inputs = {
+            "state": state,
+            "district": district,
+            "block": block,
+            "commodity": commodity,
+            "prediction_month": next_month,
+            "opening_stock_kg": opening_stock,
+            "received_stock_kg": received_stock,
+            "beneficiaries": beneficiaries,
+            "transactions": transactions,
+            "storage_capacity_kg": storage_capacity,
+            "storage_days": storage_days,
+            "delivery_delay_days": delivery_delay,
+            "previous_wastage_kg": previous_wastage,
+        }
+        next_result = predict_food_waste(next_inputs)
+        next_distributed = max(0.0, float(next_result["predicted_distributed_stock_kg"]))
+        next_wastage = max(0.0, float(next_result["predicted_wastage_kg"]))
+
+        current_risk = (wastage / distributed * 100) if distributed > 0 else None
+        next_risk = (next_wastage / next_distributed * 100) if next_distributed > 0 else None
+
+        st.subheader("Distribution breakdown")
+        chart_col, risk_col = st.columns([1.55, 1], gap="medium")
+
+        with chart_col:
+            if distributed <= 0:
+                st.info("A doughnut breakdown is unavailable because the predicted distributed quantity is zero.")
+            elif wastage > distributed:
+                st.warning(
+                    "Predicted wastage is higher than predicted distributed quantity, "
+                    "so a distribution breakdown would be misleading. Please review the inputs."
+                )
+            else:
+                usable = distributed - wastage
+                wastage_pct = current_risk
+                circumference = 2 * 3.141592653589793 * 108
+                usable_arc = circumference * (usable / distributed)
+                wastage_arc = circumference * (wastage / distributed)
+                wastage_start_angle = 360 * (usable / distributed)
+                donut_html = f"""
+                <div class="donut-wrap">
+                  <svg class="donut-svg" viewBox="0 0 300 300" role="img" aria-label="Usable quantity {usable:,.2f} kilograms and predicted wastage {wastage:,.2f} kilograms">
+                    <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(148,163,184,.13)" stroke-width="46"/>
+                    <circle cx="150" cy="150" r="108" fill="none" stroke="#204F3E" stroke-width="46"
+                            stroke-linecap="butt" transform="rotate(-90 150 150)"
+                            stroke-dasharray="0 {circumference:.3f}">
+                      <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{usable_arc:.3f} {circumference:.3f}" dur="1.1s" fill="freeze"/>
+                    </circle>
+                    <circle cx="150" cy="150" r="108" fill="none" stroke="#B85F4C" stroke-width="46"
+                            stroke-linecap="butt" transform="rotate({wastage_start_angle - 90:.3f} 150 150)"
+                            stroke-dasharray="0 {circumference:.3f}">
+                      <animate attributeName="stroke-dasharray" from="0 {circumference:.3f}" to="{wastage_arc:.3f} {circumference:.3f}" begin=".12s" dur="1.1s" fill="freeze"/>
+                    </circle>
+                    <text x="150" y="146" text-anchor="middle" fill="#203A30" font-size="22" font-weight="600">{wastage_pct:.1f}%</text>
+                    <text x="150" y="169" text-anchor="middle" fill="#68746B" font-size="14">wasted</text>
+                  </svg>
+                  <div class="donut-legend">
+                    <span><i class="usable-dot"></i>Usable quantity</span>
+                    <span><i class="waste-dot"></i>Predicted wastage</span>
+                  </div>
+                </div>
+                <style>
+                  .donut-wrap {{ width:100%; display:flex; flex-direction:column; align-items:center; color:#203A30; }}
+                  .donut-svg {{ width:min(100%, 330px); height:auto; overflow:visible; }}
+                  .donut-legend {{ display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-top:0; font:600 13px sans-serif; }}
+                  .donut-legend span {{ display:flex; align-items:center; gap:7px; }}
+                  .donut-legend i {{ width:12px; height:12px; display:inline-block; }}
+                  .usable-dot {{ background:#204F3E; }}
+                  .waste-dot {{ background:#B85F4C; }}
+                  @media (prefers-reduced-motion: reduce) {{ .donut-svg animate {{ display:none; }} }}
+                </style>
+                """
+                st.components.v1.html(donut_html, height=350, scrolling=False)
+                usable_col, wastage_col = st.columns(2)
+                usable_col.metric("Usable quantity", f"{usable:,.2f} kg")
+                wastage_col.metric("Wastage share", f"{wastage_pct:.1f}%")
+
+        with risk_col:
+            st.markdown(
+                """
+                <style>
+                .risk-panel {
+                    background:#FBFAF5; border:1px solid #D8D6C8;
+                    border-radius:15px; padding:16px 17px; margin:5px 0 12px;
+                    box-shadow:0 2px 7px rgba(37,54,44,.045);
+                }
+                .risk-panel.current { border-left:5px solid #B85F4C; }
+                .risk-panel.next { border-left:5px solid #204F3E; }
+                .risk-eyebrow { color:#68746B; font-size:.73rem; font-weight:800;
+                    letter-spacing:.11em; text-transform:uppercase; margin-bottom:7px; }
+                .risk-value { color:#203A30; font-family:Georgia,serif;
+                    font-size:clamp(1.65rem,3vw,2.15rem); font-weight:700; line-height:1.1; }
+                .risk-caption { color:#68746B; font-size:.82rem; margin-top:7px; }
+                .risk-note { color:#68746B; font-size:.78rem; line-height:1.4; margin-top:10px; }
+                </style>
+                """,
+                unsafe_allow_html=True,
+            )
+            current_label = f"{current_period.strftime('%B %Y')}"
+            next_label = datetime.strptime(next_month, "%Y-%m").strftime("%B %Y")
+            current_value = f"{current_risk:.1f}%" if current_risk is not None else "N/A"
+            next_value = f"{next_risk:.1f}%" if next_risk is not None else "N/A"
+            st.markdown(
+                f'<div class="risk-panel current"><div class="risk-eyebrow">Current month · {current_label}</div>'
+                f'<div class="risk-value">{current_value}</div>'
+                '<div class="risk-caption">Predicted wastage risk factor</div></div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                f'<div class="risk-panel next"><div class="risk-eyebrow">Next month · {next_label}</div>'
+                f'<div class="risk-value">{next_value}</div>'
+                '<div class="risk-caption">Predicted wastage risk factor</div></div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown(
+                '<div class="risk-note">Risk factor = predicted wastage ÷ predicted distribution × 100. '
+                'Next month uses the same submitted demand, stock and location inputs.</div>',
+                unsafe_allow_html=True,
+            )
+
+        if distributed > 0 and wastage <= distributed:
             with st.expander("See How?"):
                 st.latex(r"\text{Usable quantity (kg)} = \text{Predicted distribution (kg)} - \text{Predicted wastage (kg)}")
                 st.latex(r"\text{Wastage share (\%)} = \frac{\text{Predicted wastage (kg)}}{\text{Predicted distribution (kg)}} \times 100")
