@@ -175,7 +175,7 @@ def stagger_coverage_rows(match):
         global row_index
         current_row = row_index
         row_index += 1
-        return f'<tr style="--row-index: {current_row};">'
+        return f'<tr style="--row-index: {current_row}; --row-delay: {current_row * 0.36:.2f}s;">'
     body = re.sub(r"<tr>", add_row_delay, body)
     return f"<tbody>{body}</tbody>"
 
@@ -213,31 +213,30 @@ coverage_component = f"""
   .coverage-table tbody tr:last-child td {{ border-bottom: 0; }}
   .coverage-table tbody tr:hover td {{ background: rgba(56,189,248,.07); }}
   @keyframes coverageHeadingIn {{
-    from {{ opacity: 0; transform: translateX(-18px); }}
+    from {{ opacity: 0; transform: translateX(-26px); }}
     to {{ opacity: 1; transform: translateX(0); }}
   }}
   @keyframes coverageCellIn {{
-    from {{ opacity: 0; transform: translateY(-9px) scale(.985); }}
-    to {{ opacity: 1; transform: translateY(0) scale(1); }}
+    from {{ opacity: 0; transform: translateY(-16px) translateX(-10px) scale(.97); }}
+    to {{ opacity: 1; transform: translateY(0) translateX(0) scale(1); }}
   }}
   .coverage-table thead th {{
     opacity: 0;
-    animation: coverageHeadingIn .24s ease-out forwards;
+    animation: coverageHeadingIn .55s cubic-bezier(.2,.75,.25,1) forwards;
   }}
-  /* A diagonal reveal: each column advances slightly after the one before it,
-     while rows advance from top to bottom, creating an expanding triangle. */
+  /* Slower diagonal wave: rows move downward while each column trails the previous one. */
   .coverage-table thead th:nth-child(1) {{ animation-delay: 0s; }}
-  .coverage-table thead th:nth-child(2) {{ animation-delay: .22s; }}
-  .coverage-table thead th:nth-child(3) {{ animation-delay: .44s; }}
-  .coverage-table thead th:nth-child(4) {{ animation-delay: .66s; }}
+  .coverage-table thead th:nth-child(2) {{ animation-delay: .55s; }}
+  .coverage-table thead th:nth-child(3) {{ animation-delay: 1.1s; }}
+  .coverage-table thead th:nth-child(4) {{ animation-delay: 1.65s; }}
   .coverage-table tbody td {{
     opacity: 0;
-    animation: coverageCellIn .22s ease-out forwards;
+    animation: coverageCellIn .55s cubic-bezier(.2,.75,.25,1) forwards;
   }}
-  .coverage-table tbody td:nth-child(1) {{ animation-delay: var(--row-delay); }}
-  .coverage-table tbody td:nth-child(2) {{ animation-delay: calc(var(--row-delay) + .22s); }}
-  .coverage-table tbody td:nth-child(3) {{ animation-delay: calc(var(--row-delay) + .44s); }}
-  .coverage-table tbody td:nth-child(4) {{ animation-delay: calc(var(--row-delay) + .66s); }}
+  .coverage-table tbody td:nth-child(1) {{ animation-delay: calc(.35s + var(--row-delay)); }}
+  .coverage-table tbody td:nth-child(2) {{ animation-delay: calc(.9s + var(--row-delay)); }}
+  .coverage-table tbody td:nth-child(3) {{ animation-delay: calc(1.45s + var(--row-delay)); }}
+  .coverage-table tbody td:nth-child(4) {{ animation-delay: calc(2s + var(--row-delay)); }}
   @media (prefers-reduced-motion: reduce) {{
     .coverage-table thead th, .coverage-table tbody td {{
       opacity: 1; animation: none;
